@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Trakt Watch Now Sites
 // @namespace    https://github.com/sergeyhist/Watch-Now-Alternative
-// @version      2.1
+// @version      2.2
 // @description  Various sites added to the Watch Now modal
 // @author       Hist
 // @match        *://trakt.tv/*
@@ -31,7 +31,6 @@ var watchstyle = `
         font-family: proxima nova;
         margin-bottom: 2%;
         margin-left: 20px;
-        transition: all .5s;
         text-decoration: none!important;
         width: 120px;
         vertical-align: top;
@@ -39,20 +38,23 @@ var watchstyle = `
         color: inherit;
     }
     .freesources a .icon {
-        border-radius: 3px;
-        transition: all .5s;
-        padding-inline: 2px;
+        padding-inline: 1px;
         background-color: #333;
         color: #fff;
         font-size: 12px;
         line-height: 1;
-        height: 57px;
+        height: 60px;
         word-wrap: break-word;
         position: relative;
     }
     .freesources a .icon img {
         width: 100%;
         height: 100%;
+        transition: all .5s;
+    }
+    .freesources a .icon img {
+        padding-block: 10px;
+        padding-inline: 10px;
     }
     .freesources .title {
         text-transform: uppercase;
@@ -106,13 +108,13 @@ $('html').on('show.bs.modal', '#watch-now-modal', function (e) {
                 },
                 {
                     name: 'Yes!Movies',
-                    color: 'black',
+                    color: '#c81c55',
                     image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/yesmovies.png?raw=true',
                     link: `https://yesmovies.ag/searching/${name_of_item}.html`
                 },
                 {
                     name: 'FMovies',
-                    color: 'black',
+                    color: '#03acc2',
                     image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/fmovies.png?raw=true',
                     link: `https://fmovies.to/search?keyword=${name_of_item}`
                 },
