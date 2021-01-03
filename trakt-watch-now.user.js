@@ -41,17 +41,14 @@ var watchstyle = `
     .freesources a .icon {
         border-radius: 3px;
         transition: all .5s;
-        padding: 6px 10px;
+        padding-inline: 2px;
         background-color: #333;
-        border-color: #333;
         color: #fff;
         font-size: 12px;
         line-height: 1;
         height: 57px;
         word-wrap: break-word;
         position: relative;
-        border-width: 2px;
-        border-style: solid;
     }
     .freesources a .icon img {
         width: 100%;
