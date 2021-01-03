@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Trakt Watch Now Sites
-// @namespace    https://github.com/sergeyhist/Watch-Now-Alternative
+// @namespace    https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @version      2.3
 // @description  Various sites added to the Watch Now modal
 // @author       Hist

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        Dark-Trakt
-// @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts
+// @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/dark-trakt.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
 // @version     1.3
