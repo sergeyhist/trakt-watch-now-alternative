@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        Dark-Trakt
-// @namespace   DarkTrakt-Hist
+// @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.2
+// @version     1.3
 // @author      Hist
 // @description Dark Theme for Trakt.tv
 // ==/UserScript==
