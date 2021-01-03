@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Trakt Watch Now Sites
 // @namespace    https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
-// @version      2.4
+// @version      2.5
 // @description  Various sites added to the Watch Now modal
 // @author       Hist
 // @match        *://trakt.tv/*
@@ -254,7 +254,7 @@ $('html').on('show.bs.modal', '#watch-now-modal', function (e) {
                 {
                     name:'Scene-Rls',
                     color: 'white',
-                    image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/scenerls.png?raw=true',
+                    image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/scenerelease.png?raw=true',
                     link: `http://scene-rls.com/?s=${name_of_item}${season_number}${year_number}`
                 }
                 ];
