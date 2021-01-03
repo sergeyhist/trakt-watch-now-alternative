@@ -1,1 +1,1 @@
-# Trakt.tv-Watch-Now-Alternative
+# Trakt.tv UserScripts by Hist
