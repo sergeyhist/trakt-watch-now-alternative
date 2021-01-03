@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Trakt Watch Now Sites
 // @namespace    https://github.com/sergeyhist/Watch-Now-Alternative
-// @version      2.2
+// @version      2.3
 // @description  Various sites added to the Watch Now modal
 // @author       Hist
 // @match        *://trakt.tv/*
@@ -52,7 +52,7 @@ var watchstyle = `
         height: 100%;
         transition: all .5s;
     }
-    .freesources a .icon img {
+    .freesources a .icon img:hover {
         padding-block: 10px;
         padding-inline: 10px;
     }
