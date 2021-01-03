@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Trakt Watch Now Sites
-// @namespace    WatchNow-Hist
-// @version      1.9
+// @namespace    https://github.com/sergeyhist/Watch-Now-Alternative
+// @version      2.0
 // @description  Various sites added to the Watch Now modal
 // @author       Hist
 // @match        *://trakt.tv/*
@@ -239,10 +239,22 @@ $('html').on('show.bs.modal', '#watch-now-modal', function (e) {
             $('#watch-now-modal').find('.torrentsources').first().before(`<div class="title">Torrent Sources</div>`);
             var ddl_sites = [
                 {
+                    name:'HDEncode',
+                    color: 'black',
+                    image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/hdencode.png?raw=true',
+                    link: `https://hdencode.com/?s=${name_of_item}${season_number}${year_number}`
+                },
+                {
                     name:'RLSBB',
                     color: 'black',
                     image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/rlsb.png?raw=true',
                     link: `http://search.rlsbb.ru/?s=${name_of_item}${season_number}${year_number}`
+                },
+                {
+                    name:'Scene-Rls',
+                    color: 'white',
+                    image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/scenerls.png?raw=true',
+                    link: `http://scene-rls.com/?s=${name_of_item}${season_number}${year_number}`
                 }
                 ];
             source_type='ddlsources';
