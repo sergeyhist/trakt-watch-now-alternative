@@ -55,8 +55,8 @@ var watchstyle = `
         transition: all .5s;
     }
     .freesources a .icon img:hover {
-        padding-block: 0px;
-        padding-inline: 0px;
+        padding-block: 2px;
+        padding-inline: 2px;
     }
     .freesources .title {
         text-transform: uppercase;
