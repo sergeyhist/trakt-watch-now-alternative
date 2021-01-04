@@ -296,6 +296,9 @@ $('#watch-now-modal').on('show.bs.modal', function (e) {
                 if (this.checked == true){
                     season_number=episode_name.split("x")[0];
                     if (season_number != '') {season_number='s0'+season_number};
+                    if ($('#watch-now-modal').find('h1').text().match(/:/) != null ) {
+                        if ($('#watch-now-modal').find('h1').text().split(":")[1].match(/ Season/) != null ) {
+                            season_number='s0'+$('#watch-now-modal').find('h1').text().split(' ').pop();}};
                     $('#watch-now-modal').find('#cb_season_text').css({"display":"block"});
                     $('#cb_season_text').val(`${season_number}`);
                     } else {
