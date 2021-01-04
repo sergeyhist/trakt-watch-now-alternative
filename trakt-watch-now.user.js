@@ -1,13 +1,15 @@
 // ==UserScript==
-// @name         Trakt Watch Now Sites
-// @namespace    https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
-// @version      2.6
-// @description  Various sites added to the Watch Now modal
-// @author       Hist
-// @match        *://trakt.tv/*
-// @grant        GM_addStyle
+// @name        Trakt Watch Now Sites
+// @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
+// @match       *://trakt.tv/*
+// @grant       GM_addStyle
+// @version     2.8
+// @author      Hist
+// @description Alternative version of Watch Now modal with free content
+// @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
+// @downloadURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/raw/main/trakt-watch-now.user.js
+// @homepageURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts
 // ==/UserScript==
-/* jshint -W097 */
 'use strict';
 var watchstyle = `
     .streaming-links,
@@ -66,7 +68,7 @@ var watchstyle = `
         border-bottom: solid 1px #ddd;
         padding-left: 30px;
     }
-`
+`;
 GM_addStyle(watchstyle);
 $('html').on('show.bs.modal', '#watch-now-modal', function (e) {
     var checkExist = setInterval(function() {
@@ -106,7 +108,7 @@ $('html').on('show.bs.modal', '#watch-now-modal', function (e) {
                     name: 'Youtube',
                     color: 'white',
                     image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/youtube.png?raw=true',
-                    link: `https://www.youtube.com/results?search_query=${name_of_item}${season_number}${year_number}`
+                    link: `https://www.youtube.com/results?search_query=${name_of_item}${season_number}`
                 },
                 {
                     name: 'Yes!Movies',
@@ -208,19 +210,19 @@ $('html').on('show.bs.modal', '#watch-now-modal', function (e) {
                     name: 'RARBG',
                     color: 'white',
                     image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/rarbg.png?raw=true',
-                    link: `https://rarbgtor.org/torrents.php?search=${name_of_item}${season_number}${year_number}`
+                    link: `https://rarbgtor.org/torrents.php?search=${name_of_item}${season_number}`
                 },
                 {
                     name:'1337x',
                     color: 'black',
                     image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/1337x.png?raw=true',
-                    link: `https://1337x.to/search/${name_of_item}${season_number}${year_number}/1/`
+                    link: `https://1337x.to/search/${name_of_item}${season_number}/1/`
                 },
                 {
                     name: 'The Pirate Bay',
                     color: 'black',
                     image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/tpb.png?raw=true',
-                    link: `https://thepiratebay.org/search/${name_of_item}${season_number}${year_number}/0/3/0`
+                    link: `https://thepiratebay.org/search/${name_of_item}${season_number}/0/3/0`
                 },
                 {
                     name:'Nyaa',
@@ -243,19 +245,19 @@ $('html').on('show.bs.modal', '#watch-now-modal', function (e) {
                     name:'HDEncode',
                     color: 'black',
                     image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/hdencode.png?raw=true',
-                    link: `https://hdencode.com/?s=${name_of_item}${season_number}${year_number}`
+                    link: `https://hdencode.com/?s=${name_of_item}${season_number}`
                 },
                 {
                     name:'RLSBB',
                     color: 'black',
                     image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/rlsb.png?raw=true',
-                    link: `http://search.rlsbb.ru/?s=${name_of_item}${season_number}${year_number}`
+                    link: `http://search.rlsbb.ru/?s=${name_of_item}${season_number}`
                 },
                 {
                     name:'Scene-Rls',
                     color: 'black',
                     image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/scenerelease.png?raw=true',
-                    link: `http://scene-rls.com/?s=${name_of_item}${season_number}${year_number}`
+                    link: `http://scene-rls.com/?s=${name_of_item}${season_number}`
                 }
                 ];
             source_type='ddlsources';
