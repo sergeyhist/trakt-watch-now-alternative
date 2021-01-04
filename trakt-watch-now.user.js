@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     3.0
+// @version     3.1
 // @author      Hist
 // @description Alternative version of Watch Now modal with free content
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -258,7 +258,7 @@ var sources_list = [
         link: `https://rutracker.org/forum/tracker.php?nm=%s`
     }
 ];
-$('#watch-now-modal').on('show.bs.modal', function (e) {
+$('html').on('show.bs.modal','#watch-now-modal', function (e) {
     var checktitle=setInterval( function () {
         var check_title=$('#watch-now-modal').find('.title-wrapper');
         if (check_title.length) {
