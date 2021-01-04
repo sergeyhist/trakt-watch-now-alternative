@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.8
+// @version     2.9
 // @author      Hist
 // @description Alternative version of Watch Now modal with free content
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -70,13 +70,12 @@ var watchstyle = `
     }
 `;
 GM_addStyle(watchstyle);
-$('html').on('show.bs.modal', '#watch-now-modal', function (e) {
-    var checkExist = setInterval(function() {
-        var streaming_links = $('#watch-now-modal').find('.streaming-links');
-        console.debug("Waiting to insert...");
-        if (streaming_links.length) {
-            clearInterval(checkExist);
-            console.log("Element found", streaming_links);
+$('#watch-now-modal').on('show.bs.modal', function (e) {
+    var checktitle=setInterval( function () {
+        var check_title=$('#watch-now-modal').find('.title-wrapper');
+        if (check_title.length) {
+            clearInterval(checktitle);
+            $('#watch-now-modal').find('.title-wrapper').after(`<div class="freesources"/>`);
             var long_name=$('#watch-now-modal').find('h3').text();
             var episode_name=$('#watch-now-modal').find('.main-title-sxe').text();
             var season_number=' s0'+episode_name.split("x")[0];
@@ -102,7 +101,6 @@ $('html').on('show.bs.modal', '#watch-now-modal', function (e) {
                 }
                 year_number=' '+$('#watch-now-modal').find('.year').text();
             }
-            $('#watch-now-modal').find('.streaming-links').after(`<div class="freesources"/>`);
             var online_sites = [
                 {
                     name: 'Youtube',
@@ -263,8 +261,7 @@ $('html').on('show.bs.modal', '#watch-now-modal', function (e) {
             source_type='ddlsources';
             addSites(ddl_sites, source_type);
             $('#watch-now-modal').find('.ddlsources').first().before(`<div class="title">DDL Sources</div>`);
-        }
-    }, 100);
+        }},100);
 });
 
 function addSites(type_sites, type) {
