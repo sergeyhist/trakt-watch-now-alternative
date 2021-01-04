@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/dark-trakt.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.4
+// @version     1.5
 // @author      Hist
 // @description Dark Theme for Trakt.tv
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -55,7 +55,8 @@ var darkMode=`
     }
 
     .custom-list .list-info .info .overview blockquote,
-    .comment-wrapper .comment blockquote {
+    .comment-wrapper .comment blockquote,
+    input, button, select, textarea {
     background-color: #333;
     }
 
