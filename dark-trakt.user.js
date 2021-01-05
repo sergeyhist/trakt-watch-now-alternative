@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/dark-trakt.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.5
+// @version     1.6
 // @author      Hist
 // @description Dark Theme for Trakt.tv
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -35,7 +35,8 @@ var darkMode=`
     }
 
     .subnav-wrapper .left h2 .right a,
-    .popover.with-list h3 {
+    .popover.with-list h3,
+    header#top-nav #header-search #header-search-type a {
     color: #fff
     }
 
