@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     3.3
+// @version     3.4
 // @author      Hist
 // @description Alternative version of Watch Now modal with free content
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -259,10 +259,17 @@ var sources_list = [
     },
     {
         type: 'torrent',
-        name: 'Avistaz',
+        name: 'AvistaZ',
         color: 'black',
         image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/avistaz.png?raw=true',
-        link: `https://avistaz.to/tv-shows?search=%s`
+        link: `https://avistaz.to/torrents?in=1&search=%s`
+    },
+    {
+        type: 'torrent',
+        name: 'CinemaZ',
+        color: 'black',
+        image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/cinemaz.png?raw=true',
+        link: `https://cinemaz.to/torrents?in=1&search=%s`
     }
 ];
 $(function () {
