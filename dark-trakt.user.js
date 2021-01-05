@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/dark-trakt.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.6
+// @version     1.7
 // @author      Hist
 // @description Dark Theme for Trakt.tv
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -65,6 +65,19 @@ var darkMode=`
     body.list .subnav-wrapper .comment-wrapper.list, body.watchlist .subnav-wrapper .comment-wrapper.list, body.recommendations .subnav-wrapper .comment-wrapper.list {
     border-bottom: solid 1px #151515;
     }   
+
+    body.main.home .hero-wrapper.light h1, 
+    body.main.home .hero-wrapper.light h2, 
+    body.main.index .hero-wrapper.light h1, 
+    body.main.index .hero-wrapper.light h2, 
+    body.apps .hero-wrapper.light h1, 
+    body.apps .hero-wrapper.light h2, 
+    body.welcome .hero-wrapper.light h1, 
+    body.welcome .hero-wrapper.light h2, 
+    body.branding .hero-wrapper.light h1, 
+    body.branding .hero-wrapper.light h2 {
+        color: black;
+    }
 
     #hu-ck-ster-content-page,
     #hu-ck-ster-desk-top-wrapper,

@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     3.2
+// @version     3.3
 // @author      Hist
 // @description Alternative version of Watch Now modal with free content
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -256,17 +256,20 @@ var sources_list = [
         color: 'white',
         image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/rutracker.png?raw=true',
         link: `https://rutracker.org/forum/tracker.php?nm=%s`
+    },
+    {
+        type: 'torrent',
+        name: 'Avistaz',
+        color: 'black',
+        image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/avistaz.png?raw=true',
+        link: `https://avistaz.to/tv-shows?search=%s`
     }
 ];
-$(function() {
-    $('html').find('.grid-item').each( function () {if ($(this).attr('data-url') != null) {
-        if ($(this).attr('data-person-id') == null) {
-            var free_item_link=$(this).attr('data-url');
-            $(this).find('.watch-now').remove();
-            $(this).find('.list').after(`<a class="watch-now" 
-            data-target="#watch-now-modal" data-toggle="modal" data-url="${free_item_link}" data-original-title="" title=""><div class="base"></div>
-            <div class="trakt-icon-play2-thick"></div></a>`);
-    }}})
+$(function () {
+    var playinterval=setInterval( function() {
+        playButtons();
+        if ($('#alternative-watch').length) {clearInterval(playinterval)};
+    }, 50);
 });
 $('html').on('show.bs.modal','#watch-now-modal', function (e) {
     var checktitle=setInterval( function () {
@@ -368,6 +371,17 @@ $('html').on('show.bs.modal','#watch-now-modal', function (e) {
             });
         }},100);
 });
+
+function playButtons() {
+    $('html').find('.grid-item').each( function () {if ($(this).attr('data-url') != null) {
+        if ($(this).attr('data-person-id') == null) {
+            var free_item_link=$(this).attr('data-url');
+            $(this).find('.watch-now').remove();
+            $(this).find('.list').after(`<a class="watch-now" id="alternative-watch" 
+            data-target="#watch-now-modal" data-toggle="modal" data-url="${free_item_link}" data-original-title="" title=""><div class="base"></div>
+            <div class="trakt-icon-play2-thick"></div></a>`);
+    }}})
+}
 
 function searchName() {
     var long_name=$('#watch-now-modal').find('h3').text();
