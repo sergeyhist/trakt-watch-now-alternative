@@ -48,6 +48,7 @@ var watchstyle = `
         height: 60px;
         word-wrap: break-word;
         position: relative;
+        border: solid black 1px;
     }
     .freesources a .icon img {
         width: 100%;
