@@ -260,12 +260,13 @@ var sources_list = [
 ];
 $(function() {
     $('html').find('.grid-item').each( function () {if ($(this).attr('data-url') != null) {
-        var free_item_link=$(this).attr('data-url');
-        $(this).find('.watch-now').remove();
-        $(this).find('.list').after(`<a class="watch-now" 
-        data-target="#watch-now-modal" data-toggle="modal" data-url="${free_item_link}" data-original-title="" title=""><div class="base"></div>
-        <div class="trakt-icon-play2-thick"></div></a>`);
-    }})
+        if ($(this).attr('data-person-id') == null) {
+            var free_item_link=$(this).attr('data-url');
+            $(this).find('.watch-now').remove();
+            $(this).find('.list').after(`<a class="watch-now" 
+            data-target="#watch-now-modal" data-toggle="modal" data-url="${free_item_link}" data-original-title="" title=""><div class="base"></div>
+            <div class="trakt-icon-play2-thick"></div></a>`);
+    }}})
 });
 $('html').on('show.bs.modal','#watch-now-modal', function (e) {
     var checktitle=setInterval( function () {
