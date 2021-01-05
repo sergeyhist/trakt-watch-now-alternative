@@ -276,8 +276,14 @@ var sources_list = [
 $(function () {
     var playinterval=setInterval( function() {
         playButtons();
-        if ($('#alternative-watch').length) {clearInterval(playinterval)};
-    }, 50);
+        if ($('html').find('#ondeck-wrapper').length) {
+            if ($('#ondeck-wrapper').find('#alternative-watch').length) {
+                if ($('#recently-watched-wrapper').find('#alternative-watch').length) {
+                    clearInterval(playinterval);
+                }
+            }
+        } else {clearInterval(playinterval)}
+    }, 100);
 });
 $('html').on('show.bs.modal','#watch-now-modal', function (e) {
     var checktitle=setInterval( function () {
@@ -385,7 +391,7 @@ function playButtons() {
         if ($(this).attr('data-person-id') == null) {
             var free_item_link=$(this).attr('data-url');
             $(this).find('.watch-now').remove();
-            $(this).find('.list').after(`<a class="watch-now" id="alternative-watch" 
+            $(this).find('.list').after(`<a class="watch-now" id="alternative-watch" data-source-counts="{'at':2,'au':6,'bg':1,'ca':2,'cz':1,'de':4,'dk':1,'es':1,'fi':1,'fr':3,'gr':1,'hu':1,'in':1,'it':2,'no':1,'nz':1,'pl':2,'pt':1,'ro':1,'se':1,'us':8}" data-source-slugs="{'at':['amazon_video','maxdome_store'],'au':['apple_itunes','binge','fetch_tv','foxtel_now','google_play_movies','telstra_tv'],'bg':['hbo_go'],'ca':['apple_itunes','google_play_movies'],'cz':['hbo_go'],'de':['amazon_video','apple_itunes','google_play_movies','maxdome_store'],'dk':['hbo'],'es':['hbo'],'fi':['hbo'],'fr':['apple_itunes','canal_vod','orange_vod'],'gr':['netflix'],'hu':['hbo_go'],'in':['amazon_prime_video'],'it':['infinity','sky_go'],'no':['hbo'],'nz':['tvnz'],'pl':['hbo_go','player'],'pt':['hbo_portugal'],'ro':['hbo_go'],'se':['hbo'],'us':['amazon_video','apple_itunes','cw_seed','fandangonow','google_play_movies','netflix','the_cw','vudu']}"
             data-target="#watch-now-modal" data-toggle="modal" data-url="${free_item_link}" data-original-title="" title=""><div class="base"></div>
             <div class="trakt-icon-play2-thick"></div></a>`);
     }}})
