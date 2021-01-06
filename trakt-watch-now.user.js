@@ -310,6 +310,8 @@ $('html').on('show.bs.modal','#watch-now-modal', function (e) {
             var episode_number='';
             var season_number='';
             var year_number='';
+            var special_season='';
+            var special_episode='';
             $('#watch-now-content .titles').css({"display":"none"});
             $('#watch-now-content .titles').after(`<div id="watch-search"><p type="text" id="watch-search-string"></p></div>`);
             $('#watch-now-modal').find('#watch-search').append(`<div class="watch_search_options"/>`);
@@ -337,7 +339,9 @@ $('html').on('show.bs.modal','#watch-now-modal', function (e) {
             $('html').on("change", "#cb_season", function () {
                 if (this.checked == true){
                     season_number=episode_name.split("x")[0];
+                    special_season=episode_name.split(" ")[0];
                     if (season_number != '') {season_number='s0'+season_number};
+                    if (special_season == 'Special') {season_number=special_season};
                     if ($('#watch-now-modal').find('h1').text().match(/:/) != null ) {
                         if ($('#watch-now-modal').find('h1').text().split(":")[1].match(/ Season/) != null ) {
                             season_number='s0'+$('#watch-now-modal').find('h1').text().split(' ').pop();}};
@@ -356,7 +360,9 @@ $('html').on('show.bs.modal','#watch-now-modal', function (e) {
             $('html').on("change", "#cb_episode", function () {
                 if (this.checked == true){
                     episode_number=episode_name.split("x")[1];
+                    special_episode=episode_name.split(" ")[1];
                     if (episode_number == null) {episode_number=''} else {episode_number='e'+episode_number};
+                    if (special_season == 'Special') {episode_number=' '+special_episode};
                     $('#watch-now-modal').find('#cb_episode_text').css({"display":"block"});
                     $('#cb_episode_text').val(`${episode_number}`);
                     } else {
