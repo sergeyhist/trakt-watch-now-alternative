@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     3.6
+// @version     3.7
 // @author      Hist
 // @description Alternative version of Watch Now modal with free content
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -75,16 +75,13 @@ var watchstyle = `
     }
     input#cb_year_text, input#cb_season_text, input#cb_episode_text {
         width: 70px;
-        border-radius: 6px;
-        border: solid black 1px;
     }
     input#cb_cname_text {
         width:200px;
-        border-radius: 6px;
-        border: solid black 1px;
     }
     #watch-search {
         display: block;
+        color: #fff;
         background-color: rgba(0,0,0,.7);
         padding: 20px 30px;
         font-size: 22px;
@@ -96,13 +93,20 @@ var watchstyle = `
     }
     .watch_search_option {
         display: inline-table;
-        width: 120px;
+        width: 130px;
         font-size: 16px;
     }
     .watch_search_option label {
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 100;
-    }   
+    }
+    .watch_search_option input {
+        font-size: 16px;
+        border-radius: 4px;
+        border: solid #000 1px;
+        color: #000;
+        background-color: #fff;
+    } 
 `;
 GM_addStyle(watchstyle);
 var sources_list = [
