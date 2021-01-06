@@ -310,7 +310,6 @@ $('html').on('show.bs.modal','#watch-now-modal', function (e) {
             var episode_number='';
             var season_number='';
             var year_number='';
-            var search_item='';
             $('#watch-now-content .titles').css({"display":"none"});
             $('#watch-now-content .titles').after(`<div id="watch-search"><p type="text" id="watch-search-string"></p></div>`);
             $('#watch-now-modal').find('#watch-search').append(`<div class="watch_search_options"/>`);
@@ -395,13 +394,12 @@ $('html').on('show.bs.modal','#watch-now-modal', function (e) {
                 if (cb_episode.checked == true) {
                     if ($('#cb_season_text').val().length) {episode_number=$('#cb_episode_text').val()} else {episode_number=' '+$('#cb_episode_text').val()}
                 } else {episode_number=$('#cb_episode_text').val()};
-                search_item=name_of_item+year_number+season_number+episode_number;
-                $('#watch-now-modal #watch-search-string').html(`${search_item}`)
+                $('#watch-now-modal #watch-search-string').html(`${name_of_item+year_number+season_number+episode_number}`)
                 $('#watch-now-modal').on('hidden.bs.modal', function () {clearInterval(searchinterval)});
-            },200) 
+            },200);
             $('html').on("click", ".watch_sources_item", function () {
                 var search_item_id=this.id.split("-")[1];
-                var search_link=sources_list[search_item_id].link.replace('%s', search_item);
+                var search_link=sources_list[search_item_id].link.replace('%s', $('#watch-now-modal #watch-search-string').html());
                 window.open(search_link);
             });
         }},100);
