@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/dark-trakt.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.7
+// @version     1.9
 // @author      Hist
 // @description Dark Theme for Trakt.tv
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -15,7 +15,7 @@ var darkMode=`
     ul.lists li,
     .quick-icons .metadata .popover .popover-title,
     .quick-icons .actions .popover .popover-title {
-    color: #fff!important
+    color: #fff!important;
     }
 
     .actor-tooltip .tooltip-inner {
@@ -40,14 +40,12 @@ var darkMode=`
     color: #fff
     }
 
-    .custom-list .list-info .info .overview[data-readmore][aria-expanded=false] .shade,
-    #info-wrapper .info #overview[data-readmore][aria-expanded=false] .shade,
-    #seasons-episodes-sortable .under-info .overview[data-readmore][aria-expanded=false] .shade {
-    background-image: linear-gradient(to bottom,rgba(0,0,0,0) 0%, rgba(15,15,15,1) 100%)
+    .shade {
+    background-image: linear-gradient(to bottom,rgba(0,0,0,0) 0%, rgba(15,15,15,1) 100%)!important;
     }
 
     body.apps #apps-icon-wrapper {
-    background: -webkit-radial-gradient(center,circle cover,#444 0%,#000 100%)
+    background: -webkit-radial-gradient(center,circle cover,#fff 0%,#000 100%)
     }
 
     #watch-now-country-select .form-control {

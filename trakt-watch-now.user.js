@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     3.4
+// @version     3.5
 // @author      Hist
 // @description Alternative version of Watch Now modal with free content
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -273,18 +273,13 @@ var sources_list = [
         link: `https://cinemaz.to/torrents?in=1&search=%s`
     }
 ];
+var play_item= ['#ondeck-wrapper','#recently-watched-wrapper','#recommendations-shows','#recommendations-movies','div.row.posters#sortable-grid',
+'.frame:not(.people,.lists,.users)','#history-items','#collection-items','#rating-items','#seasons-episodes-sortable','#actor-credits',
+'#recent-wrapper','#progress-wrapper','#recommendations-wrapper','#recent-episodes'];
 $(function () {
-    var playinterval=setInterval( function() {
-        playButtons();
-        if ($('html').find('#ondeck-wrapper').length) {
-            if ($('#ondeck-wrapper').find('#alternative-watch').length) {
-                if ($('#recently-watched-wrapper').find('#alternative-watch').length) {
-                    clearInterval(playinterval);
-                }
-            }
-        } else {clearInterval(playinterval)}
-    }, 100);
-});
+    for (const element of play_item) {  
+        playButtons(element);
+}});
 $('html').on('show.bs.modal','#watch-now-modal', function (e) {
     var checktitle=setInterval( function () {
         var check_title=$('#watch-now-modal').find('.title-wrapper');
@@ -386,15 +381,23 @@ $('html').on('show.bs.modal','#watch-now-modal', function (e) {
         }},100);
 });
 
-function playButtons() {
-    $('html').find('.grid-item').each( function () {if ($(this).attr('data-url') != null) {
-        if ($(this).attr('data-person-id') == null) {
-            var free_item_link=$(this).attr('data-url');
-            $(this).find('.watch-now').remove();
-            $(this).find('.list').after(`<a class="watch-now" id="alternative-watch" data-source-counts="{'at':2,'au':6,'bg':1,'ca':2,'cz':1,'de':4,'dk':1,'es':1,'fi':1,'fr':3,'gr':1,'hu':1,'in':1,'it':2,'no':1,'nz':1,'pl':2,'pt':1,'ro':1,'se':1,'us':8}" data-source-slugs="{'at':['amazon_video','maxdome_store'],'au':['apple_itunes','binge','fetch_tv','foxtel_now','google_play_movies','telstra_tv'],'bg':['hbo_go'],'ca':['apple_itunes','google_play_movies'],'cz':['hbo_go'],'de':['amazon_video','apple_itunes','google_play_movies','maxdome_store'],'dk':['hbo'],'es':['hbo'],'fi':['hbo'],'fr':['apple_itunes','canal_vod','orange_vod'],'gr':['netflix'],'hu':['hbo_go'],'in':['amazon_prime_video'],'it':['infinity','sky_go'],'no':['hbo'],'nz':['tvnz'],'pl':['hbo_go','player'],'pt':['hbo_portugal'],'ro':['hbo_go'],'se':['hbo'],'us':['amazon_video','apple_itunes','cw_seed','fandangonow','google_play_movies','netflix','the_cw','vudu']}"
-            data-target="#watch-now-modal" data-toggle="modal" data-url="${free_item_link}" data-original-title="" title=""><div class="base"></div>
-            <div class="trakt-icon-play2-thick"></div></a>`);
-    }}})
+function playButtons(playobject) {
+    var consoleplayflag=0;
+    if ($('html').find(`${playobject}`).length) {
+        var playinterval=setInterval( function() {
+                $(`${playobject}`).find('.grid-item').each( function () {if ($(this).attr('data-url') != null) {
+                    if ($(this).attr('data-person-id') != null) {clearInterval(playinterval)} else {
+                        var play_item_link=$(this).attr('data-url');
+                        $(this).find('.watch-now').remove();
+                        $(this).find('.list').after(`<a class="watch-now" id="alternative-watch" data-source-counts="{'at':2,'au':6,'bg':1,'ca':2,'cz':1,'de':4,'dk':1,'es':1,'fi':1,'fr':3,'gr':1,'hu':1,'in':1,'it':2,'no':1,'nz':1,'pl':2,'pt':1,'ro':1,'se':1,'us':8}" data-source-slugs="{'at':['amazon_video','maxdome_store'],'au':['apple_itunes','binge','fetch_tv','foxtel_now','google_play_movies','telstra_tv'],'bg':['hbo_go'],'ca':['apple_itunes','google_play_movies'],'cz':['hbo_go'],'de':['amazon_video','apple_itunes','google_play_movies','maxdome_store'],'dk':['hbo'],'es':['hbo'],'fi':['hbo'],'fr':['apple_itunes','canal_vod','orange_vod'],'gr':['netflix'],'hu':['hbo_go'],'in':['amazon_prime_video'],'it':['infinity','sky_go'],'no':['hbo'],'nz':['tvnz'],'pl':['hbo_go','player'],'pt':['hbo_portugal'],'ro':['hbo_go'],'se':['hbo'],'us':['amazon_video','apple_itunes','cw_seed','fandangonow','google_play_movies','netflix','the_cw','vudu']}"
+                        data-target="#watch-now-modal" data-toggle="modal" data-url="${play_item_link}" data-original-title="" title=""><div class="base"></div>
+                        <div class="trakt-icon-play2-thick"></div></a>`); 
+                        if (consoleplayflag == 0) {consoleplayflag=1; console.log(`${playobject} - find buttons...`)};
+                    };
+                }});
+            if ($(`${playobject}`).find('#alternative-watch').length) {clearInterval(playinterval)};
+        },100);
+    }
 }
 
 function searchName() {
