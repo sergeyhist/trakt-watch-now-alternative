@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     3.5
+// @version     3.6
 // @author      Hist
 // @description Alternative version of Watch Now modal with free content
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -28,7 +28,7 @@ var watchstyle = `
         height: 100%;
         overflow: auto;
     }
-    .freesources a {
+    .watchsources a {
         display: inline-block;
         font-family: proxima nova;
         margin-block: 10px;
@@ -39,7 +39,7 @@ var watchstyle = `
         text-align: center;
         color: inherit;
     }
-    .freesources a .icon {
+    .watchsources a .icon {
         padding-inline: 1px;
         background-color: #333;
         color: #fff;
@@ -50,19 +50,19 @@ var watchstyle = `
         position: relative;
         border: solid black 1px;
     }
-    .freesources a .icon img {
+    .watchsources a .icon img {
         width: 100%;
         height: 100%;
         padding-block: 10px;
         padding-inline: 10px;
         transition: all .5s;
     }
-    .freesources a .icon img:hover {
+    .watchsources a .icon img:hover {
         cursor: pointer;
         padding-block: 2px;
         padding-inline: 2px;
     }
-    .freesources .title {
+    .watchsources .title {
         text-transform: uppercase;
         font-family: proxima nova semibold;
         margin-bottom: 10px;
@@ -70,23 +70,39 @@ var watchstyle = `
         border-bottom: solid 1px #ddd;
         padding-left: 30px;
     }
-    .free_search_options {
-        margin-inline: 20px;
-        margin-block: 10px;
-    }
-    .free_search_option {
-        display: inline-table;
-        width: 120px;
-    }
     #cb_cname, #cb_year, #cb_season, #cb_episode {
         margin-inline: 2px;
     }
     input#cb_year_text, input#cb_season_text, input#cb_episode_text {
         width: 70px;
+        border-radius: 6px;
+        border: solid black 1px;
     }
     input#cb_cname_text {
         width:200px;
+        border-radius: 6px;
+        border: solid black 1px;
     }
+    #watch-search {
+        display: block;
+        background-color: rgba(0,0,0,.7);
+        padding: 20px 30px;
+        font-size: 22px;
+        font-family: proxima nova;
+        text-align: left;
+    }
+    #watch-search-string {
+        margin: 0!important;
+    }
+    .watch_search_option {
+        display: inline-table;
+        width: 120px;
+        font-size: 16px;
+    }
+    .watch_search_option label {
+        font-size: 16px;
+        font-weight: 100;
+    }   
 `;
 GM_addStyle(watchstyle);
 var sources_list = [
@@ -273,7 +289,7 @@ var sources_list = [
         link: `https://cinemaz.to/torrents?in=1&search=%s`
     }
 ];
-var play_item= ['#ondeck-wrapper','#recently-watched-wrapper','#recommendations-shows','#recommendations-movies','div.row.posters#sortable-grid',
+var play_item= ['#ondeck-wrapper','#recently-watched-wrapper','#recommendations-shows','#recommendations-movies','div.row.posters#sortable-grid','#schedule-wrapper',
 '.frame:not(.people,.lists,.users)','#history-items','#collection-items','#rating-items','#seasons-episodes-sortable','#actor-credits',
 '#recent-wrapper','#progress-wrapper','#recommendations-wrapper','#recent-episodes'];
 $(function () {
@@ -290,11 +306,12 @@ $('html').on('show.bs.modal','#watch-now-modal', function (e) {
             var episode_number='';
             var season_number='';
             var year_number='';
-            $('#watch-now-modal').find('.title-wrapper').after(`<div class="freesources"/>`);
-            $('#watch-now-modal').find('.freesources').append(`<div class="free_search_options"/>`);
-            $('#watch-now-modal').find('.free_search_options').before(`<div class="title">Search Options:</div>`);
-            $('#watch-now-modal').find('.free_search_options').append(`
-                <div class="free_search_option">
+            var search_item='';
+            $('#watch-now-content .titles').css({"display":"none"});
+            $('#watch-now-content .titles').after(`<div id="watch-search"><p type="text" id="watch-search-string"></p></div>`);
+            $('#watch-now-modal').find('#watch-search').append(`<div class="watch_search_options"/>`);
+            $('#watch-now-modal').find('.watch_search_options').append(`
+                <div class="watch_search_option">
                 <input type="checkbox" id="cb_year">
                 <label for="cb_year">Year</label>
                 <input type="text" id="cb_year_text" style="display:none"></div>`);
@@ -309,8 +326,8 @@ $('html').on('show.bs.modal','#watch-now-modal', function (e) {
                     }
             });
             episode_name=$('#watch-now-modal').find('.main-title-sxe').text();
-            $('#watch-now-modal').find('.free_search_options').append(`
-                <div class="free_search_option">
+            $('#watch-now-modal').find('.watch_search_options').append(`
+                <div class="watch_search_option">
                 <input type="checkbox" id="cb_season">
                 <label for="cb_season">Season</label>
                 <input type="text" id="cb_season_text" style="display:none"></div>`);
@@ -328,8 +345,8 @@ $('html').on('show.bs.modal','#watch-now-modal', function (e) {
                     $('#cb_season_text').val('');
                     }
             });
-            $('#watch-now-modal').find('.free_search_options').append(`
-                <div class="free_search_option">
+            $('#watch-now-modal').find('.watch_search_options').append(`
+                <div class="watch_search_option">
                 <input type="checkbox" id="cb_episode">
                 <label for="cb_episode">Episode</label>
                 <input type="text" id="cb_episode_text" style="display:none"></div>`);
@@ -345,8 +362,8 @@ $('html').on('show.bs.modal','#watch-now-modal', function (e) {
                     }
             });
             name_of_item=searchName();
-            $('#watch-now-modal').find('.free_search_options').append(`
-                <div class="free_search_option">
+            $('#watch-now-modal').find('.watch_search_options').append(`
+                <div class="watch_search_option">
                 <input type="checkbox" id="cb_cname">
                 <label for="cb_cname">Custom-name</label>
                 <input type="text" id="cb_cname_text" style="display:none"></div>`);
@@ -359,22 +376,27 @@ $('html').on('show.bs.modal','#watch-now-modal', function (e) {
                     $('#cb_cname_text').val('');
                     }
             });
-            $('#watch-now-modal').find('.free_search_options').after(`<div class="ddl_sources"/>`);
-            $('#watch-now-modal').find('.ddl_sources').before(`<div class="title">DDL Sources:</div>`);
-            $('#watch-now-modal').find('.free_search_options').after(`<div class="torrent_sources"/>`);
-            $('#watch-now-modal').find('.torrent_sources').before(`<div class="title">Torrent Sources:</div>`);
-            $('#watch-now-modal').find('.free_search_options').after(`<div class="online_sources"/>`);
+            $('#watch-now-modal').find('.title-wrapper').after(`<div class="watchsources"/>`);
+            $('#watch-now-modal').find('.watchsources').append(`<div class="online_sources"/>`);
             $('#watch-now-modal').find('.online_sources').before(`<div class="title">Online Sources:</div>`);
+            $('#watch-now-modal').find('.watchsources').append(`<div class="torrent_sources"/>`);
+            $('#watch-now-modal').find('.torrent_sources').before(`<div class="title">Torrent Sources:</div>`);
+            $('#watch-now-modal').find('.watchsources').append(`<div class="ddl_sources"/>`);
+            $('#watch-now-modal').find('.ddl_sources').before(`<div class="title">DDL Sources:</div>`);
             addSites();   
-            $('html').on("click", ".freesources_item", function () {
-                var search_item_id=this.id.split("-")[1];
+            var searchinterval=setInterval( function () {
                 if (cb_cname.checked == true) {name_of_item=$('#cb_cname_text').val();} else {name_of_item=searchName()};
                 if (cb_year.checked == true) {year_number=' '+$('#cb_year_text').val()} else {year_number=$('#cb_year_text').val()};
                 if (cb_season.checked == true) {season_number=' '+$('#cb_season_text').val()} else {season_number=$('#cb_season_text').val()};
                 if (cb_episode.checked == true) {
                     if ($('#cb_season_text').val().length) {episode_number=$('#cb_episode_text').val()} else {episode_number=' '+$('#cb_episode_text').val()}
                 } else {episode_number=$('#cb_episode_text').val()};
-                var search_item=name_of_item+year_number+season_number+episode_number;
+                search_item=name_of_item+year_number+season_number+episode_number;
+                $('#watch-now-modal #watch-search-string').html(`${search_item}`)
+                $('#watch-now-modal').on('hidden.bs.modal', function () {clearInterval(searchinterval)});
+            },200) 
+            $('html').on("click", ".watch_sources_item", function () {
+                var search_item_id=this.id.split("-")[1];
                 var search_link=sources_list[search_item_id].link.replace('%s', search_item);
                 window.open(search_link);
             });
@@ -385,6 +407,9 @@ function playButtons(playobject) {
     var consoleplayflag=0;
     if ($('html').find(`${playobject}`).length) {
         var playinterval=setInterval( function() {
+                if (playobject == '#schedule-wrapper') {
+                    $('#schedule-wrapper').find('.btn-watch-now').remove()
+                };
                 $(`${playobject}`).find('.grid-item').each( function () {if ($(this).attr('data-url') != null) {
                     if ($(this).attr('data-person-id') != null) {clearInterval(playinterval)} else {
                         var play_item_link=$(this).attr('data-url');
@@ -421,6 +446,6 @@ function searchName() {
 function addSites() {
     for(var i=sources_list.length-1;i >= 0;i--) {
         var source_type='.'+sources_list[i].type+'_sources';
-        $('#watch-now-modal').find(`${source_type}`).after(`<a class="freesources_item" target="_blank" id="freesources_item-${i}"><div class="icon" style="background-color:${sources_list[i].color};"><img src="${sources_list[i].image}" alt="${sources_list[i].name}"></div><div class="price">${sources_list[i].name}<br></div></a>`);
+        $('#watch-now-modal').find(`${source_type}`).after(`<a class="watch_sources_item" target="_blank" id="watch_sources_item-${i}"><div class="icon" style="background-color:${sources_list[i].color};"><img src="${sources_list[i].image}" alt="${sources_list[i].name}"></div><div class="price">${sources_list[i].name}<br></div></a>`);
     }
 }
