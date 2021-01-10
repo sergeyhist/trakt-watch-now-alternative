@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     3.7
+// @version     3.8
 // @author      Hist
 // @description Alternative version of Watch Now modal with free content
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -93,7 +93,7 @@ var watchstyle = `
     }
     .watch_search_option {
         display: inline-table;
-        width: 130px;
+        width: 150px;
         font-size: 16px;
     }
     .watch_search_option label {
