@@ -260,7 +260,7 @@ var sources_list = [
     {
         type: 'ddl',
         name:'AnimeKaizoku',
-        color: 'black',
+        color: 'white',
         image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/kaizoku.png?raw=true',
         link: `https://animekaizoku.com/?s=%s`
     },
