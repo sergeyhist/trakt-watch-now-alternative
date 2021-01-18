@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     3.8
+// @version     4.0
 // @author      Hist
 // @description Alternative version of Watch Now modal with free content
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -196,6 +196,13 @@ var sources_list = [
     },
     {
         type: 'online',
+        name: 'Rarefilmm',
+        color: 'black',
+        image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/rarefilm.png?raw=true',
+        link: `https://rarefilmm.com/?s=%s`
+    },
+    {
+        type: 'online',
         name: 'Dramacool',
         color: 'black',
         image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/dramacool.png?raw=true',
@@ -223,6 +230,13 @@ var sources_list = [
         link: `https://www2.kickassanime.rs/search?q=%s`
     },
     {
+        type: 'online',
+        name: 'AniWatch',
+        color: 'black',
+        image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/aniwatch.png?raw=true',
+        link: `https://aniwatch.me/search?q=%s`
+    },
+    {
         type: 'ddl',
         name:'HDEncode',
         color: 'black',
@@ -242,6 +256,13 @@ var sources_list = [
         color: 'black',
         image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/scenerelease.png?raw=true',
         link: `http://scene-rls.com/?s=%s`
+    },
+    {
+        type: 'ddl',
+        name:'AnimeKaizoku',
+        color: 'black',
+        image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/kaizoku.png?raw=true',
+        link: `https://animekaizoku.com/?s=%s`
     },
     {
         type: 'torrent',
@@ -270,6 +291,20 @@ var sources_list = [
         color: 'white',
         image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/nyaa.png?raw=true',
         link: `https://nyaa.si/?f=0&c=1_0&q=%s`
+    },
+    {
+        type: 'torrent',
+        name: 'Anidex',
+        color: 'white',
+        image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/anidex.png?raw=true',
+        link: `https://anidex.info/?q=%s`
+    },
+    {
+        type: 'torrent',
+        name: 'ShanaProject',
+        color: 'black',
+        image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/shana.png?raw=true',
+        link: `https://www.shanaproject.com/search/?title=%s`
     },
     {
         type: 'torrent',
@@ -403,10 +438,10 @@ $('html').on('show.bs.modal','#watch-now-modal', function (e) {
                 $('#watch-now-modal #watch-search-string').html(`${name_of_item+year_number+season_number+episode_number}`)
                 $('#watch-now-modal').on('hidden.bs.modal', function () {clearInterval(searchinterval)});
             },200);
-            $('html').on("click", ".watch_sources_item", function () {
+            $('#watch-now-modal .watch_sources_item').on("click", function () {
                 var search_item_id=this.id.split("-")[1];
                 var search_link=sources_list[search_item_id].link.replace('%s', $('#watch-now-modal #watch-search-string').html());
-                window.open(search_link);
+                window.open(search_link, "_blank");
             });
         }},100);
 });
@@ -452,8 +487,8 @@ function searchName() {
 
 
 function addSites() {
-    for(var i=sources_list.length-1;i >= 0;i--) {
+    for(var i=0;i < sources_list.length;i++) {
         var source_type='.'+sources_list[i].type+'_sources';
-        $('#watch-now-modal').find(`${source_type}`).after(`<a class="watch_sources_item" target="_blank" id="watch_sources_item-${i}"><div class="icon" style="background-color:${sources_list[i].color};"><img src="${sources_list[i].image}" alt="${sources_list[i].name}"></div><div class="price">${sources_list[i].name}<br></div></a>`);
+        $('#watch-now-modal').find(`${source_type}`).append(`<a class="watch_sources_item" target="_blank" id="watch_sources_item-${i}"><div class="icon" style="background-color:${sources_list[i].color};"><img src="${sources_list[i].image}" alt="${sources_list[i].name}"></div><div class="price">${sources_list[i].name}<br></div></a>`);
     }
 }
