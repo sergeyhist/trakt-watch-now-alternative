@@ -48,7 +48,8 @@ var watchstyle = `
         height: 60px;
         word-wrap: break-word;
         position: relative;
-        border: solid black 1px;
+        border: solid #222 2px;
+        border-radius: 10px;
     }
     .watchsources a .icon img {
         width: 100%;
@@ -120,14 +121,14 @@ var sources_list = [
     {
         type: 'online',
         name: 'Yes!Movies',
-        color: '#c81c55',
+        color: '#ba3a56',
         image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/yesmovies.png?raw=true',
         link: `https://yesmovies.ag/searching/%s.html`
     },
     {
         type: 'online',
         name: 'FMovies',
-        color: '#03acc2',
+        color: '#47a7bf',
         image: 'https://github.com/sergeyhist/Trakt.tv-Watch-Now-Alternative/blob/main/logos/fmovies.png?raw=true',
         link: `https://ffmovies.co/search?keyword=%s`
     },
