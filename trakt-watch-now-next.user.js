@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.0
+// @version     1.1
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -146,7 +146,7 @@ var watchstyle = `
     }
     .trakt-icon-play2-thick:hover {
         color: white;
-        background-color: #9e3131;
+        background-color: #9e3131!important;
     }
     .wt-text {
         display: inline-block;
@@ -155,7 +155,7 @@ var watchstyle = `
         font-size: 10px;
         float: right;
         padding-top: 4px;
-        padding-right: 3px;
+        padding-right: 4px;
         font-family: proxima nova semibold;
     }
     .trakt-icon-play2-thick {
@@ -443,7 +443,7 @@ function playButtons(playobject) {
                         if (play_episode_number == null) {play_episode_number=''};
                         $(this).append(`
                         <div id="alternative-watch" aw-data-name="${play_item_name}" aw-ep-num="${play_episode_number}" aw-s-num="${play_season_number}" aw-y-num="${play_year_number}">
-                        <div style="font-size: 17px; border: solid 1px white; border-radius: 2px" class="trakt-icon-play2-thick"><div class="wt-text">watch now</div></div></div>`);
+                        <div style="font-size: 17px; border: solid 1px white; border-radius: 2px; background-color: #1515158c" class="trakt-icon-play2-thick"><div class="wt-text">watch now</div></div></div>`);
                     });
                 };
                 $(`${playobject}`).find('.schedule-episode').each( function () {
@@ -457,7 +457,7 @@ function playButtons(playobject) {
                     if (play_episode_number == null) {play_episode_number=''};
                     $(this).append(`
                     <div id="alternative-watch" aw-data-name="${play_item_name}" aw-ep-num="${play_episode_number}" aw-s-num="${play_season_number}" aw-y-num="${play_year_number}">
-                    <div style="font-size: 17px; margin-top: 10px; border-radius: 2px" class="trakt-icon-play2-thick"><div class="wt-text">watch now</div></div></div>`);
+                    <div style="font-size: 17px; margin-top: 10px; border-radius: 2px; background-color: #1515158c" class="trakt-icon-play2-thick"><div class="wt-text">watch now</div></div></div>`);
                 });
             };
         },100);
