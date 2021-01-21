@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Trakt Watch Now Alternative - Legacy Version
+// @name        Trakt Alternative Watch - Legacy Version
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
