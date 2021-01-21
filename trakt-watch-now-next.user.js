@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.1
+// @version     1.2
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
@@ -70,7 +70,7 @@ var watchstyle = `
     .alternative-watch-modal {
         display: none;
         position: fixed;
-        z-index: 100;
+        z-index: 100000;
         left: 0!important;
         top: 0!important;
         width: 100%!Important;
@@ -81,11 +81,12 @@ var watchstyle = `
         height: 80%;
         overflow: auto;
         overflow-y: overlay;
+        overscroll-behavior: contain;
         background-color: #000000d6;
-        width: 335px;
+        width: 350px;
         position: absolute;
         top: 50%;
-        left: 50%;
+        left: 49.9%;
         margin-right: -50%;
         transform: translate(-50%, -50%);
     }
@@ -321,8 +322,9 @@ var sources_list = [
     }
 ];
 $('html').append(`<div class="alternative-watch-modal"/>`);
-$('html').on('click', '.alternative-watch-close', function () {
-    $('.alternative-watch-modal').css({"display":"none"})});
+$('html').on('click','.alternative-watch-modal', function (event) {
+    if(!$(event.target).closest('.alternative-watch-content').length && !$(event.target).is('.alternative-watch-content')) {$('.alternative-watch-modal').css({"display":"none"})}});
+$('html').on('click', '.alternative-watch-close', function () {$('.alternative-watch-modal').css({"display":"none"})});
 var play_item= ['#ondeck-wrapper','#recently-watched-wrapper','#recommendations-shows','#recommendations-movies','div.row.posters#sortable-grid','#schedule-wrapper',
 '.frame:not(.people,.lists,.users)','#history-items','#collection-items','#rating-items','#seasons-episodes-sortable','#actor-credits',
 '#recent-wrapper','#progress-wrapper','#recommendations-wrapper','#recent-episodes','#summary-wrapper:not(.person)'];
