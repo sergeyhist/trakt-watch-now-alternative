@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name        Trakt Watch Now Sites
+// @name        Trakt Watch Now Alternative - Legacy Version
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
 // @version     4.0
 // @author      Hist
-// @description Alternative version of Watch Now modal with free content
+// @description Watch Now Alternative Version
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
-// @downloadURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/raw/main/trakt-watch-now.user.js
+// @downloadURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/raw/main/trakt-watch-now-legacy.user.js
 // @homepageURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts
 // ==/UserScript==
 'use strict';
