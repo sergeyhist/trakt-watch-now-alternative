@@ -3,9 +3,10 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.3
+// @version     1.4
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
+// @run-at      document-start
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
 // @downloadURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/raw/main/trakt-watch-now-next.user.js
 // @homepageURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts
@@ -13,18 +14,14 @@
 'use strict';
 var watchstyle = `
     .streaming-links,
-    #watch-now-country-select,
-    #watch-now-powered-by {
+    .watch-now,
+    .btn-watch-now {
         display: none!important;
-    }
-    #alternative-watch {
-        display:inline-block;
     }
     #cb_cname, #cb_year, #cb_season, #cb_episode {
         margin-inline: 2px;
     }
     input#cb_year_text, input#cb_season_text, input#cb_episode_text, input#cb_cname_text {
-        display:none;
         float: right;
         margin-left: 5px;
         font-size: 15px;
@@ -73,7 +70,6 @@ var watchstyle = `
         background-color: #00000040;
     } 
     .alternative-watch-modal {
-        display: none;
         position: fixed;
         z-index: 100000;
         left: 0!important;
@@ -134,29 +130,15 @@ var watchstyle = `
         color: #a01717;
         cursor: pointer;
     }
-    .watch-now,
-    .btn-watch-now {
-        display: none!important;
-    }
-    .trakt-icon-play2-thick {
-        transition: all 0.3s;
-        color: #9e3131;
-        font-size: 1.3em;
-    }
-    .trakt-icon-play2-thick:hover {
-        color: white;
-        background-color: #9e3131!important;
-    }
     .wt-text {
         display: inline-block;
-        text-transform: uppercase;
+        text-transform: capitalize;
         color: white;
-        font-size: 10px;
+        font-family: proxima nova;
+        padding-top: 2%;
+        padding-right: 10px;
         float: right;
-        padding-top: 8px;
-        padding-right: 8px;
-        font-family: proxima nova semibold;
-        font-size: 14px;
+        font-size: 0.8em;
     }
     .trakt-icon-play2-thick {
         cursor: pointer;
@@ -164,17 +146,73 @@ var watchstyle = `
     .wt-source-name {
         text-transform: capitalize; 
     }
+    .alternative-watch-modal,
+    #content-buttons,
+    #language-buttons,
+    .wt-sources,
+    input#cb_year_text,
+    input#cb_season_text,
+    input#cb_episode_text,
+    input#cb_cname_text {
+        overflow: hidden;
+        visibility: hidden;
+        transition: all.4s ease;
+        height: 0;
+        opacity: 0;
+    }
     .content-type-button,
     .watch_sources_item,
     .language-button {
         margin-inline: 15px;
     }
-    .wt-sources {
-        margin-bottom: 20px;
-    }
     .watch_sources_item {
         padding-block: 10px;
         background-image: linear-gradient(231deg, #400b0bcc, #650d0d73);
+    }
+    #quick-aw-button,
+    #main-aw-button,
+    #schedule-aw-button {
+        transition: all .5s;
+        color: #9e3131;
+        font-size: 1.3em;
+    }
+    #quick-aw-button:hover,
+    #main-aw-button:hover,
+    #schedule-aw-button:hover {
+        cursor: pointer;
+        color: white;
+        background-color: #9e3131!important;
+    }
+    #main-aw-button {
+        min-height: 54px;
+        width: 100%;
+        position: relative;
+        top: 4px;
+        border: solid 1px #9e3131;
+        margin-block: 1px 3px;
+        font-size: 3.4em;
+        padding-top: 2px;
+    }
+    #main-aw-button .wt-text {
+        margin-right: 40px;
+        display: inline-block;
+        text-transform: uppercase;
+        color: inherit;
+        padding: 0;
+        float: none;
+        font-size: 0.35em;
+        position: absolute;
+        top: 34%;
+        left: 16.66%;
+        font-family: 'proxima nova semibold';
+    }
+    #schedule-aw-button {
+        border-radius: 2px;
+        font-size: 1.2em;
+        padding-bottom: 1px;
+        position: relative;
+        top: 7px;
+        background-color: #1515158c;
     }
 `;
 GM_addStyle(watchstyle);
@@ -437,213 +475,164 @@ var sources_list = [
         language: 'russian',
         name: 'LostFilm',
         link: `https://www.lostfilm.tv/search/?q=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'general', 
+        language: 'russian',
+        name: 'Yandex',
+        link: `https://yandex.ru/search/?text=%s%20%D1%81%D0%BC%D0%BE%D1%82%D1%80%D0%B5%D1%82%D1%8C%20%D0%BE%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD`
+    },
+    {
+        type: 'torrent',
+        content_type: 'general', 
+        language: 'russian',
+        name: 'Rutor',
+        link: `http://rutor.info/search/%s`
     }
 ];
-$('html').append(`<div class="alternative-watch-modal"/>`);
-$('html').on('click','.alternative-watch-modal', function (event) {
-    if(!$(event.target).closest('.alternative-watch-content').length && !$(event.target).is('.alternative-watch-content')) {$('.alternative-watch-modal').css({"display":"none"})}});
-$('html').on('click', '.alternative-watch-close', function () {$('.alternative-watch-modal').css({"display":"none"})});
-var play_item= ['#ondeck-wrapper','#recently-watched-wrapper','#recommendations-shows','#recommendations-movies','div.row.posters#sortable-grid','#schedule-wrapper',
-'.frame:not(.people,.lists,.users)','#history-items','#collection-items','#rating-items','#seasons-episodes-sortable','#actor-credits',
-'#recent-wrapper','#progress-wrapper','#recommendations-wrapper','#recent-episodes','#summary-wrapper:not(.person)'];
-$(function () {
-    for (const element of play_item) {  
-        playButtons(element);
-}});
-$('html').on('click', '#alternative-watch', function () {
-    $('.alternative-watch-modal').css({"display":"block"});
-    var original_aw_name=$(this).attr('aw-data-name');
-    var original_year_number=$(this).attr('aw-y-num');
-    var original_episode_number=$(this).attr('aw-ep-num');
-    var original_season_number=$(this).attr('aw-s-num');
-    if (original_season_number != '') {var season_number='s'+checkSepNum(original_season_number)} else {season_number=''};
-    if (original_episode_number != '') {var episode_number='e'+checkSepNum(original_episode_number)} else {episode_number=''};
-    var episode_data=season_number+episode_number;
-    if (episode_data == 's0e0') {episode_data=''};
-    $('.alternative-watch-content').remove();
-    $('.alternative-watch-modal').append(`<div class="alternative-watch-content"/>`);
-    $('.alternative-watch-content').append(`<div class="alternative-watch-close">&times;</div><div id="watch-search"><p type="text" id="watch-search-string"></p></div>`);
-    $('.alternative-watch-content').find('#watch-search').append(`<div class="watch_search_options"/>`);
-    $('.alternative-watch-content').find('.watch_search_options').append(`
-        <div class="watch_search_option">
-        <input type="checkbox" id="cb_year">
-        <label for="cb_year">Year-number
-        <input type="text" id="cb_year_text" style="padding-right: 9px"></label></div>`);
-    $('html').on("change", "#cb_year", function () {
-        if (this.checked == true){
-            $('.alternative-watch-modal').find('#cb_year_text').css({"display":"block"});
-            $('#cb_year_text').val(`${original_year_number}`);
-            } else {
-            $('.alternative-watch-modal').find('#cb_year_text').css({"display":"none"});
-            $('#cb_year_text').val('');
-            }
+document.addEventListener("DOMContentLoaded", function () {
+    $('html').append(`<div class="alternative-watch-modal"/>`);
+    $('html').on('click','.alternative-watch-modal', function (event) {
+        if(!$(event.target).closest('.alternative-watch-content').length && !$(event.target).is('.alternative-watch-content')) {
+            $('.alternative-watch-modal').css({'visibility':'hidden','height':'0','opacity':'0'})}});
+    $('html').on('click', '.alternative-watch-close', function () {$('.alternative-watch-modal').css({'visibility':'hidden','height':'0','opacity':'0'})});
+    var play_item= ['#ondeck-wrapper','#recently-watched-wrapper','#recommendations-shows','#recommendations-movies','div.row.posters#sortable-grid','#schedule-wrapper',
+    '.frame:not(.people,.lists,.users)','#history-items','#collection-items','#rating-items','#seasons-episodes-sortable','#actor-credits',
+    '#recent-wrapper','#progress-wrapper','#recommendations-wrapper','#recent-episodes','.action-buttons'];
+    $(function () {
+        for (const element of play_item) {  
+            playButtons(element);
+    }});
+    $('html').on('click', '#alternative-watch', function () {
+        $('.alternative-watch-content').remove();
+        $('.alternative-watch-modal').css({'visibility':'visible','height':'100%','opacity':'1'});
+        var original_aw_name=$(this).attr('aw-data-name');
+        var original_year_number=$(this).attr('aw-y-num');
+        var original_episode_number=$(this).attr('aw-ep-num');
+        var original_season_number=$(this).attr('aw-s-num');
+        if (original_season_number != '') {var season_number='s'+checkSepNum(original_season_number)} else {season_number=''};
+        if (original_episode_number != '') {var episode_number='e'+checkSepNum(original_episode_number)} else {episode_number=''};
+        var episode_data=season_number+episode_number;
+        if (episode_data == 's0e0') {episode_data=''};
+        $('.alternative-watch-modal').append(`<div class="alternative-watch-content"/>`);
+        $('.alternative-watch-content').append(`<div class="alternative-watch-close">&times;</div><div id="watch-search"><p type="text" id="watch-search-string"></p></div>`);
+        $('.alternative-watch-modal #watch-search-string').html(`${original_aw_name}`);
+        createCB('year','Year-number','9','');
+        createCB('episode','Episode-data','7','');
+        createCB('cname','Custom-name','0',original_aw_name);
+        $('html').on("change", `#cb_year`, function () {updateCB('year',original_year_number,'')});
+        $('html').on("change", `#cb_episode`, function () {updateCB('episode',episode_data,'')});
+        $('html').on("change", `#cb_cname`, function () {updateCB('cname','',original_aw_name)});
+        createList('online-sources-title','Online Sources');
+        createList('torrent-sources-title','Torrent Sources');
+        createList('ddl-sources-title','DDL Sources');
+        addSites();
+        openList('.main-button','#content-buttons');
+        openList('.content-type-button .wt-title-button','#language-buttons');
+        openList('.language-button .wt-title-button','.wt-sources');
+        $('html').on("input", `#cb_year_text,#cb_episode_text,#cb_cname_text`, function () {updateString()});
+        $('.alternative-watch-modal .watch_sources_item').on("click", function () {
+            var search_item_id=this.id.split("-")[1];
+            var search_link=sources_list[search_item_id].link.replace('%s', $('.alternative-watch-modal #watch-search-string').html());
+            window.open(search_link, "_blank");
+        });
     });
-    $('.alternative-watch-modal').find('.watch_search_options').append(`
-        <div class="watch_search_option">
-        <input type="checkbox" id="cb_episode">
-        <label for="cb_episode">Episode-data
-        <input type="text" id="cb_episode_text" style="padding-right: 7px"></label></div>`);
-    $('html').on("change", "#cb_episode", function () {
-        if (this.checked == true){
-            $('.alternative-watch-modal').find('#cb_episode_text').css({"display":"block"});
-            $('#cb_episode_text').val(`${episode_data}`);
-            } else {
-            $('.alternative-watch-modal').find('#cb_episode_text').css({"display":"none"});
-            $('#cb_episode_text').val('');
-            }
-    });
-    $('.alternative-watch-modal').find('.watch_search_options').append(`
-        <div class="watch_search_option">
-        <input type="checkbox" id="cb_cname">
-        <label for="cb_cname">Custom-name
-        <input type="text" id="cb_cname_text" value="${original_aw_name}"></label></div>`);
-    $('html').on("change", "#cb_cname", function () {
-        if (this.checked == true){
-            $('.alternative-watch-modal').find('#cb_cname_text').css({"display":"block"});
-            } else {
-            $('.alternative-watch-modal').find('#cb_cname_text').css({"display":"none"});
-            $('#cb_cname_text').val(`${original_aw_name}`);
-            }
-    });
-    $('.alternative-watch-content').append(`<div class="watchsources"/>`);
-    $('.alternative-watch-content').find('.watchsources').append(`
-    <div id="online-sources-title" class="wt-title"><div class="wt-title-button main-button">Online Sources</div>
-    <div id="content-buttons"><div id="general-bt" class="content-type-button" style="display:none"><div class="wt-title-button">General</div>
-    <div id="language-buttons"><div id="english-bt" class="language-button" style="display:none"><div class="wt-title-button">English</div><div class="wt-sources" style="display:none"/></div>
-    <div id="russian-bt" class="language-button" style="display:none"><div class="wt-title-button">Russian</div><div class="wt-sources" style="display:none"/></div></div></div>
-    <div id="anime-bt" class="content-type-button" style="display:none"><div class="wt-title-button">Anime</div>
-    <div id="language-buttons"><div id="english-bt" class="language-button" style="display:none"><div class="wt-title-button">English</div><div class="wt-sources" style="display:none"/></div>
-    <div id="russian-bt" class="language-button" style="display:none"><div class="wt-title-button">Russian</div><div class="wt-sources" style="display:none"/></div></div></div>
-    <div id="cartoon-bt" class="content-type-button" style="display:none"><div class="wt-title-button">Cartoons</div>
-    <div id="language-buttons"><div id="english-bt" class="language-button" style="display:none"><div class="wt-title-button">English</div><div class="wt-sources" style="display:none"/></div>
-    <div id="russian-bt" class="language-button" style="display:none"><div class="wt-title-button">Russian</div><div class="wt-sources" style="display:none"/></div></div></div>
-    <div id="adrama-bt" class="content-type-button" style="display:none"><div class="wt-title-button">Asian Drama</div>
-    <div id="language-buttons"><div id="english-bt" class="language-button" style="display:none"><div class="wt-title-button">English</div><div class="wt-sources" style="display:none"/></div>
-    <div id="russian-bt" class="language-button" style="display:none"><div class="wt-title-button">Russian</div><div class="wt-sources" style="display:none"/></div></div></div>
-    </div></div>`);
-    $('.alternative-watch-content').find('.watchsources').append(`
-    <div id="torrent-sources-title" class="wt-title"><div class="wt-title-button main-button">Torrent Sources</div>
-    <div id="content-buttons"><div id="general-bt" class="content-type-button" style="display:none"><div class="wt-title-button">General</div>
-    <div id="language-buttons"><div id="english-bt" class="language-button" style="display:none"><div class="wt-title-button">English</div><div class="wt-sources" style="display:none"/></div>
-    <div id="russian-bt" class="language-button" style="display:none"><div class="wt-title-button">Russian</div><div class="wt-sources" style="display:none"/></div></div></div>
-    <div id="anime-bt" class="content-type-button" style="display:none"><div class="wt-title-button">Anime</div>
-    <div id="language-buttons"><div id="english-bt" class="language-button" style="display:none"><div class="wt-title-button">English</div><div class="wt-sources" style="display:none"/></div>
-    <div id="russian-bt" class="language-button" style="display:none"><div class="wt-title-button">Russian</div><div class="wt-sources" style="display:none"/></div></div></div>
-    <div id="cartoon-bt" class="content-type-button" style="display:none"><div class="wt-title-button">Cartoons</div>
-    <div id="language-buttons"><div id="english-bt" class="language-button" style="display:none"><div class="wt-title-button">English</div><div class="wt-sources" style="display:none"/></div>
-    <div id="russian-bt" class="language-button" style="display:none"><div class="wt-title-button">Russian</div><div class="wt-sources" style="display:none"/></div></div></div>
-    <div id="adrama-bt" class="content-type-button" style="display:none"><div class="wt-title-button">Asian Drama</div>
-    <div id="language-buttons"><div id="english-bt" class="language-button" style="display:none"><div class="wt-title-button">English</div><div class="wt-sources" style="display:none"/></div>
-    <div id="russian-bt" class="language-button" style="display:none"><div class="wt-title-button">Russian</div><div class="wt-sources" style="display:none"/></div></div></div>
-    </div></div>`);
-    $('.alternative-watch-content').find('.watchsources').append(`
-    <div id="ddl-sources-title" class="wt-title"><div class="wt-title-button main-button">DDL Sources</div>
-    <div id="content-buttons"><div id="general-bt" class="content-type-button" style="display:none"><div class="wt-title-button">General</div>
-    <div id="language-buttons"><div id="english-bt" class="language-button" style="display:none"><div class="wt-title-button">English</div><div class="wt-sources" style="display:none"/></div>
-    <div id="russian-bt" class="language-button" style="display:none"><div class="wt-title-button">Russian</div><div class="wt-sources" style="display:none"/></div></div></div>
-    <div id="anime-bt" class="content-type-button" style="display:none"><div class="wt-title-button">Anime</div>
-    <div id="language-buttons"><div id="english-bt" class="language-button" style="display:none"><div class="wt-title-button">English</div><div class="wt-sources" style="display:none"/></div>
-    <div id="russian-bt" class="language-button" style="display:none"><div class="wt-title-button">Russian</div><div class="wt-sources" style="display:none"/></div></div></div>
-    <div id="cartoon-bt" class="content-type-button" style="display:none"><div class="wt-title-button">Cartoons</div>
-    <div id="language-buttons"><div id="english-bt" class="language-button" style="display:none"><div class="wt-title-button">English</div><div class="wt-sources" style="display:none"/></div>
-    <div id="russian-bt" class="language-button" style="display:none"><div class="wt-title-button">Russian</div><div class="wt-sources" style="display:none"/></div></div></div>
-    <div id="adrama-bt" class="content-type-button" style="display:none"><div class="wt-title-button">Asian Drama</div>
-    <div id="language-buttons"><div id="english-bt" class="language-button" style="display:none"><div class="wt-title-button">English</div><div class="wt-sources" style="display:none"/></div>
-    <div id="russian-bt" class="language-button" style="display:none"><div class="wt-title-button">Russian</div><div class="wt-sources" style="display:none"/></div></div></div>
-    </div></div>`);
-    addSites();
-    $('.alternative-watch-content').on('click','.main-button',function () {
-        if ($(this).parent().find('.content-type-button').css('display') == 'none') {
-            $(this).parent().find('.content-type-button').css({"display":"block"})}
-        else {$(this).parent().find('.content-type-button').css({"display":"none"})}
-    });
-    $('.alternative-watch-content').on('click','.content-type-button .wt-title-button',function () {
-        if ($(this).parent().find('.language-button').css('display') == 'none') {
-            $(this).parent().find('.language-button').css({"display":"block"})}
-        else {$(this).parent().find('.language-button').css({"display":"none"})}
-    });  
-    $('.alternative-watch-content').on('click','.language-button .wt-title-button',function () {
-        if ($(this).parent().find('.wt-sources').css('display') == 'none') {
-            $(this).parent().find('.wt-sources').css({"display":"block"})}
-        else {$(this).parent().find('.wt-sources').css({"display":"none"})}
-    }); 
-    var searchinterval=setInterval( function () {
-        var search_string=$('#cb_cname_text').val()+checkString($('#cb_year_text').val())+checkString($('#cb_episode_text').val());
-        $('.alternative-watch-modal #watch-search-string').html(`${search_string}`)
-        if ($('.alternative-watch-modal').css('display') == 'none') {clearInterval(searchinterval)};
-    },200);
-    $('.alternative-watch-modal .watch_sources_item').on("click", function () {
-        var search_item_id=this.id.split("-")[1];
-        var search_link=sources_list[search_item_id].link.replace('%s', $('.alternative-watch-modal #watch-search-string').html());
-        window.open(search_link, "_blank");
-    });
-});
 
-function playButtons(playobject) {
-    var consoleplayflag=0;
-    if ($('html').find(`${playobject}`).length) {
-        var playinterval=setInterval( function() {
-            if ($(`${playobject}`).find('#alternative-watch').length) {clearInterval(playinterval)} else {
-                $(`${playobject}`).find('.quick-icons').each( function () {
-                    var play_item=$(this).parent().find('meta[itemprop=url]').first().attr('content');
-                    if (play_item != null) {var play_item_name=play_item.split('/')[4].replaceAll('-',' ').trim()};
-                    if (play_item_name != null) {var play_year_number=play_item_name.split(' ').pop()};
-                    if (isNaN(play_year_number)) {play_year_number=''} else {play_item_name=play_item_name.replace(`${play_year_number}`,'').trim()};
-                    if (play_item != null) {var play_season_number=play_item.split('/')[6]};
-                    if (play_item != null) {var play_episode_number=play_item.split('/')[8]};
-                    if (play_season_number == null) {play_season_number=''};
-                    if (play_episode_number == null) {play_episode_number=''};
-                    $(this).find('.collect').after(`
-                    <a id="alternative-watch" aw-data-name="${play_item_name}" aw-ep-num="${play_episode_number}" aw-s-num="${play_season_number}" aw-y-num="${play_year_number}">
-                    <div class="trakt-icon-play2-thick"></div></a>`);
-                    if (consoleplayflag == 0) {consoleplayflag=1; console.log(`${playobject} - find buttons...`)};
-                });
-                if ($(`${playobject}`).find('.movie,.show,.season,.episode').length) {
-                    $(`${playobject}`).find('h1').each( function () {
-                        var play_item=$(this).parents().find('meta[itemprop=url]').first().attr('content');
-                        if (play_item != null) {var play_item_name=play_item.split('/')[4].replaceAll('-',' ').trim()};
-                        if (play_item_name != null) {var play_year_number=play_item_name.split(' ').pop()};
-                        if (isNaN(play_year_number)) {play_year_number=''} else {play_item_name=play_item_name.replace(`${play_year_number}`,'').trim()};
-                        if (play_item != null) {var play_season_number=play_item.split('/')[6]};
-                        if (play_item != null) {var play_episode_number=play_item.split('/')[8]};
-                        if (play_season_number == null) {play_season_number=''};
-                        if (play_episode_number == null) {play_episode_number=''};
-                        $(this).after(`
-                        <div id="alternative-watch" aw-data-name="${play_item_name}" aw-ep-num="${play_episode_number}" aw-s-num="${play_season_number}" aw-y-num="${play_year_number}">
-                        <div style="margin: 2px; font-size: 30px; border: solid 1px white; border-radius: 2px; background-color: #1515158c" class="trakt-icon-play2-thick"><div class="wt-text">watch now</div></div></div>`);
-                    });
+    function playButtons(playobject) {
+        if ($('html').find(`${playobject}`).length) {
+            var playinterval=setInterval( function() {
+                if ($(`${playobject}`).find('#alternative-watch').length) {clearInterval(playinterval)} else {
+                    searchData(playobject,'.grid-item','quick',4,'meta[itemprop=url]','content','.collect','');
+                    searchData(playobject,'.btn-collect','main',2,'','data-url','','watch now');
+                    searchData(playobject,'.schedule-episode','schedule',2,'h4 a,h5 a','href','h6','watch now');
                 };
-                $(`${playobject}`).find('.schedule-episode').each( function () {
-                    var play_item=$(this).find('h5 a').attr('href');
-                    if (play_item != null) {var play_item_name=play_item.split('/')[2].replaceAll('-',' ').trim()};
-                    if (play_item_name != null) {var play_year_number=play_item_name.split(' ').pop()};
-                    if (isNaN(play_year_number)) {play_year_number=''} else {play_item_name=play_item_name.replace(`${play_year_number}`,'').trim()};
-                    if (play_item != null) {var play_season_number=play_item.split('/')[4]};
-                    if (play_item != null) {var play_episode_number=play_item.split('/')[6]};
-                    if (play_season_number == null) {play_season_number=''};
-                    if (play_episode_number == null) {play_episode_number=''};
-                    $(this).append(`
-                    <div id="alternative-watch" aw-data-name="${play_item_name}" aw-ep-num="${play_episode_number}" aw-s-num="${play_season_number}" aw-y-num="${play_year_number}">
-                    <div style="font-size: 20px; margin-top: 10px; border-radius: 2px; background-color: #1515158c" class="trakt-icon-play2-thick">
-                    <div class="wt-text" style="font-size: 11px; padding-top: 5px;">watch now</div></div></div>`);
-                });
-            };
-        },100);
+            },100);
+        }
     }
-}
 
-function addSites() {
-    for(var i=0;i < sources_list.length;i++) {
-        var source_type='#'+sources_list[i].type+'-sources-title';
-        var source_content_type='#'+sources_list[i].content_type+'-bt';
-        var source_language='#'+sources_list[i].language+'-bt';
-        $(`${source_type}`).find(`${source_content_type}`).find(`${source_language}`).children('.wt-sources').append(`<div class="watch_sources_item wt-title-button" id="watch_sources_item-${i}"><div class="wt-source-name">${sources_list[i].name}</div></div>`);
+    function searchData(data_object,data_find,data_type,data_number,data_link,data_attr,data_after,data_text) {
+        $(`${data_object}`).find(`${data_find}`).each( function () {
+            if (data_link != '') {var data_item=$(this).find(`${data_link}`).last().attr(`${data_attr}`)} else {var data_item=$(this).last().attr(`${data_attr}`)};
+            if (data_item != null) {var data_item_name=data_item.split('/')[data_number].replaceAll('-',' ').trim()};
+            if (data_item_name != null) {var data_year_number=data_item_name.split(' ').pop()};
+            if (isNaN(data_year_number)) {data_year_number=''} else {data_item_name=data_item_name.replace(`${data_year_number}`,'').trim()};
+            if (data_item != null) {var data_season_number=data_item.split('/')[data_number+2]};
+            if (data_item != null) {var data_episode_number=data_item.split('/')[data_number+4]};
+            if (data_season_number == null) {data_season_number=''};
+            if (data_episode_number == null) {data_episode_number=''};
+            if (data_type != 'main') {var data_icon=`trakt-icon-play2-thick`} else {var data_icon=`trakt-icon-play2`};
+            if (data_text != '') {var data_text_object=`<div class="wt-text">${data_text}</div>`} else {var data_text_object=''};
+            var data_block=`<a id="alternative-watch" aw-data-name="${data_item_name}" aw-ep-num="${data_episode_number}" aw-s-num="${data_season_number}" aw-y-num="${data_year_number}">
+            <div id="${data_type}-aw-button" class="${data_icon}">${data_text_object}</div></a`
+            if (data_after != '') {$(this).find(`${data_after}`).after(`${data_block}`)} else {$(this).after(`${data_block}`)};
+        })
     }
-}
 
-function checkSepNum(n) {
-    return (n < 10 ? '0' : '') + n;
-}
-function checkString(s) {
-    return (s == '' ? '': ' ') + s
-}
+    function createCB(cb_type,cb_text,cb_padding,cb_original) {
+        $('.alternative-watch-content').find('#watch-search').append(`
+            <div class="watch_search_option">
+            <input type="checkbox" id="cb_${cb_type}">
+            <label for="cb_${cb_type}">${cb_text}
+            <input type="text" id="cb_${cb_type}_text" style="padding-right: ${cb_padding}px" value="${cb_original}"></label></div>`);
+    }
+
+    function updateCB(cb_type,cb_value,cb_reset) {
+        var update_cb_type='#cb_'+cb_type;
+        if ($(`${update_cb_type}:checked`).length) {
+            $('.alternative-watch-content').find(`#cb_${cb_type}_text`).css({'visibility':'visible','height':'auto','opacity':'1'});
+            if (cb_type != 'cname') {$(`#cb_${cb_type}_text`).val(`${cb_value}`)};
+        } else {
+            $('.alternative-watch-content').find(`#cb_${cb_type}_text`).css({'visibility':'hidden','opacity':'0'});
+            $(`#cb_${cb_type}_text`).val(`${cb_reset}`);
+        }
+        updateString(); 
+    }
+
+    function updateString() {
+        var data_string=$('#cb_cname_text').val()+checkString($('#cb_year_text').val())+checkString($('#cb_episode_text').val());
+        $('.alternative-watch-modal #watch-search-string').html(`${data_string}`) 
+    }
+    
+    function createList(list_type,list_name) {
+        $('.alternative-watch-content').append(`
+        <div id="${list_type}" class="wt-title"><div class="wt-title-button main-button">${list_name}</div>
+        <div id="content-buttons"><div id="general-bt" class="content-type-button"><div class="wt-title-button">General</div>
+        <div id="language-buttons"><div id="english-bt" class="language-button"><div class="wt-title-button">English</div><div class="wt-sources"/></div>
+        <div id="russian-bt" class="language-button"><div class="wt-title-button">Russian</div><div class="wt-sources"/></div></div></div>
+        <div id="anime-bt" class="content-type-button"><div class="wt-title-button">Anime</div>
+        <div id="language-buttons"><div id="english-bt" class="language-button"><div class="wt-title-button">English</div><div class="wt-sources"/></div>
+        <div id="russian-bt" class="language-button"><div class="wt-title-button">Russian</div><div class="wt-sources"/></div></div></div>
+        <div id="cartoon-bt" class="content-type-button"><div class="wt-title-button">Cartoons</div>
+        <div id="language-buttons"><div id="english-bt" class="language-button"><div class="wt-title-button">English</div><div class="wt-sources"/></div>
+        <div id="russian-bt" class="language-button"><div class="wt-title-button">Russian</div><div class="wt-sources"/></div></div></div>
+        <div id="adrama-bt" class="content-type-button"><div class="wt-title-button">Asian Drama</div>
+        <div id="language-buttons"><div id="english-bt" class="language-button"><div class="wt-title-button">English</div><div class="wt-sources"/></div>
+        <div id="russian-bt" class="language-button"><div class="wt-title-button">Russian</div><div class="wt-sources"/></div></div></div>
+        </div></div>`);
+    }
+
+    function openList(click_item,list_type) {
+        $('.alternative-watch-content').on('click',`${click_item}`,function () {
+            if ($(this).parent().find(`${list_type}`).css('opacity') == '0') {
+                $(this).parent().find(`${list_type}`).css({'visibility':'visible','height':'auto','opacity':'1'})}
+            else {$(this).parent().find(`${list_type}`).css({'visibility':'hidden','height':'0','opacity':'0'})}
+        });
+    }
+
+    function addSites() {
+        for(var i=0;i < sources_list.length;i++) {
+            var source_type='#'+sources_list[i].type+'-sources-title';
+            var source_content_type='#'+sources_list[i].content_type+'-bt';
+            var source_language='#'+sources_list[i].language+'-bt';
+            $(`${source_type}`).find(`${source_content_type}`).find(`${source_language}`).children('.wt-sources').append(`<div class="watch_sources_item wt-title-button" id="watch_sources_item-${i}"><div class="wt-source-name">${sources_list[i].name}</div></div>`);
+        }
+    }
+
+    function checkSepNum(n) {
+        return (n < 10 ? '0' : '') + n;
+    }
+    function checkString(s) {
+        return (s == '' ? '': ' ') + s
+    }
+})
