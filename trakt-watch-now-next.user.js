@@ -202,8 +202,8 @@ var watchstyle = `
         float: none;
         font-size: 0.35em;
         position: absolute;
-        top: 34%;
-        left: 16.66%;
+        padding-top: 17px;
+        padding-left: 3px;
         font-family: 'proxima nova semibold';
     }
     #schedule-aw-button {
@@ -499,7 +499,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $('html').on('click', '.alternative-watch-close', function () {$('.alternative-watch-modal').css({'visibility':'hidden','height':'0','opacity':'0'})});
     var play_item= ['#ondeck-wrapper','#recently-watched-wrapper','#recommendations-shows','#recommendations-movies','div.row.posters#sortable-grid','#schedule-wrapper',
     '.frame:not(.people,.lists,.users)','#history-items','#collection-items','#rating-items','#seasons-episodes-sortable','#actor-credits',
-    '#recent-wrapper','#progress-wrapper','#recommendations-wrapper','#recent-episodes','.action-buttons'];
+    '#recent-wrapper','#progress-wrapper','#recommendations-wrapper','#recent-episodes','body'];
     $(function () {
         for (const element of play_item) {  
             playButtons(element);
@@ -531,7 +531,8 @@ document.addEventListener("DOMContentLoaded", function () {
         openList('.main-button','#content-buttons');
         openList('.content-type-button .wt-title-button','#language-buttons');
         openList('.language-button .wt-title-button','.wt-sources');
-        $('html').on("input", `#cb_year_text,#cb_episode_text,#cb_cname_text`, function () {updateString()});
+        $('html').on('input', '#cb_year_text,#cb_episode_text,#cb_cname_text', function () {updateString()});
+        $('html').on('change', '.grid-item[itemtype]', function () {alert('quick')});
         $('.alternative-watch-modal .watch_sources_item').on("click", function () {
             var search_item_id=this.id.split("-")[1];
             var search_link=sources_list[search_item_id].link.replace('%s', $('.alternative-watch-modal #watch-search-string').html());
@@ -542,9 +543,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function playButtons(playobject) {
         if ($('html').find(`${playobject}`).length) {
             var playinterval=setInterval( function() {
+                searchData(playobject,'div[itemtype]','main',4,'meta[itemprop=url]','content','.btn-collect','watch now');
                 if ($(`${playobject}`).find('#alternative-watch').length) {clearInterval(playinterval)} else {
-                    searchData(playobject,'.grid-item','quick',4,'meta[itemprop=url]','content','.collect','');
-                    searchData(playobject,'.btn-collect','main',2,'','data-url','','watch now');
+                    searchData(playobject,'.grid-item[itemtype]','quick',4,'meta[itemprop=url]','content','.collect','');
                     searchData(playobject,'.schedule-episode','schedule',2,'h4 a,h5 a','href','h6','watch now');
                 };
             },100);
@@ -553,7 +554,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function searchData(data_object,data_find,data_type,data_number,data_link,data_attr,data_after,data_text) {
         $(`${data_object}`).find(`${data_find}`).each( function () {
-            if (data_link != '') {var data_item=$(this).find(`${data_link}`).last().attr(`${data_attr}`)} else {var data_item=$(this).last().attr(`${data_attr}`)};
+            if (data_type != 'schedule') {var data_item=$(this).find(`${data_link}`).first().attr(`${data_attr}`)} else {
+                var data_item=$(this).find(`${data_link}`).last().attr(`${data_attr}`)};
             if (data_item != null) {var data_item_name=data_item.split('/')[data_number].replaceAll('-',' ').trim()};
             if (data_item_name != null) {var data_year_number=data_item_name.split(' ').pop()};
             if (isNaN(data_year_number)) {data_year_number=''} else {data_item_name=data_item_name.replace(`${data_year_number}`,'').trim()};
@@ -565,7 +567,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (data_text != '') {var data_text_object=`<div class="wt-text">${data_text}</div>`} else {var data_text_object=''};
             var data_block=`<a id="alternative-watch" aw-data-name="${data_item_name}" aw-ep-num="${data_episode_number}" aw-s-num="${data_season_number}" aw-y-num="${data_year_number}">
             <div id="${data_type}-aw-button" class="${data_icon}">${data_text_object}</div></a`
-            if (data_after != '') {$(this).find(`${data_after}`).after(`${data_block}`)} else {$(this).after(`${data_block}`)};
+            if (data_item != null) {if (data_after != '') {$(this).find(`${data_after}`).after(`${data_block}`)} else {$(this).after(`${data_block}`)}};
         })
     }
 
