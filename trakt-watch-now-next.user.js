@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.4
+// @version     1.5
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -22,6 +22,9 @@ var watchstyle = `
         visibility: hidden!important;
         opacity: 0!important;
         display: none!important;
+    }
+    .btn-collect {
+        margin-top: 4px!important;
     }
     #cb_cname, #cb_year, #cb_season, #cb_episode {
         margin-inline: 2px;
@@ -79,8 +82,7 @@ var watchstyle = `
         z-index: 100000;
         left: 0!important;
         top: 0!important;
-        width: 100%!Important;
-        height: 100%!important;
+        width: 100%!important;
         background-color: rgba(0,0,0,0.4);
     }
     .alternative-watch-content {
@@ -148,7 +150,7 @@ var watchstyle = `
     input#cb_cname_text {
         overflow: hidden;
         visibility: hidden;
-        transition: all.4s ease;
+        transition: opacity .4s ease;
         height: 0;
         opacity: 0;
     }
@@ -179,6 +181,7 @@ var watchstyle = `
         text-decoration: none!important;
     }
     .main-aw-button {
+        margin-top: 5px;
         min-height: 54px;
         max-height: 54px;
         width: 100%;
@@ -242,7 +245,7 @@ var sources_list = [
         content_type: 'general', 
         language: 'english',
         name: 'FMovies',
-        link: `https://ffmovies.co/search?keyword=%s`
+        link: `https://fmovies.to/search?keyword=%s`
     },
     {
         type: 'online',
@@ -508,8 +511,11 @@ document.addEventListener("DOMContentLoaded", function () {
     $('html').append(`<div class="alternative-watch-modal"/>`);
     $('html').on('click','.alternative-watch-modal', function (event) {
         if(!$(event.target).closest('.alternative-watch-content').length && !$(event.target).is('.alternative-watch-content')) {
+            $('.alternative-watch-content').remove();
             $('.alternative-watch-modal').css({'visibility':'hidden','height':'0','opacity':'0'})}});
-    $('html').on('click', '.alternative-watch-close', function () {$('.alternative-watch-modal').css({'visibility':'hidden','height':'0','opacity':'0'})});
+    $('html').on('click', '.alternative-watch-close', function () {
+        $('.alternative-watch-content').remove();
+        $('.alternative-watch-modal').css({'visibility':'hidden','height':'0','opacity':'0'})});
     var play_item= ['#ondeck-wrapper','#recently-watched-wrapper','#recommendations-shows','#recommendations-movies','div.row.posters#sortable-grid','#schedule-wrapper',
     '.frame:not(.people,.lists,.users)','#history-items','#collection-items','#rating-items','#seasons-episodes-sortable','#actor-credits',
     '#recent-wrapper','#progress-wrapper','#recommendations-wrapper','#recent-episodes','body'];
@@ -518,7 +524,6 @@ document.addEventListener("DOMContentLoaded", function () {
             playButtons(element);
     }});
     $('html').on('click', '#alternative-watch', function () {
-        $('.alternative-watch-content').remove();
         $('.alternative-watch-modal').css({'visibility':'visible','height':'100%','opacity':'1'});
         var original_aw_name=$(this).attr('aw-data-name');
         var original_year_number=$(this).attr('aw-y-num');
@@ -600,7 +605,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $('.alternative-watch-content').find(`#cb_${cb_type}_text`).css({'visibility':'visible','height':'auto','opacity':'1'});
             if (cb_type != 'cname') {$(`#cb_${cb_type}_text`).val(`${cb_value}`)};
         } else {
-            $('.alternative-watch-content').find(`#cb_${cb_type}_text`).css({'visibility':'hidden','opacity':'0'});
+            $('.alternative-watch-content').find(`#cb_${cb_type}_text`).css({'visibility':'hidden','height':'0','opacity':'0'});
             $(`#cb_${cb_type}_text`).val(`${cb_reset}`);
         }
         updateString(); 
