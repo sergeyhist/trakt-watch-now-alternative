@@ -15,7 +15,12 @@
 var watchstyle = `
     .streaming-links,
     .watch-now,
-    .btn-watch-now {
+    .btn-watch-now,
+    .btn-watch-now .visible-xs {
+        min-height: 0px!important;
+        height: 0!important;
+        visibility: hidden!important;
+        opacity: 0!important;
         display: none!important;
     }
     #cb_cname, #cb_year, #cb_season, #cb_episode {
@@ -130,19 +135,6 @@ var watchstyle = `
         color: #a01717;
         cursor: pointer;
     }
-    .wt-text {
-        display: inline-block;
-        text-transform: capitalize;
-        color: white;
-        font-family: proxima nova;
-        padding-top: 2%;
-        padding-right: 10px;
-        float: right;
-        font-size: 0.8em;
-    }
-    .trakt-icon-play2-thick {
-        cursor: pointer;
-    }
     .wt-source-name {
         text-transform: capitalize; 
     }
@@ -169,50 +161,64 @@ var watchstyle = `
         padding-block: 10px;
         background-image: linear-gradient(231deg, #400b0bcc, #650d0d73);
     }
-    #quick-aw-button,
-    #main-aw-button,
-    #schedule-aw-button {
+    #alternative-watch {
+        display: inline-block;
         transition: all .5s;
         color: #9e3131;
-        font-size: 1.3em;
+        -webkit-user-select:none;
+        -khtml-user-select:none;
+        -moz-user-select:none;
+        -ms-user-select:none;
+        -o-user-select:none;
+        user-select:none;
     }
-    #quick-aw-button:hover,
-    #main-aw-button:hover,
-    #schedule-aw-button:hover {
+    #alternative-watch:hover {
         cursor: pointer;
         color: white;
         background-color: #9e3131!important;
+        text-decoration: none!important;
     }
-    #main-aw-button {
+    .main-aw-button {
         min-height: 54px;
+        max-height: 54px;
         width: 100%;
-        position: relative;
-        top: 4px;
         border: solid 1px #9e3131;
-        margin-block: 1px 3px;
         font-size: 3.4em;
-        padding-top: 2px;
     }
-    #main-aw-button .wt-text {
-        margin-right: 40px;
-        display: inline-block;
-        text-transform: uppercase;
-        color: inherit;
-        padding: 0;
-        float: none;
-        font-size: 0.35em;
-        position: absolute;
-        padding-top: 17px;
-        padding-left: 3px;
-        font-family: 'proxima nova semibold';
-    }
-    #schedule-aw-button {
+    .schedule-aw-button {
         border-radius: 2px;
         font-size: 1.2em;
-        padding-bottom: 1px;
         position: relative;
         top: 7px;
         background-color: #1515158c;
+    }
+    .quick-aw-button > .trakt-icon-play2-thick,
+    .schedule-aw-button > .trakt-icon-play2-thick {
+        font-size: 1.4em;
+    }
+    .main-aw-button > .trakt-icon-play2 {
+        padding-bottom: 19px;
+        margin-left: -1px;
+    }
+    .main-aw-button .wt-text {
+        display: inherit;
+        text-transform: uppercase;
+        color: inherit;
+        font-size: 0.355em;
+        position: absolute;
+        padding-top: 15px;
+        padding-left: 2px;
+        font-family: 'proxima nova semibold';
+    }
+    .schedule-aw-button .wt-text {
+        display: inherit;
+        text-transform: uppercase;
+        color: white;
+        font-size: 0.6em;
+        padding-right: 7px;
+        float: right;
+        font-family: 'proxima nova semibold';
+        padding-top: 6px;
     }
 `;
 GM_addStyle(watchstyle);
@@ -489,6 +495,13 @@ var sources_list = [
         language: 'russian',
         name: 'Rutor',
         link: `http://rutor.info/search/%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'russian',
+        name: 'Jut.su',
+        link: `https://jut.su/search/?searchid=1893616&text=%s`
     }
 ];
 document.addEventListener("DOMContentLoaded", function () {
@@ -543,9 +556,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function playButtons(playobject) {
         if ($('html').find(`${playobject}`).length) {
             var playinterval=setInterval( function() {
-                searchData(playobject,'div[itemtype]','main',4,'meta[itemprop=url]','content','.btn-collect','watch now');
+                searchData(playobject,'div[itemtype]','main',4,'meta[itemprop=url]','content','.btn-watch','watch now');
                 if ($(`${playobject}`).find('#alternative-watch').length) {clearInterval(playinterval)} else {
-                    searchData(playobject,'.grid-item[itemtype]','quick',4,'meta[itemprop=url]','content','.collect','');
+                    searchData(playobject,'.grid-item[itemtype]','quick',4,'meta[itemprop=url]','content','.watch','');
                     searchData(playobject,'.schedule-episode','schedule',2,'h4 a,h5 a','href','h6','watch now');
                 };
             },100);
@@ -563,10 +576,12 @@ document.addEventListener("DOMContentLoaded", function () {
             if (data_item != null) {var data_episode_number=data_item.split('/')[data_number+4]};
             if (data_season_number == null) {data_season_number=''};
             if (data_episode_number == null) {data_episode_number=''};
-            if (data_type != 'main') {var data_icon=`trakt-icon-play2-thick`} else {var data_icon=`trakt-icon-play2`};
+            if (data_type != 'main') {var data_icon_object=`<div class="trakt-icon-play2-thick" />`} else {var data_icon_object=`<div class="trakt-icon-play2" />`};
             if (data_text != '') {var data_text_object=`<div class="wt-text">${data_text}</div>`} else {var data_text_object=''};
-            var data_block=`<a id="alternative-watch" aw-data-name="${data_item_name}" aw-ep-num="${data_episode_number}" aw-s-num="${data_season_number}" aw-y-num="${data_year_number}">
-            <div id="${data_type}-aw-button" class="${data_icon}">${data_text_object}</div></a`
+            var data_block=`
+            <a id="alternative-watch" class="${data_type}-aw-button" aw-data-name="${data_item_name}" 
+            aw-ep-num="${data_episode_number}" aw-s-num="${data_season_number}" aw-y-num="${data_year_number}">
+            ${data_icon_object}${data_text_object}</a>`
             if (data_item != null) {if (data_after != '') {$(this).find(`${data_after}`).after(`${data_block}`)} else {$(this).after(`${data_block}`)}};
         })
     }
