@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.5
+// @version     1.6
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -23,11 +23,13 @@ var watchstyle = `
         opacity: 0!important;
         display: none!important;
     }
-    .btn-collect {
+    .btn-collect,
+    .btn-list {
         margin-top: 4px!important;
     }
     #cb_cname, #cb_year, #cb_season, #cb_episode {
         margin-inline: 2px;
+        cursor: pointer;
     }
     input#cb_year_text, input#cb_season_text, input#cb_episode_text, input#cb_cname_text {
         float: right;
@@ -91,12 +93,18 @@ var watchstyle = `
         overflow-y: overlay;
         overscroll-behavior: contain;
         background-color: #000000de;
-        width: 350px;
+        width: 340px;
         position: absolute;
         top: 53%;
         left: 49.9%;
         margin-right: -50%;
         transform: translate(-50%, -50%);
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .alternative-watch-content::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
     }
     .alternative-watch-close {
         color: white;
@@ -132,6 +140,7 @@ var watchstyle = `
     }
     .wt-source-name:hover,
     .wt-title-button:hover,
+    .watch_search_option label:hover,
     .alternative-watch-close:hover,
     .alternative-watch-close:focus {
         color: #a01717;
@@ -141,8 +150,8 @@ var watchstyle = `
         text-transform: capitalize; 
     }
     .alternative-watch-modal,
-    #content-buttons,
-    #language-buttons,
+    .content-type-button,
+    .language-button,
     .wt-sources,
     input#cb_year_text,
     input#cb_season_text,
@@ -197,7 +206,8 @@ var watchstyle = `
     }
     .quick-aw-button > .trakt-icon-play2-thick,
     .schedule-aw-button > .trakt-icon-play2-thick {
-        font-size: 1.4em;
+        font-size: 1.5em;
+        text-align: start;
     }
     .main-aw-button > .trakt-icon-play2 {
         padding-bottom: 19px;
@@ -221,7 +231,7 @@ var watchstyle = `
         padding-right: 7px;
         float: right;
         font-family: 'proxima nova semibold';
-        padding-top: 6px;
+        padding-top: 0.55em;
     }
 `;
 GM_addStyle(watchstyle);
@@ -523,6 +533,11 @@ document.addEventListener("DOMContentLoaded", function () {
         for (const element of play_item) {  
             playButtons(element);
     }});
+    $('html').on('load','.quick-aw-button', function () {
+        $(this).tooltip({
+            title: "Watch Now Alternative",
+            placement: 'bottom'
+        }).popover('destroy')});
     $('html').on('click', '#alternative-watch', function () {
         $('.alternative-watch-modal').css({'visibility':'visible','height':'100%','opacity':'1'});
         var original_aw_name=$(this).attr('aw-data-name');
@@ -546,9 +561,9 @@ document.addEventListener("DOMContentLoaded", function () {
         createList('torrent-sources-title','Torrent Sources');
         createList('ddl-sources-title','DDL Sources');
         addSites();
-        openList('.main-button','#content-buttons');
-        openList('.content-type-button .wt-title-button','#language-buttons');
-        openList('.language-button .wt-title-button','.wt-sources');
+        $('.alternative-watch-content').on('click','.main-button',function () {openList(this,'.content-type-button')});
+        $('.alternative-watch-content').on('click','.content-type-button .wt-title-button',function () {openList(this,'.language-button')});
+        $('.alternative-watch-content').on('click','.language-button .wt-title-button',function () {openList(this,'.wt-sources')});
         $('html').on('input', '#cb_year_text,#cb_episode_text,#cb_cname_text', function () {updateString()});
         $('html').on('change', '.grid-item[itemtype]', function () {alert('quick')});
         $('.alternative-watch-modal .watch_sources_item').on("click", function () {
@@ -561,9 +576,15 @@ document.addEventListener("DOMContentLoaded", function () {
     function playButtons(playobject) {
         if ($('html').find(`${playobject}`).length) {
             var playinterval=setInterval( function() {
-                searchData(playobject,'div[itemtype]','main',4,'meta[itemprop=url]','content','.btn-watch','watch now');
-                if ($(`${playobject}`).find('#alternative-watch').length) {clearInterval(playinterval)} else {
-                    searchData(playobject,'.grid-item[itemtype]','quick',4,'meta[itemprop=url]','content','.watch','');
+                searchData(playobject,'div[itemtype]','main',4,'meta[itemprop=url]','content','.action-buttons > .btn-collect','watch now');
+                if ($(`${playobject}`).find('#alternative-watch').length) {
+                    clearInterval(playinterval);
+                    $('.quick-aw-button').tooltip({
+                        title: "Watch Now Alternative",
+                        placement: 'bottom'
+                    }).popover('destroy')
+                } else {
+                    searchData(playobject,'.grid-item[itemtype]','quick',4,'meta[itemprop=url]','content','.collect','');
                     searchData(playobject,'.schedule-episode','schedule',2,'h4 a,h5 a','href','h6','watch now');
                 };
             },100);
@@ -595,8 +616,8 @@ document.addEventListener("DOMContentLoaded", function () {
         $('.alternative-watch-content').find('#watch-search').append(`
             <div class="watch_search_option">
             <input type="checkbox" id="cb_${cb_type}">
-            <label for="cb_${cb_type}">${cb_text}
-            <input type="text" id="cb_${cb_type}_text" style="padding-right: ${cb_padding}px" value="${cb_original}"></label></div>`);
+            <label for="cb_${cb_type}">${cb_text}</label>
+            <input type="text" id="cb_${cb_type}_text" style="padding-right: ${cb_padding}px; width: 55%" value="${cb_original}"></div>`);
     }
 
     function updateCB(cb_type,cb_value,cb_reset) {
@@ -634,12 +655,11 @@ document.addEventListener("DOMContentLoaded", function () {
         </div></div>`);
     }
 
-    function openList(click_item,list_type) {
-        $('.alternative-watch-content').on('click',`${click_item}`,function () {
-            if ($(this).parent().find(`${list_type}`).css('opacity') == '0') {
-                $(this).parent().find(`${list_type}`).css({'visibility':'visible','height':'auto','opacity':'1'})}
-            else {$(this).parent().find(`${list_type}`).css({'visibility':'hidden','height':'0','opacity':'0'})}
-        });
+    function openList(list_object,list_type) {
+            if ($(list_object).parent().find(`${list_type}`).css('opacity') == '0') {
+                $(list_object).parent().find(`${list_type}`).each( function () {
+                    if ($(this).find('.watch_sources_item').length) {$(this).css({'visibility':'visible','height':'auto','opacity':'1'})}})}
+            else {$(list_object).parent().find(`${list_type}`).css({'visibility':'hidden','height':'0','opacity':'0'})}
     }
 
     function addSites() {
