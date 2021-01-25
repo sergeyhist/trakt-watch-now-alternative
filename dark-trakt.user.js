@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/dark-trakt.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.2
+// @version     2.3
 // @author      Hist
 // @description Dark Theme for Trakt.tv
 // @run-at      document-start
@@ -50,6 +50,8 @@ var darkMode=`
     #hu-ck-s-t-er-content-page,
     .users.lists > section,
     .users.list > div > section,
+    .users.watchlist > div > section,
+    .users.recommendations > div > section,
     .summary-activity,
     .subnav-wrapper,
     .subnav-wrapper .comment-wrapper,
