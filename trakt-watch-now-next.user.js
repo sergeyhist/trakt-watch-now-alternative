@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.6
+// @version     1.7
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -16,16 +16,12 @@ var watchstyle = `
     .streaming-links,
     .watch-now,
     .btn-watch-now,
-    .btn-watch-now .visible-xs {
-        min-height: 0px!important;
-        height: 0!important;
-        visibility: hidden!important;
-        opacity: 0!important;
+    a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
         display: none!important;
     }
     .btn-collect,
     .btn-list {
-        margin-top: 4px!important;
+        margin-top: 3px!important;
     }
     #cb_cname, #cb_year, #cb_season, #cb_episode {
         margin-inline: 2px;
@@ -174,6 +170,7 @@ var watchstyle = `
     }
     #alternative-watch {
         display: inline-block;
+        position: relative;
         transition: all .5s;
         color: #9e3131;
         -webkit-user-select:none;
@@ -191,26 +188,31 @@ var watchstyle = `
     }
     .main-aw-button {
         margin-top: 5px;
-        min-height: 54px;
-        max-height: 54px;
+        height: 54px;
         width: 100%;
         border: solid 1px #9e3131;
         font-size: 3.4em;
+        line-height: 1.428571429;
+        background-color: inherit;
+        z-index: 1199;
     }
     .schedule-aw-button {
         border-radius: 2px;
-        font-size: 1.2em;
+        font-size: 0.7em;
         position: relative;
         top: 7px;
         background-color: #1515158c;
     }
-    .quick-aw-button > .trakt-icon-play2-thick,
-    .schedule-aw-button > .trakt-icon-play2-thick {
+    .quick-aw-button > .trakt-icon-play2-thick {
         font-size: 1.5em;
         text-align: start;
     }
+    .schedule-aw-button > .trakt-icon-play2-thick {
+        font-size: 2em;
+    }
     .main-aw-button > .trakt-icon-play2 {
-        padding-bottom: 19px;
+        padding-top: 2.4px;
+        vertical-align: top;
         margin-left: -1px;
     }
     .main-aw-button .wt-text {
@@ -227,11 +229,10 @@ var watchstyle = `
         display: inherit;
         text-transform: uppercase;
         color: white;
-        font-size: 0.6em;
         padding-right: 7px;
-        float: right;
         font-family: 'proxima nova semibold';
-        padding-top: 0.55em;
+        padding-top: 2px;
+        vertical-align: middle;
     }
 `;
 GM_addStyle(watchstyle);
