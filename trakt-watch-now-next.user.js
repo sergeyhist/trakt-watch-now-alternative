@@ -534,11 +534,6 @@ document.addEventListener("DOMContentLoaded", function () {
         for (const element of play_item) {  
             playButtons(element);
     }});
-    $('html').on('load','.quick-aw-button', function () {
-        $(this).tooltip({
-            title: "Watch Now Alternative",
-            placement: 'bottom'
-        }).popover('destroy')});
     $('html').on('click', '#alternative-watch', function () {
         $('.alternative-watch-modal').css({'visibility':'visible','height':'100%','opacity':'1'});
         var original_aw_name=$(this).attr('aw-data-name');
