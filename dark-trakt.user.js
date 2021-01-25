@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/dark-trakt.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.1
+// @version     2.2
 // @author      Hist
 // @description Dark Theme for Trakt.tv
 // @run-at      document-start
@@ -33,78 +33,47 @@ var darkMode=`
     .action-buttons > .popover.remove .popover-title {
         color: #fff !important;
     }
-    section,
     #ondeck-wrapper,
     #schedule-wrapper,
     #network-wrapper,
     #recommendations-wrapper,
+    #charts-wrapper,
+    #activity-wrapper,
+    #recent-wrapper,
+    #info-wrapper,
+    #history-items,
+    #progress-wrapper,
+    #collection-items,
+    #rating-items,
+    #user-comments,
+    #network-user-wrapper,
+    #hu-ck-s-t-er-content-page,
+    .users.lists > section,
+    .users.list > div > section,
+    .summary-activity,
     .subnav-wrapper,
     .subnav-wrapper .comment-wrapper,
-    .subnav-text {
-    background-color: #151515!important;
-    z-index: 1;
+    .subnav-text,
+    body.discover #recent-comments-wrapper #recent-comments-title {
+        background-color: #151515!important;
     }
-    section.apps-icons {
-        background-color: inherit!important;
-    }
-
-
     .actor-tooltip .tooltip-inner {
     background-color: #333!important;
-    color: #fff!important;
+        color: #fff!important;
     }
-
     .actor-tooltip .tooltip-inner .alt {
     color: #ed1c24!important;
-    font-weight: bold!important;
+        font-weight: bold!important;
     }
-
-    #hu-ck-s-t-er-content-page,
-    .subnav-wrapper.list-title-wrapper,
-    body.show_progress .list-stats-wrapper,
-    .subnav-wrapper .container .right .toggle-subnav-wrapper {
-    background: #151515
-    }
-
     .subnav-wrapper .left h2 .right a,
     .popover.with-list h3,
     header#top-nav #header-search #header-search-type a,
     #main-search input.footer-search {
-    color: #fff!important
+        color: #fff!important
     }
-
     .shade {
-    background-image: linear-gradient(to bottom,rgba(0,0,0,0) 0%, rgba(15,15,15,1) 100%)!important;
+        background-image: linear-gradient(to bottom,rgba(0,0,0,0) 0%, rgba(15,15,15,1) 100%)!important;
     }
-
-    body.apps #apps-icon-wrapper {
-    background: -webkit-radial-gradient(center,circle cover,#fff 0%,#000 100%)
-    }
-
-    #watch-now-country-select .form-control {
-    color: #fff!important;
-    background-color: #000!important;
-    }
-
-    .custom-list .list-info .info .overview blockquote,
-    .comment-wrapper .comment blockquote,
-    input, select, textarea {
-    background-color: #333;
-    }
-
-    .subnav-wrapper .container .left.with-title h2,
-    body.list .subnav-wrapper .comment-wrapper.list, body.watchlist .subnav-wrapper .comment-wrapper.list, body.recommendations .subnav-wrapper .comment-wrapper.list {
-    border-bottom: solid 1px #151515!important;
-    }   
-
-    body.discover #recent-comments-wrapper #recent-comments, {
-        background-color: rgb(134 131 131 / 55%)!important;
-    }
-
-    body.discover #recent-comments-wrapper #recent-comments-title {
-        background-color: #dedcdc7a;!important;
-    }
-
     body.main.home .hero-wrapper.light h1, 
     body.main.home .hero-wrapper.light h2, 
     body.main.index .hero-wrapper.light h1, 
@@ -116,6 +85,25 @@ var darkMode=`
     body.branding .hero-wrapper.light h1, 
     body.branding .hero-wrapper.light h2 {
         color: black!important;
+    }
+    body.apps #apps-icon-wrapper {
+        background: -webkit-radial-gradient(center,circle cover,#fff 0%,#000 100%)!important;
+    }
+    #watch-now-country-select .form-control {
+        color: #fff!important;
+        background-color: #000!important;
+    }
+    .custom-list .list-info .info .overview blockquote,
+    .comment-wrapper .comment blockquote,
+    input, select, textarea {
+        background-color: #333;
+    } 
+    body.discover #recent-comments-wrapper #recent-comments #recent-comments-title .schedule-episode h4,
+    body.discover #recent-comments-wrapper #recent-comments #recent-comments-title .schedule-episode h5 {
+        color: white!important;
+    }
+    .comment-wrapper {
+        border-radius: 0!important;
     }
 
     #hu-ck-ster-content-page,
