@@ -1,7 +1,8 @@
 # Trakt.tv UserScripts by Hist
 
 ## Watch Now Alternative
-This script represents alternative version of trakt.tv watch now modal, but with:
+This script represents alternative version of trakt.tv watch now modal.  
+Differences from original modal:
 + different design
 + more sources (which includes various online (youtube, fmovies, lookmovie, etc), torrent (rarbg, 1337x, etc) and ddl (hdencode, rlsbb, etc) sites
 + search options (like episode data or custom year and name)
