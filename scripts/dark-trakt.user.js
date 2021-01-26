@@ -8,7 +8,7 @@
 // @description Dark Theme for Trakt.tv
 // @run-at      document-start
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
-// @downloadURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/raw/main/dark-trakt.user.js
+// @downloadURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/raw/main/scripts/dark-trakt.user.js
 // @homepageURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts
 // ==/UserScript==
 'use strict';
