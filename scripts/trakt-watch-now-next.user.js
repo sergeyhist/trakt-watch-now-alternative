@@ -8,7 +8,7 @@
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
 // @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
-// @downloadURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/raw/main/trakt-watch-now-next.user.js
+// @downloadURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/raw/main/scripts/trakt-watch-now-next.user.js
 // @homepageURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts
 // ==/UserScript==
 'use strict';
