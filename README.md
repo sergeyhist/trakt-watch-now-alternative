@@ -6,14 +6,14 @@ This script represents alternative version of trakt.tv watch now modal, but with
 + more sources (which includes various online (youtube, fmovies, lookmovie, etc), torrent (rarbg, 1337x, etc) and ddl (hdencode, rlsbb, etc) sites
 + search options (like episode data or custom year and name)
 #### Screenshots:
-   ![Main Window](https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/screenshots/main-window.png?raw=true)
-   ![Links Example](https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/screenshots/links-example.png?raw=true)
+   ![Main Window](screenshots/main-window.png)
+   ![Links Example](screenshots/links-example.png)
 
 ## Dark Mode
 Just free dark theme for trakt.tv. Maybe worse than original dark knight theme, but free:)
 #### Screenshots:
-   ![Dark Mode Example 1](https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/screenshots/dm-example-1.png?raw=true)
-   ![Dark Mode Example 1](https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/screenshots/dm-example-2.png?raw=true)
+   ![Dark Mode Example 1](screenshots/dm-example-1.png)
+   ![Dark Mode Example 1](screenshots/dm-example-2.png)
 
 ## Installation
 1. Firstly you need to install any UserScript manager (Recommended: ViolentMonkey):
