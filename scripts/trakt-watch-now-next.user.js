@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.7
+// @version     1.8
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -43,9 +43,6 @@ var watchstyle = `
         text-align: left;
         border-bottom: solid black 1px;
         background-image: linear-gradient(to right, #0000006e, #691b1b8a);
-    }
-    #watch-search-string {
-        text-transform: capitalize;
     }
     .watch_search_option {
         display: table;
@@ -236,7 +233,7 @@ var watchstyle = `
     }
 `;
 GM_addStyle(watchstyle);
-var sources_list = [
+const sources_list = [
     {
         type: 'online',
         content_type: 'general', 
@@ -527,22 +524,41 @@ document.addEventListener("DOMContentLoaded", function () {
     $('html').on('click', '.alternative-watch-close', function () {
         $('.alternative-watch-content').remove();
         $('.alternative-watch-modal').css({'visibility':'hidden','height':'0','opacity':'0'})});
-    var play_item= ['#ondeck-wrapper','#recently-watched-wrapper','#recommendations-shows','#recommendations-movies','div.row.posters#sortable-grid','#schedule-wrapper',
-    '.frame:not(.people,.lists,.users)','#history-items','#collection-items','#rating-items','#seasons-episodes-sortable','#actor-credits',
-    '#recent-wrapper','#progress-wrapper','#recommendations-wrapper','#recent-episodes','body'];
+    const play_item= [
+        'body .action-buttons',
+        '.grid-item[itemtype="http://schema.org/TVSeason"]',
+        '.recent-episodes .grid-item[itemtype]',
+        '#seasons-episodes-sortable .grid-item[itemtype]',
+        'body.search:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]',
+        'body.shows:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]',
+        'body.movies:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]',
+        '#progress-wrapper .grid-item[itemtype]',
+        '#recent-episodes .grid-item[itemtype]',
+        '#recently-watched-wrapper .grid-item[itemtype]',
+        '.grid-item[itemtype]',
+        '#schedule-wrapper .schedule-episode',
+        '.calendar-grid .grid-item[itemtype]'
+    ];
     $(function () {
         for (const element of play_item) {  
-            playButtons(element);
+            awButtons(element);
     }});
     $('html').on('click', '#alternative-watch', function () {
         $('.alternative-watch-modal').css({'visibility':'visible','height':'100%','opacity':'1'});
-        var original_aw_name=$(this).attr('aw-data-name');
-        var original_year_number=$(this).attr('aw-y-num');
-        var original_episode_number=$(this).attr('aw-ep-num');
-        var original_season_number=$(this).attr('aw-s-num');
-        if (original_season_number != '') {var season_number='s'+checkSepNum(original_season_number)} else {season_number=''};
-        if (original_episode_number != '') {var episode_number='e'+checkSepNum(original_episode_number)} else {episode_number=''};
-        var episode_data=season_number+episode_number;
+        let original_aw_data=$(this).attr('aw-data');
+        let original_aw_name=original_aw_data.split('+|+')[0];
+        let original_year_number;
+        let original_season_number;
+        let original_episode_number;
+        let season_number;
+        let episode_number;
+        let episode_data;
+        if (original_aw_data.split('+|+')[1] != 'undefined') {original_year_number=original_aw_data.split('+|+')[1]} else {original_year_number=''};
+        if (original_aw_data.split('+|+')[2] != 'undefined') {original_season_number=original_aw_data.split('+|+')[2]} else {original_season_number=''};
+        if (original_aw_data.split('+|+')[3] != 'undefined') {original_episode_number=original_aw_data.split('+|+')[3]} else {original_episode_number=''};
+        if (original_season_number != '') {season_number='s'+checkSepNum(original_season_number)} else {season_number=''};
+        if (original_episode_number != '') {episode_number='e'+checkSepNum(original_episode_number)} else {episode_number=''};
+        episode_data=season_number+episode_number;
         if (episode_data == 's0e0') {episode_data=''};
         $('.alternative-watch-modal').append(`<div class="alternative-watch-content"/>`);
         $('.alternative-watch-content').append(`<div class="alternative-watch-close">&times;</div><div id="watch-search"><p type="text" id="watch-search-string"></p></div>`);
@@ -561,7 +577,6 @@ document.addEventListener("DOMContentLoaded", function () {
         $('.alternative-watch-content').on('click','.content-type-button .wt-title-button',function () {openList(this,'.language-button')});
         $('.alternative-watch-content').on('click','.language-button .wt-title-button',function () {openList(this,'.wt-sources')});
         $('html').on('input', '#cb_year_text,#cb_episode_text,#cb_cname_text', function () {updateString()});
-        $('html').on('change', '.grid-item[itemtype]', function () {alert('quick')});
         $('.alternative-watch-modal .watch_sources_item').on("click", function () {
             var search_item_id=this.id.split("-")[1];
             var search_link=sources_list[search_item_id].link.replace('%s', $('.alternative-watch-modal #watch-search-string').html());
@@ -569,43 +584,160 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    function playButtons(playobject) {
-        if ($('html').find(`${playobject}`).length) {
-            var playinterval=setInterval( function() {
-                searchData(playobject,'div[itemtype]','main',4,'meta[itemprop=url]','content','.action-buttons > .btn-collect','watch now');
-                if ($(`${playobject}`).find('#alternative-watch').length) {
-                    clearInterval(playinterval);
-                    $('.quick-aw-button').tooltip({
-                        title: "Watch Now Alternative",
-                        placement: 'bottom'
-                    }).popover('destroy')
-                } else {
-                    searchData(playobject,'.grid-item[itemtype]','quick',4,'meta[itemprop=url]','content','.collect','');
-                    searchData(playobject,'.schedule-episode','schedule',2,'h4 a,h5 a','href','h6','watch now');
-                };
-            },100);
+    function awButtons(playobject) {
+        setInterval( function() {
+            $('html').find(`${playobject}`).each( function () {
+                if (!$(this).find('#alternative-watch').length) {
+                    if (playobject == '.grid-item[itemtype]') {awData(this,'quick-general')}
+                    else if ((playobject == '#recently-watched-wrapper .grid-item[itemtype]') || (playobject == '#recent-episodes .grid-item[itemtype]') ||
+                        (playobject == 'body.search:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]') ||
+                        (playobject == 'body.shows:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]') ||
+                        (playobject == 'body.movies:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]') ||
+                        (playobject == '#progress-wrapper .grid-item[itemtype]')) {awData(this,'quick-alt')}
+                    else if (playobject == '#schedule-wrapper .schedule-episode') {awData(this,'schedule')}
+                    else if (playobject == 'body .action-buttons') {awData(this,'main')}
+                    else if ((playobject == '.recent-episodes .grid-item[itemtype]') || (playobject == '#seasons-episodes-sortable .grid-item[itemtype]')) {awData(this,'main-grid')}
+                    else if (playobject == '.calendar-grid .grid-item[itemtype]') {awData(this,'calendar')}
+                }
+            })
+        },1000);
+    }
+
+    function awData (data_object,data_type) {
+        let data_name;
+        let data_year;
+        let data_season;
+        let data_episode;
+        let data_result;
+        let data_link;
+        let data_block;
+        let data_name_long;
+        if (data_type == 'quick-general') {
+            data_link=$(data_object).find('meta[itemprop=url]').attr('content');
+            data_name_long=$(data_object).find('meta[itemprop=name]').attr('content');
+            data_name=data_name_long.split('(')[0];
+            if (data_name_long.split('(')[1] != undefined) {
+                data_year=data_name_long.split('(')[1].split(')')[0]} else {
+                    data_year=data_link.split('/')[4].split('-').pop();
+                    if (isNaN(data_year)) {data_year=''}
+                }
+            if ($(data_object).find('span[itemprop=partOfSeries]').length) {
+                data_name=$(data_object).find('span[itemprop=partOfSeries] meta[itemprop=name]').attr('content');
+                data_season=$(data_object).find('meta[itemprop=url]').attr('content').split('/')[6];
+                data_episode=$(data_object).find('meta[itemprop=url]').attr('content').split('/')[8];
+            }
+            data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
+            let data_block=awBlock('quick',data_result);
+            $(data_object).find('.collect').after(`${data_block}`);
+            data_name='';
+            data_year='';
+            data_season='';
+            data_episode='';
+        }
+        else if (data_type == 'quick-alt') {
+            data_link=$(data_object).find('meta[itemprop=url]').attr('content');
+            if ($(data_object).find('.titles > h5').length) {
+                data_name=$(data_object).find('.titles > h5').text();
+                data_season=$(data_object).find('.main-title-sxe').text().split('x')[0];
+                data_episode=$(data_object).find('meta[itemprop=episodeNumber]').attr('content');
+            } else {
+                data_year=$(data_object).find('h3 > .year').text();
+                data_name=$(data_object).find('h3').text().replace(`${data_year}`,'');
+            }
+            if (data_year == undefined) {
+                data_year=data_link.split('/')[4].split('-').pop();
+                if (isNaN(data_year)) {data_year=''}
+            }
+            data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
+            data_block=awBlock('quick',data_result);
+            $(data_object).find('.collect').after(`${data_block}`);
+            data_name='';
+            data_year='';
+            data_season='';
+            data_episode='';
+        }
+        else if (data_type == 'schedule') {
+            data_name=$(data_object).find('h4').text();
+            data_link=$(data_object).find('h4 > a').attr('href');
+            if ($(data_object).find('h5').length) {
+                data_link=$(data_object).find('h5 > a').attr('href');
+                data_season=data_link.split('/')[4];
+                data_episode=data_link.split('/')[6];
+            }
+            data_year=data_link.split('/')[2].split('-').pop();
+            if (isNaN(data_year)) {data_year=''}
+            data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
+            data_block=awBlock('schedule',data_result);
+            $(data_object).append(`${data_block}`);
+            data_name='';
+            data_season='';
+            data_episode='';
+        }
+        else if (data_type == 'main') {
+            data_name=$('div[itemtype]').find('meta[itemprop=name]').attr('content').split('(')[0];
+            if ($('div[itemtype]').find('meta[itemprop=name]').attr('content').split('(')[1] != undefined) {
+                data_year=$('div[itemtype]').find('meta[itemprop=name]').attr('content').split('(')[1].split(')')[0]}
+            if (data_year == undefined) {data_year=$('.year').first().text()}
+            if ($('div[itemtype]').find('span[itemprop=partOfSeries]').length) {
+                data_name=$('div[itemtype]').find('span[itemprop=partOfSeries] meta[itemprop=name]').attr('content');
+                data_season=$('div[itemtype]').find('meta[itemprop=url]').attr('content').split('/')[6];
+                data_episode=$('div[itemtype]').find('meta[itemprop=url]').attr('content').split('/')[8];
+            }
+            data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
+            data_block=awBlock('main',data_result);
+            $(data_object).find('.btn-collect').after(`${data_block}`);
+            data_name='';
+            data_year='';
+            data_season='';
+            data_episode='';
+        }
+        else if (data_type == 'main-grid') {
+            data_name=$('div[itemtype]').find('meta[itemprop=name]').attr('content').split('(')[0];
+            if ($('div[itemtype]').find('meta[itemprop=name]').attr('content').split('(')[1] != undefined) {
+                data_year=$('div[itemtype]').find('meta[itemprop=name]').attr('content').split('(')[1].split(')')[0]}
+            if (data_year == undefined) {data_year=$('.year').first().text()}
+            if ($('div[itemtype]').find('span[itemprop=partOfSeries]').length) {
+                data_name=$('div[itemtype]').find('span[itemprop=partOfSeries] meta[itemprop=name]').attr('content');
+                data_season=$('div[itemtype]').find('meta[itemprop=url]').attr('content').split('/')[6];
+                data_episode=$('div[itemtype]').find('meta[itemprop=url]').attr('content').split('/')[8];
+            }
+            data_link=$(data_object).children('a').attr('href');
+            data_season=data_link.split('/')[4];
+            data_episode=data_link.split('/')[6];
+            data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
+            data_block=awBlock('quick',data_result);
+            $(data_object).find('.collect').after(`${data_block}`);
+            data_name='';
+            data_year='';
+            data_season='';
+            data_episode='';
+        }
+        else if (data_type == 'calendar') {
+            data_name=$(data_object).find('.titles h4').first().text();
+            data_link=$(data_object).find('.titles-link').attr('href');
+            if (data_name.length == 1) {data_name=$(data_object).find('.titles h3').first().text()} else {    
+                data_season=data_link.split('/')[4];
+                data_episode=data_link.split('/')[6];
+            }
+            data_year=data_link.split('/')[2].split('-').pop();
+            if (isNaN(data_year)) {data_year=''}
+            data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
+            data_block=awBlock('quick',data_result);
+            $(data_object).find('.collect').after(`${data_block}`);
+            data_name='';
+            data_year='';
+            data_season='';
+            data_episode='';
         }
     }
 
-    function searchData(data_object,data_find,data_type,data_number,data_link,data_attr,data_after,data_text) {
-        $(`${data_object}`).find(`${data_find}`).each( function () {
-            if (data_type != 'schedule') {var data_item=$(this).find(`${data_link}`).first().attr(`${data_attr}`)} else {
-                var data_item=$(this).find(`${data_link}`).last().attr(`${data_attr}`)};
-            if (data_item != null) {var data_item_name=data_item.split('/')[data_number].replaceAll('-',' ').trim()};
-            if (data_item_name != null) {var data_year_number=data_item_name.split(' ').pop()};
-            if (isNaN(data_year_number)) {data_year_number=''} else {data_item_name=data_item_name.replace(`${data_year_number}`,'').trim()};
-            if (data_item != null) {var data_season_number=data_item.split('/')[data_number+2]};
-            if (data_item != null) {var data_episode_number=data_item.split('/')[data_number+4]};
-            if (data_season_number == null) {data_season_number=''};
-            if (data_episode_number == null) {data_episode_number=''};
-            if (data_type != 'main') {var data_icon_object=`<div class="trakt-icon-play2-thick" />`} else {var data_icon_object=`<div class="trakt-icon-play2" />`};
-            if (data_text != '') {var data_text_object=`<div class="wt-text">${data_text}</div>`} else {var data_text_object=''};
-            var data_block=`
-            <a id="alternative-watch" class="${data_type}-aw-button" aw-data-name="${data_item_name}" 
-            aw-ep-num="${data_episode_number}" aw-s-num="${data_season_number}" aw-y-num="${data_year_number}">
-            ${data_icon_object}${data_text_object}</a>`
-            if (data_item != null) {if (data_after != '') {$(this).find(`${data_after}`).after(`${data_block}`)} else {$(this).after(`${data_block}`)}};
-        })
+    function awBlock(block_type,block_content) {
+        let block_icon;
+        let block_text;
+        if (block_type != 'main') {block_icon='trakt-icon-play2-thick'} else {block_icon='trakt-icon-play2'}
+        if (block_type != 'quick') {block_text=`<div class="wt-text">watch now</div>`} else {block_text=''};
+        return `<a id="alternative-watch" class="${block_type}-aw-button" aw-data="${block_content}">
+        <div class="${block_icon}"/>${block_text}</a>`
     }
 
     function createCB(cb_type,cb_text,cb_padding,cb_original) {
