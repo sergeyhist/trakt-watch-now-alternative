@@ -191,7 +191,7 @@ var watchstyle = `
         font-size: 3.4em;
         line-height: 1.428571429;
         background-color: inherit;
-        z-index: 1199;
+        z-index: 1041;
     }
     .schedule-aw-button {
         border-radius: 2px;
