@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.8
+// @version     1.9
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -513,6 +513,13 @@ const sources_list = [
         language: 'russian',
         name: 'Jut.su',
         link: `https://jut.su/search/?searchid=1893616&text=%s`
+    },
+    {
+        type: 'torrent',
+        content_type: 'general', 
+        language: 'english',
+        name: 'Torrents.csv',
+        link: `https://torrents-csv.ml/#/search/torrent/%s/1`
     }
 ];
 document.addEventListener("DOMContentLoaded", function () {
@@ -629,10 +636,7 @@ document.addEventListener("DOMContentLoaded", function () {
             data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
             let data_block=awBlock('quick',data_result);
             $(data_object).find('.collect').after(`${data_block}`);
-            data_name='';
-            data_year='';
-            data_season='';
-            data_episode='';
+            awTooltip();
         }
         else if (data_type == 'quick-alt') {
             data_link=$(data_object).find('meta[itemprop=url]').attr('content');
@@ -651,10 +655,7 @@ document.addEventListener("DOMContentLoaded", function () {
             data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
             data_block=awBlock('quick',data_result);
             $(data_object).find('.collect').after(`${data_block}`);
-            data_name='';
-            data_year='';
-            data_season='';
-            data_episode='';
+            awTooltip();
         }
         else if (data_type == 'schedule') {
             data_name=$(data_object).find('h4').text();
@@ -669,9 +670,6 @@ document.addEventListener("DOMContentLoaded", function () {
             data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
             data_block=awBlock('schedule',data_result);
             $(data_object).append(`${data_block}`);
-            data_name='';
-            data_season='';
-            data_episode='';
         }
         else if (data_type == 'main') {
             data_name=$('div[itemtype]').find('meta[itemprop=name]').attr('content').split('(')[0];
@@ -686,10 +684,6 @@ document.addEventListener("DOMContentLoaded", function () {
             data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
             data_block=awBlock('main',data_result);
             $(data_object).find('.btn-collect').after(`${data_block}`);
-            data_name='';
-            data_year='';
-            data_season='';
-            data_episode='';
         }
         else if (data_type == 'main-grid') {
             data_name=$('div[itemtype]').find('meta[itemprop=name]').attr('content').split('(')[0];
@@ -707,10 +701,7 @@ document.addEventListener("DOMContentLoaded", function () {
             data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
             data_block=awBlock('quick',data_result);
             $(data_object).find('.collect').after(`${data_block}`);
-            data_name='';
-            data_year='';
-            data_season='';
-            data_episode='';
+            awTooltip();
         }
         else if (data_type == 'calendar') {
             data_name=$(data_object).find('.titles h4').first().text();
@@ -724,11 +715,12 @@ document.addEventListener("DOMContentLoaded", function () {
             data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
             data_block=awBlock('quick',data_result);
             $(data_object).find('.collect').after(`${data_block}`);
-            data_name='';
-            data_year='';
-            data_season='';
-            data_episode='';
+            awTooltip();    
         }
+        data_name='';
+        data_year='';
+        data_season='';
+        data_episode='';
     }
 
     function awBlock(block_type,block_content) {
@@ -738,6 +730,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (block_type != 'quick') {block_text=`<div class="wt-text">watch now</div>`} else {block_text=''};
         return `<a id="alternative-watch" class="${block_type}-aw-button" aw-data="${block_content}">
         <div class="${block_icon}"/>${block_text}</a>`
+    }
+
+    function awTooltip (tooltip_object) {
+        $('.quick-aw-button').tooltip({
+            title: "Watch Now Alternative",
+            placement: 'bottom'
+        }).popover('destroy')
     }
 
     function createCB(cb_type,cb_text,cb_padding,cb_original) {
