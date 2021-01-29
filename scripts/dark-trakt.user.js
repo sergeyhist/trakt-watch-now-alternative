@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/dark-trakt.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.4
+// @version     2.5
 // @author      Hist
 // @description Dark Theme for Trakt.tv
 // @run-at      document-start
@@ -63,7 +63,8 @@ var darkMode=`
     .subnav-wrapper,
     .subnav-wrapper .comment-wrapper,
     .subnav-text,
-    body.discover #recent-comments-wrapper #recent-comments-title {
+    body.discover #recent-comments-wrapper #recent-comments-title,
+    body.discover #recent-comments-wrapper #recent-comments {
         background-color: #151515!important;
     }
     .actor-tooltip .tooltip-inner {

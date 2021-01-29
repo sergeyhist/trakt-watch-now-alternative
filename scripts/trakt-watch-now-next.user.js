@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     1.9
+// @version     2.0
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -319,7 +319,7 @@ const sources_list = [
         link: `https://ww2.putlocker123.to/search/%s`
     },
     {
-        type: 'online',
+        type: 'ddl',
         content_type: 'general', 
         language: 'english',
         name: 'Rarefilmm',
@@ -520,6 +520,160 @@ const sources_list = [
         language: 'english',
         name: 'Torrents.csv',
         link: `https://torrents-csv.ml/#/search/torrent/%s/1`
+    },
+    {
+        type: 'torrent',
+        content_type: 'general', 
+        language: 'english',
+        name: 'TorrentGalaxy',
+        link: `https://torrentgalaxy.to/torrents.php?c9=1&c3=1&c46=1&c45=1&c42=1&c4=1&c1=1&c25=1&c41=1&c5=1&c6=1&c7=1&search=%s&lang=0&nox=2#results`
+    },
+    {
+        type: 'torrent',
+        content_type: 'general', 
+        language: 'english',
+        name: 'SolidTorrents',
+        link: `https://solidtorrents.net/search?q=%s`
+    },
+    {
+        type: 'torrent',
+        content_type: 'general', 
+        language: 'english',
+        name: 'Ettv',
+        link: `https://www.ettvcentral.com/torrents-search.php?search=%s`
+    },
+    {
+        type: 'torrent',
+        content_type: 'general', 
+        language: 'english',
+        name: 'Psarips',
+        link: `https://psa.one/?s=%s`
+    },
+    {
+        type: 'torrent',
+        content_type: 'general', 
+        language: 'english',
+        name: 'HevcBay',
+        link: `https://hevcbay.com/?s=%s`
+    },
+    {
+        type: 'torrent',
+        content_type: 'general', 
+        language: 'english',
+        name: 'MVGroup-Documentaries',
+        link: `https://forums.mvgroup.org/maintracker.php?forums=all&filter=%s&x=0&y=0&searchwhere=on`
+    },
+    {
+        type: 'torrent',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'NyaaPantsu',
+        link: `https://nyaa.net/search?c=_&q=%s`
+    },
+    {
+        type: 'torrent',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'Hi10Anime',
+        link: `https://hi10anime.com/?s=%s`
+    },
+    {
+        type: 'ddl',
+        content_type: 'general', 
+        language: 'english',
+        name: 'x265movies',
+        link: `https://x265movies.cc/?s=%s`
+    },
+    {
+        type: 'ddl',
+        content_type: 'general', 
+        language: 'english',
+        name: 'HevcBay',
+        link: `https://hevcbay.com/?s=%s`
+    },
+    {
+        type: 'ddl',
+        content_type: 'general', 
+        language: 'english',
+        name: 'Psarips',
+        link: `https://psa.one/?s=%s`
+    },
+    {
+        type: 'ddl',
+        content_type: 'general', 
+        language: 'english',
+        name: 'Crazy4tv',
+        link: `http://crazy4tv.com/?s=%s`
+    },
+    {
+        type: 'ddl',
+        content_type: 'general', 
+        language: 'english',
+        name: '2DDL',
+        link: `https://2ddl.ms/?q=%s`
+    },
+    {
+        type: 'ddl',
+        content_type: 'general', 
+        language: 'english',
+        name: 'RapidMoviez',
+        link: `http://rmz.cr/search/%s`
+    },
+    {
+        type: 'ddl',
+        content_type: 'general', 
+        language: 'english',
+        name: 'MegaDDL',
+        link: `https://megaddl.co/?s=%s`
+    },
+    {
+        type: 'ddl',
+        content_type: 'general', 
+        language: 'english',
+        name: 'MovieParadise',
+        link: `https://movieparadise.org/?s=%s`
+    },
+    {
+        type: 'ddl',
+        content_type: 'general', 
+        language: 'english',
+        name: 'GdriveDL',
+        link: `https://gdrivedl.com/?s=%s`
+    },
+    {
+        type: 'ddl',
+        content_type: 'general', 
+        language: 'english',
+        name: 'DDLValley',
+        link: `https://www.ddlvalley.me/search/%s`
+    },
+    {
+        type: 'ddl',
+        content_type: 'general', 
+        language: 'english',
+        name: 'Snahp',
+        link: `https://snahp.it/?s=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: '9Anime',
+        link: `https://www12.9anime.to/search?keyword=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'GoGoAnime',
+        link: `https://gogoanime.vc//search.html?keyword=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: '4Anime',
+        link: `https://4anime.to/?s=%s`
     }
 ];
 document.addEventListener("DOMContentLoaded", function () {
@@ -532,7 +686,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $('.alternative-watch-content').remove();
         $('.alternative-watch-modal').css({'visibility':'hidden','height':'0','opacity':'0'})});
     const play_item= [
-        'body .action-buttons',
+        'body:not(.people) .action-buttons',
         '.grid-item[itemtype="http://schema.org/TVSeason"]',
         '.recent-episodes .grid-item[itemtype]',
         '#seasons-episodes-sortable .grid-item[itemtype]',
@@ -585,8 +739,8 @@ document.addEventListener("DOMContentLoaded", function () {
         $('.alternative-watch-content').on('click','.language-button .wt-title-button',function () {openList(this,'.wt-sources')});
         $('html').on('input', '#cb_year_text,#cb_episode_text,#cb_cname_text', function () {updateString()});
         $('.alternative-watch-modal .watch_sources_item').on("click", function () {
-            var search_item_id=this.id.split("-")[1];
-            var search_link=sources_list[search_item_id].link.replace('%s', $('.alternative-watch-modal #watch-search-string').html());
+            let search_item_id=this.id.split("-")[1];
+            let search_link=sources_list[search_item_id].link.replace('%s', $('.alternative-watch-modal #watch-search-string').html());
             window.open(search_link, "_blank");
         });
     });
@@ -602,12 +756,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         (playobject == 'body.movies:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]') ||
                         (playobject == '#progress-wrapper .grid-item[itemtype]')) {awData(this,'quick-alt')}
                     else if (playobject == '#schedule-wrapper .schedule-episode') {awData(this,'schedule')}
-                    else if (playobject == 'body .action-buttons') {awData(this,'main')}
+                    else if (playobject == 'body:not(.people) .action-buttons') {awData(this,'main')}
                     else if ((playobject == '.recent-episodes .grid-item[itemtype]') || (playobject == '#seasons-episodes-sortable .grid-item[itemtype]')) {awData(this,'main-grid')}
                     else if (playobject == '.calendar-grid .grid-item[itemtype]') {awData(this,'calendar')}
                 }
             })
-        },1000);
+        },500);
     }
 
     function awData (data_object,data_type) {
@@ -748,7 +902,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function updateCB(cb_type,cb_value,cb_reset) {
-        var update_cb_type='#cb_'+cb_type;
+        let update_cb_type='#cb_'+cb_type;
         if ($(`${update_cb_type}:checked`).length) {
             $('.alternative-watch-content').find(`#cb_${cb_type}_text`).css({'visibility':'visible','height':'auto','opacity':'1'});
             if (cb_type != 'cname') {$(`#cb_${cb_type}_text`).val(`${cb_value}`)};
@@ -760,7 +914,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function updateString() {
-        var data_string=$('#cb_cname_text').val()+checkString($('#cb_year_text').val())+checkString($('#cb_episode_text').val());
+        let data_string=$('#cb_cname_text').val()+checkString($('#cb_year_text').val())+checkString($('#cb_episode_text').val());
         $('.alternative-watch-modal #watch-search-string').html(`${data_string}`) 
     }
     
@@ -790,10 +944,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function addSites() {
-        for(var i=0;i < sources_list.length;i++) {
-            var source_type='#'+sources_list[i].type+'-sources-title';
-            var source_content_type='#'+sources_list[i].content_type+'-bt';
-            var source_language='#'+sources_list[i].language+'-bt';
+        for(let i=0;i < sources_list.length;i++) {
+            let source_type='#'+sources_list[i].type+'-sources-title';
+            let source_content_type='#'+sources_list[i].content_type+'-bt';
+            let source_language='#'+sources_list[i].language+'-bt';
             $(`${source_type}`).find(`${source_content_type}`).find(`${source_language}`).children('.wt-sources').append(`<div class="watch_sources_item wt-title-button" id="watch_sources_item-${i}"><div class="wt-source-name">${sources_list[i].name}</div></div>`);
         }
     }
