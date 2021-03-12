@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.0
+// @version     2.1
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -301,25 +301,18 @@ const sources_list = [
         type: 'online',
         content_type: 'general', 
         language: 'english',
-        name: 'LunchFlix',
-        link: `https://www.lunchflix.org/?s=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'general', 
-        language: 'english',
         name: 'HiMovies',
-        link: `https://www3.himovies.to/search/%s`
-    },
-    {
-        type: 'online',
-        content_type: 'general', 
-        language: 'english',
-        name: 'PutLocker',
-        link: `https://ww2.putlocker123.to/search/%s`
+        link: `https://www5.himovies.to/search/%s`
     },
     {
         type: 'ddl',
+        content_type: 'general', 
+        language: 'english',
+        name: 'Rarefilmm',
+        link: `https://rarefilmm.com/?s=%s`
+    },
+    {
+        type: 'online',
         content_type: 'general', 
         language: 'english',
         name: 'Rarefilmm',
@@ -352,13 +345,6 @@ const sources_list = [
         language: 'english',
         name: 'KickAssAnime',
         link: `https://www2.kickassanime.rs/search?q=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'anime', 
-        language: 'english',
-        name: 'AniWatch',
-        link: `https://aniwatch.me/search?q=%s`
     },
     {
         type: 'ddl',
@@ -582,7 +568,7 @@ const sources_list = [
         content_type: 'general', 
         language: 'english',
         name: 'x265movies',
-        link: `https://x265movies.cc/?s=%s`
+        link: `https://x265movies.com/?s=%s`
     },
     {
         type: 'ddl',

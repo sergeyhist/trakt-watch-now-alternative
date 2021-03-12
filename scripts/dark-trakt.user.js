@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/dark-trakt.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.5
+// @version     2.6
 // @author      Hist
 // @description Dark Theme for Trakt.tv
 // @run-at      document-start
@@ -27,7 +27,8 @@ var darkMode=`
     }
     .popover-content > ul.lists li,
     .grid-item .quick-icons .metadata .popover .popover-title,
-    .grid-item .quick-icons .actions .popover .popover-title {
+    .grid-item .quick-icons .actions .popover .popover-title,
+    #progress-wrapper .row .main-info h3.show-title .popover-title {
         color: #fff!important;
     }
     .action-buttons > .popover.remove .popover-title {
@@ -106,7 +107,7 @@ var darkMode=`
     .custom-list .list-info .info .overview blockquote,
     .comment-wrapper .comment blockquote,
     input, select, textarea {
-        background-color: #333;
+        background-color: #333!important;
     } 
     body.discover #recent-comments-wrapper #recent-comments #recent-comments-title .schedule-episode h4,
     body.discover #recent-comments-wrapper #recent-comments #recent-comments-title .schedule-episode h5 {
