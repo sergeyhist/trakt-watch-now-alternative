@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.2.1
+// @version     2.2.2
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -197,7 +197,7 @@ var watchstyle = `
         border-radius: 2px;
         font-size: 0.7em;
         position: relative;
-        top: 7px;
+        top: 5px;
         background-color: #1515158c;
         margin-bottom: 5px;
     }
@@ -231,6 +231,9 @@ var watchstyle = `
         font-family: 'proxima nova semibold';
         padding-top: 2px;
         vertical-align: middle;
+    }
+    .schedule-episode.same-show {
+        padding-top: 10px!important;
     }
 `;
 GM_addStyle(watchstyle);
