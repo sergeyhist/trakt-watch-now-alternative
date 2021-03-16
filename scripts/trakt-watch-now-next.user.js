@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.2
+// @version     2.2.1
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -199,6 +199,7 @@ var watchstyle = `
         position: relative;
         top: 7px;
         background-color: #1515158c;
+        margin-bottom: 5px;
     }
     .quick-aw-button > .trakt-icon-play2-thick {
         font-size: 1.5em;
