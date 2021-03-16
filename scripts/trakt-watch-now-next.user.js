@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.1
+// @version     2.2
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -673,7 +673,6 @@ document.addEventListener("DOMContentLoaded", function () {
         $('.alternative-watch-modal').css({'visibility':'hidden','height':'0','opacity':'0'})});
     const play_item= [
         'body:not(.people) .action-buttons',
-        '.grid-item[itemtype="http://schema.org/TVSeason"]',
         '.recent-episodes .grid-item[itemtype]',
         '#seasons-episodes-sortable .grid-item[itemtype]',
         'body.search:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]',
@@ -682,9 +681,9 @@ document.addEventListener("DOMContentLoaded", function () {
         '#progress-wrapper .grid-item[itemtype]',
         '#recent-episodes .grid-item[itemtype]',
         '#recently-watched-wrapper .grid-item[itemtype]',
-        '.grid-item[itemtype]',
         '#schedule-wrapper .schedule-episode',
-        '.calendar-grid .grid-item[itemtype]'
+        '.calendar-grid .grid-item[itemtype]',
+        '.grid-item[itemtype]'
     ];
     $(function () {
         for (const element of play_item) {  
@@ -735,16 +734,31 @@ document.addEventListener("DOMContentLoaded", function () {
         setInterval( function() {
             $('html').find(`${playobject}`).each( function () {
                 if (!$(this).find('#alternative-watch').length) {
-                    if (playobject == '.grid-item[itemtype]') {awData(this,'quick-general')}
-                    else if ((playobject == '#recently-watched-wrapper .grid-item[itemtype]') || (playobject == '#recent-episodes .grid-item[itemtype]') ||
-                        (playobject == 'body.search:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]') ||
-                        (playobject == 'body.shows:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]') ||
-                        (playobject == 'body.movies:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]') ||
-                        (playobject == '#progress-wrapper .grid-item[itemtype]')) {awData(this,'quick-alt')}
-                    else if (playobject == '#schedule-wrapper .schedule-episode') {awData(this,'schedule')}
-                    else if (playobject == 'body:not(.people) .action-buttons') {awData(this,'main')}
-                    else if ((playobject == '.recent-episodes .grid-item[itemtype]') || (playobject == '#seasons-episodes-sortable .grid-item[itemtype]')) {awData(this,'main-grid')}
-                    else if (playobject == '.calendar-grid .grid-item[itemtype]') {awData(this,'calendar')}
+                    switch (playobject) {
+                        case '#recently-watched-wrapper .grid-item[itemtype]':
+                        case '#recent-episodes .grid-item[itemtype]':
+                        case 'body.search:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]':
+                        case 'body.shows:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]':
+                        case 'body.movies:not(.calendars) .frame:not(.people,.lists,.users) .grid-item[itemtype]':
+                        case '#progress-wrapper .grid-item[itemtype]':
+                            awData(this,'quick-alt');
+                            break;
+                        case '#schedule-wrapper .schedule-episode':
+                            awData(this,'schedule');
+                            break;
+                        case 'body:not(.people) .action-buttons':
+                            awData(this,'main');
+                            break;
+                        case '.recent-episodes .grid-item[itemtype]':
+                        case '#seasons-episodes-sortable .grid-item[itemtype]':
+                            awData(this,'main-grid');
+                            break;
+                        case '.calendar-grid .grid-item[itemtype]':
+                            awData(this,'calendar');
+                            break;
+                        default:
+                            awData(this,'quick-general');
+                    }
                 }
             })
         },500);
@@ -758,16 +772,11 @@ document.addEventListener("DOMContentLoaded", function () {
         let data_result;
         let data_link;
         let data_block;
-        let data_name_long;
         if (data_type == 'quick-general') {
             data_link=$(data_object).find('meta[itemprop=url]').attr('content');
-            data_name_long=$(data_object).find('meta[itemprop=name]').attr('content');
-            data_name=data_name_long.split('(')[0];
-            if (data_name_long.split('(')[1] != undefined) {
-                data_year=data_name_long.split('(')[1].split(')')[0]} else {
-                    data_year=data_link.split('/')[4].split('-').pop();
-                    if (isNaN(data_year)) {data_year=''}
-                }
+            data_name=$(data_object).find('.titles-link h3').text();
+            data_year=data_link.split('/')[4].split('-').pop();
+            if (isNaN(data_year)) {data_year=''}
             if ($(data_object).find('span[itemprop=partOfSeries]').length) {
                 data_name=$(data_object).find('span[itemprop=partOfSeries] meta[itemprop=name]').attr('content');
                 data_season=$(data_object).find('meta[itemprop=url]').attr('content').split('/')[6];
