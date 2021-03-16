@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.2.2
+// @version     2.2.4
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -778,9 +778,12 @@ document.addEventListener("DOMContentLoaded", function () {
         let data_block;
         if (data_type == 'quick-general') {
             data_link=$(data_object).find('meta[itemprop=url]').attr('content');
-            data_name=$(data_object).find('.titles-link h3').text();
-            data_year=data_link.split('/')[4].split('-').pop();
-            if (isNaN(data_year)) {data_year=''}
+            data_year=$(data_object).find('h3 > .year').text();
+            data_name=$(data_object).find('.titles h3').text().replace(`${data_year}`,'');
+            if (data_year == "" || data_year == undefined) {
+                data_year=data_link.split('/')[4].split('-').pop();
+                if (isNaN(data_year)) {data_year=''}
+            }
             if ($(data_object).find('span[itemprop=partOfSeries]').length) {
                 data_name=$(data_object).find('span[itemprop=partOfSeries] meta[itemprop=name]').attr('content');
                 data_season=$(data_object).find('meta[itemprop=url]').attr('content').split('/')[6];
@@ -801,7 +804,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 data_year=$(data_object).find('h3 > .year').text();
                 data_name=$(data_object).find('h3').text().replace(`${data_year}`,'');
             }
-            if (data_year == undefined) {
+            if (data_year == "" || data_year == undefined) {
                 data_year=data_link.split('/')[4].split('-').pop();
                 if (isNaN(data_year)) {data_year=''}
             }
