@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.2.5
+// @version     2.2.6
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -685,6 +685,125 @@ const sources_list = [
         language: 'english',
         name: 'KissCartoon',
         link: `https://www1.kisscartoon.uk/?s=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimeFrenzy',
+        link: `https://animefrenzy.org/browse/?search=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimeKisa',
+        link: `https://animekisa.tv/search?q=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimeHub',
+        link: `https://animehub.ac/search/%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimeOwl',
+        link: `https://animeowl.net/?s=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimeNight',
+        link: `https://animenight.tv/search?term=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimePill',
+        link: `https://animepill.com/anime?title=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'Tenshi',
+        link: `https://tenshi.moe/anime?q=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimeVibe',
+        link: `https://animevibe.wtf/?s=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimeX',
+        link: `https://animex.ninja/search/%s/1`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimeSuge',
+        link: `https://animesuge.io/search?keyword=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimeShow',
+        link: `https://www1.animeshow.tv/find.html?key=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimeTV',
+        link: `https://www7.animeseries.io/search?keyword=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimeRush',
+        link: `https://www.animerush.tv/search.php?searchquery=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'YugenAnime',
+        link: `https://yugenani.me/search/?q=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'Shiro',
+        link: `https://shiro.is/browse/?search=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'ArrayAnime',
+        link: `https://www.arrayanime.com/key/%s/1`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AniNow',
+        link: `https://aninow.net/search?term=%s`
     }
 ];
 document.addEventListener("DOMContentLoaded", function () {
