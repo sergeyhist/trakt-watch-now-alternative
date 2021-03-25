@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.2.4
+// @version     2.2.5
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -300,13 +300,6 @@ const sources_list = [
         language: 'english',
         name: 'OpenloadMovies',
         link: `https://openloadmov.net/?s=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'general', 
-        language: 'english',
-        name: 'HiMovies',
-        link: `https://www5.himovies.to/search/%s`
     },
     {
         type: 'ddl',
@@ -664,6 +657,34 @@ const sources_list = [
         language: 'english',
         name: '4Anime',
         link: `https://4anime.to/?s=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'general', 
+        language: 'english',
+        name: 'GMovies',
+        link: `https://movies.gnie.world/search?query=%s`
+    },
+    {
+        type: 'ddl',
+        content_type: 'general', 
+        language: 'english',
+        name: 'GMovies',
+        link: `https://movies.gnie.world/search?query=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'cartoon', 
+        language: 'english',
+        name: 'WatchCartoonOnline.bz',
+        link: `https://watchcartoononline.bz/?s=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'cartoon', 
+        language: 'english',
+        name: 'KissCartoon',
+        link: `https://www1.kisscartoon.uk/?s=%s`
     }
 ];
 document.addEventListener("DOMContentLoaded", function () {
