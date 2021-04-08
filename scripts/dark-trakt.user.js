@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/dark-trakt.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.6
+// @version     2.6.1 
 // @author      Hist
 // @description Dark Theme for Trakt.tv
 // @run-at      document-start
@@ -31,8 +31,9 @@ var darkMode=`
     #progress-wrapper .row .main-info h3.show-title .popover-title {
         color: #fff!important;
     }
-    .action-buttons > .popover.remove .popover-title {
-        color: #fff !important;
+    .action-buttons > .popover.remove .popover-title,
+    body > .popover.remove .popover-title {
+        color: #fff!important;
     }
     #ondeck-wrapper,
     #schedule-wrapper,
