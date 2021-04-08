@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.2.7
+// @version     2.2.8
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -720,6 +720,34 @@ const sources_list = [
         language: 'english',
         name: 'KissAsian',
         link: `https://kissasian.la/?s=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'adrama', 
+        language: 'english',
+        name: 'Dramanice',
+        link: `https://dramanice.so//search.html?keyword=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'adrama', 
+        language: 'english',
+        name: 'ViewAsian',
+        link: `https://viewasian.co/movie/search/%s`
+    },
+    {
+        type: 'online',
+        content_type: 'adrama', 
+        language: 'english',
+        name: 'NewAsianTV',
+        link: `https://newasiantv.biz/search/%s.html`
+    },
+    {
+        type: 'online',
+        content_type: 'adrama', 
+        language: 'english',
+        name: 'DramaHood',
+        link: `https://kdramahood.com/?s=%s`
     }
 ];
 document.addEventListener("DOMContentLoaded", function () {
