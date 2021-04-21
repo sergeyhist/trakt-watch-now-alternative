@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.2.8
+// @version     2.2.9
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -813,7 +813,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $('html').on('input', '#cb_year_text,#cb_episode_text,#cb_cname_text', function () {updateString()});
         $('.alternative-watch-modal .watch_sources_item').on("click", function () {
             let search_item_id=this.id.split("-")[1];
-            let search_link=sources_list[search_item_id].link.replace('%s', $('.alternative-watch-modal #watch-search-string').html());
+            let search_link=sources_list[search_item_id].link.replace('%s', $('.alternative-watch-modal #watch-search-string').html().toLowerCase().replace(/’/g, '%27'));
             window.open(search_link, "_blank");
         });
     });
