@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.2.9
+// @version     2.3
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
@@ -748,6 +748,69 @@ const sources_list = [
         language: 'english',
         name: 'DramaHood',
         link: `https://kdramahood.com/?s=%s`
+    },
+    {
+        type: 'db',
+        content_type: 'general', 
+        language: 'english',
+        name: 'IMDB',
+        link: `https://www.imdb.com/find?s=tt&q=%s&ref_=nv_sr_sm`
+    },
+    {
+        type: 'db',
+        content_type: 'general', 
+        language: 'english',
+        name: 'TheMovieDB',
+        link: `https://www.themoviedb.org/search?query=%s`
+    },
+    {
+        type: 'db',
+        content_type: 'general', 
+        language: 'english',
+        name: 'TheTVDB',
+        link: `https://thetvdb.com/search?query=%s`
+    },
+    {
+        type: 'db',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AniList',
+        link: `https://anilist.co/search/anime?search=%s&sort=SEARCH_MATCH`
+    },
+    {
+        type: 'db',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'MyAnimeList',
+        link: `https://myanimelist.net/anime.php?q=%s&cat=anime`
+    },
+    {
+        type: 'db',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AniDB',
+        link: `https://anidb.net/anime/?adb.search=%s&do.search=1`
+    },
+    {
+        type: 'db',
+        content_type: 'adrama', 
+        language: 'english',
+        name: 'MyDramaList',
+        link: `https://mydramalist.com/search?q=%s`
+    },
+    {
+        type: 'db',
+        content_type: 'general', 
+        language: 'russian',
+        name: 'Kinopoisk',
+        link: `https://www.kinopoisk.ru/index.php?kp_query=%s`
+    },
+    {
+        type: 'db',
+        content_type: 'anime', 
+        language: 'russian',
+        name: 'Shikimori',
+        link: `https://shikimori.one/animes?search=%s`
     }
 ];
 document.addEventListener("DOMContentLoaded", function () {
@@ -806,6 +869,7 @@ document.addEventListener("DOMContentLoaded", function () {
         createList('online-sources-title','Online Sources');
         createList('torrent-sources-title','Torrent Sources');
         createList('ddl-sources-title','DDL Sources');
+        createList('db-sources-title','Databases');
         addSites();
         $('.alternative-watch-content').on('click','.main-button',function () {openList(this,'.content-type-button')});
         $('.alternative-watch-content').on('click','.content-type-button .wt-title-button',function () {openList(this,'.language-button')});
