@@ -1,15 +1,14 @@
 // ==UserScript==
 // @name        Trakt Alternative Watch - Next Version
-// @namespace   https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/trakt-watch-now.user.js
+// @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
 // @version     2.3
 // @author      Hist
 // @description Trakt Watch Now Alternative Version
 // @run-at      document-start
-// @icon        https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/blob/main/logos/logo.png?raw=true
-// @downloadURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts/raw/main/scripts/trakt-watch-now-next.user.js
-// @homepageURL https://github.com/sergeyhist/Trakt.tv-Hist-UserScripts
+// @downloadURL https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/trakt-watch-now-next.user.js
+// @homepageURL https://github.com/sergeyhist/trakt-watch-now-alternative
 // ==/UserScript==
 'use strict';
 var watchstyle = `
