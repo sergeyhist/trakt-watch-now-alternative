@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name        Trakt Alternative Watch - Next Version
+// @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
 // @version     2.3
 // @author      Hist
-// @description Trakt Watch Now Alternative Version
+// @description Alternative version for trakt.tv watch now modal 
 // @run-at      document-start
 // @downloadURL https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/trakt-watch-now-next.user.js
 // @homepageURL https://github.com/sergeyhist/trakt-watch-now-alternative
