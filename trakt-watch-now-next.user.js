@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.3
+// @version     2.3.1
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal 
 // @run-at      document-start
