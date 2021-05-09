@@ -912,6 +912,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 }
             })
+            awTooltip();
         },500);
     }
 
@@ -939,7 +940,6 @@ document.addEventListener("DOMContentLoaded", function () {
             data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
             let data_block=awBlock('quick',data_result);
             $(data_object).find('.collect').after(`${data_block}`);
-            awTooltip();
         }
         else if (data_type == 'quick-alt') {
             data_link=$(data_object).find('meta[itemprop=url]').attr('content');
@@ -958,7 +958,6 @@ document.addEventListener("DOMContentLoaded", function () {
             data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
             data_block=awBlock('quick',data_result);
             $(data_object).find('.collect').after(`${data_block}`);
-            awTooltip();
         }
         else if (data_type == 'schedule') {
             data_name=$(data_object).find('h4').text();
@@ -1004,7 +1003,6 @@ document.addEventListener("DOMContentLoaded", function () {
             data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
             data_block=awBlock('quick',data_result);
             $(data_object).find('.collect').after(`${data_block}`);
-            awTooltip();
         }
         else if (data_type == 'calendar') {
             data_name=$(data_object).find('.titles h4').first().text();
@@ -1017,8 +1015,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (isNaN(data_year)) {data_year=''}
             data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
             data_block=awBlock('quick',data_result);
-            $(data_object).find('.collect').after(`${data_block}`);
-            awTooltip();    
+            $(data_object).find('.collect').after(`${data_block}`);    
         }
         data_name='';
         data_year='';
