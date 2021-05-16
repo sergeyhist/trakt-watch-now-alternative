@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.4
+// @version     2.4.1
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal 
 // @run-at      document-start
@@ -451,7 +451,7 @@ const sources_list = [
         link: `http://nnmclub.to/forum/tracker.php?nm=%s`
     },
     {
-        type: 'online',
+        type: 'Torrent',
         content_type: 'general', 
         language: 'russian',
         name: 'LostFilm',
@@ -610,13 +610,6 @@ const sources_list = [
         language: 'english',
         name: '9Anime',
         link: `https://www12.9anime.to/search?keyword=%s`
-    },
-    {
-        type: 'online,DDL',
-        content_type: 'general', 
-        language: 'english',
-        name: 'GMovies',
-        link: `https://movies.gnie.world/search?query=%s`
     },
     {
         type: 'online',
