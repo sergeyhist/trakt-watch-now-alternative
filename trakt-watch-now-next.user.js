@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.3.1
+// @version     2.4
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal 
 // @run-at      document-start
@@ -22,11 +22,8 @@ var watchstyle = `
     .btn-list {
         margin-top: 3px!important;
     }
-    #cb_cname, #cb_year, #cb_season, #cb_episode {
-        margin-inline: 2px;
-        cursor: pointer;
-    }
-    input#cb_year_text, input#cb_season_text, input#cb_episode_text, input#cb_cname_text {
+    input#cb_year_text, input#cb_season_text, input#cb_episode_text, input#cb_cname_text,
+    select#aw_language, select#aw_type, select#aw_source {
         float: right;
         margin-left: 5px;
         font-size: 15px;
@@ -36,41 +33,37 @@ var watchstyle = `
         display: block;
         color: #fff;
         background-color: rgba(0,0,0,.7);
-        padding: 20px 30px;
-        font-size: 22px;
+        padding: 10px 15px;
+        font-size: 20px;
         font-family: proxima nova;
         text-align: left;
         border-bottom: solid black 1px;
         background-image: linear-gradient(to right, #0000006e, #691b1b8a);
     }
-    .watch_search_option {
+    .watch-search-option {
         display: table;
         font-size: 16px;
         height: 30px;
         width: 100%
     }
-    .watch_search_option label {
+    .watch-search-option label {
         font-size: 15px;
-        float: right;
         padding-top: 2px;
         padding-left: 2px;
         font-weight: 100;
-        position: fixed;
-        left: 14%;
-        -webkit-user-select:none;
-        -khtml-user-select:none;
-        -moz-user-select:none;
-        -ms-user-select:none;
-        -o-user-select:none;
-        user-select:none;
     }
-    .watch_search_option input {
+    .watch-search-option input,
+    .watch-search-option select {
         font-size: 16px;
         border-radius: 2px;
         border: solid #232020 1px;
         color: #fff;
         background-color: #00000040;
     } 
+    .watch-search-option input[type="checkbox"] {
+        position: fixed;
+        left: 30%;
+    }
     .alternative-watch-modal {
         position: fixed;
         z-index: 100000;
@@ -119,32 +112,24 @@ var watchstyle = `
         text-align: center; 
         font-family: proxima nova semibold;
         font-size: 15px;
-        border: solid #232020 1px;
-        border-radius: 2px;
-        -webkit-user-select:none;
-        -khtml-user-select:none;
-        -moz-user-select:none;
-        -ms-user-select:none;
-        -o-user-select:none;
-        user-select:none;
-        background-image: linear-gradient(to right, #0000006e, #691b1b8a);
+        border: solid #000000 1px;
+        border-radius: 5px;
+        background-image: linear-gradient(360deg, #1b04047d, #580d0d99);
         margin-block: 3px;
     }
-    .wt-source-name:hover,
-    .wt-title-button:hover,
-    .watch_search_option label:hover,
+    .wt-title-button:hover {
+        color: #000000;
+        background-image: linear-gradient(360deg, #ff1e1ecc, #650d0d73);
+    }
+    .watch-search-option label[for=cb_cname]:hover,
+    .watch-search-option label[for=cb_year]:hover,
+    .watch-search-option label[for=cb_episode]:hover,
     .alternative-watch-close:hover,
     .alternative-watch-close:focus {
         color: #a01717;
-        cursor: pointer;
-    }
-    .wt-source-name {
-        text-transform: capitalize; 
+        
     }
     .alternative-watch-modal,
-    .content-type-button,
-    .language-button,
-    .wt-sources,
     input#cb_year_text,
     input#cb_season_text,
     input#cb_episode_text,
@@ -155,29 +140,21 @@ var watchstyle = `
         height: 0;
         opacity: 0;
     }
-    .content-type-button,
-    .watch_sources_item,
-    .language-button {
+    #aw-sources {
         margin-inline: 15px;
+        margin-block: 10px;
     }
-    .watch_sources_item {
-        padding-block: 10px;
-        background-image: linear-gradient(231deg, #400b0bcc, #650d0d73);
+    .aw-sources-item {
+        padding-block: 15px;
+        margin-block: 5px;
     }
     #alternative-watch {
         display: inline-block;
         position: relative;
         transition: all .5s;
         color: #9e3131;
-        -webkit-user-select:none;
-        -khtml-user-select:none;
-        -moz-user-select:none;
-        -ms-user-select:none;
-        -o-user-select:none;
-        user-select:none;
     }
     #alternative-watch:hover {
-        cursor: pointer;
         color: white;
         background-color: #9e3131!important;
         text-decoration: none!important;
@@ -234,13 +211,25 @@ var watchstyle = `
     .schedule-episode.same-show {
         padding-top: 10px!important;
     }
+    #alternative-watch, 
+    .wt-title-button,
+    .alternative-watch-close,
+    .watch-search-option label,
+    .watch-search-option select {
+        -webkit-user-select:none;
+        -khtml-user-select:none;
+        -moz-user-select:none;
+        -ms-user-select:none;
+        -o-user-select:none;
+        user-select:none;
+    }
 `;
 GM_addStyle(watchstyle);
 const sources_list = [
     {
         type: 'online',
         content_type: 'general', 
-        language: 'english',
+        language: 'english,russian',
         name: 'Youtube',
         link: `https://www.youtube.com/results?search_query=%s`
     },
@@ -301,7 +290,7 @@ const sources_list = [
         link: `https://openloadmov.net/?s=%s`
     },
     {
-        type: 'ddl',
+        type: 'DDL,online',
         content_type: 'general', 
         language: 'english',
         name: 'Rarefilmm',
@@ -309,14 +298,7 @@ const sources_list = [
     },
     {
         type: 'online',
-        content_type: 'general', 
-        language: 'english',
-        name: 'Rarefilmm',
-        link: `https://rarefilmm.com/?s=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'adrama', 
+        content_type: 'asian drama', 
         language: 'english',
         name: 'Dramacool',
         link: `https://dramacool.so/search?type=movies&keyword=%s`
@@ -343,28 +325,28 @@ const sources_list = [
         link: `https://www2.kickassanime.rs/search?q=%s`
     },
     {
-        type: 'ddl',
+        type: 'DDL',
         content_type: 'general', 
         language: 'english',
         name:'HDEncode',
         link: `https://hdencode.com/?s=%s`
     },
     {
-        type: 'ddl',
+        type: 'DDL',
         content_type: 'general', 
         language: 'english',
         name:'RLSBB',
         link: `http://search.rlsbb.ru/?s=%s`
     },
     {
-        type: 'ddl',
+        type: 'DDL',
         content_type: 'general', 
         language: 'english',
         name:'Scene-Rls',
         link: `http://scene-rls.com/?s=%s`
     },
     {
-        type: 'ddl',
+        type: 'DDL',
         content_type: 'anime', 
         language: 'english',
         name:'AnimeKaizoku',
@@ -396,7 +378,7 @@ const sources_list = [
         content_type: 'anime', 
         language: 'english',
         name:'Nyaa',
-        link: `https://nyaa.si/?f=0&c=1_0&q=%s`
+        link: `https://nyaa.si/?f=0&c=1_2&q=%s`
     },
     {
         type: 'torrent',
@@ -421,7 +403,7 @@ const sources_list = [
     },
     {
         type: 'torrent',
-        content_type: 'adrama', 
+        content_type: 'asian drama', 
         language: 'english',
         name: 'AvistaZ',
         link: `https://avistaz.to/torrents?in=1&search=%s`
@@ -525,14 +507,14 @@ const sources_list = [
         link: `https://www.ettvcentral.com/torrents-search.php?search=%s`
     },
     {
-        type: 'torrent',
+        type: 'torrent,DDL',
         content_type: 'general', 
         language: 'english',
         name: 'Psarips',
         link: `https://psa.one/?s=%s`
     },
     {
-        type: 'torrent',
+        type: 'torrent,DDL',
         content_type: 'general', 
         language: 'english',
         name: 'HevcBay',
@@ -553,84 +535,70 @@ const sources_list = [
         link: `https://nyaa.net/search?c=_&q=%s`
     },
     {
-        type: 'torrent',
+        type: 'torrent,DDL',
         content_type: 'anime', 
         language: 'english',
         name: 'Hi10Anime',
         link: `https://hi10anime.com/?s=%s`
     },
     {
-        type: 'ddl',
+        type: 'DDL',
         content_type: 'general', 
         language: 'english',
         name: 'x265movies',
         link: `https://x265movies.com/?s=%s`
     },
     {
-        type: 'ddl',
-        content_type: 'general', 
-        language: 'english',
-        name: 'HevcBay',
-        link: `https://hevcbay.com/?s=%s`
-    },
-    {
-        type: 'ddl',
-        content_type: 'general', 
-        language: 'english',
-        name: 'Psarips',
-        link: `https://psa.one/?s=%s`
-    },
-    {
-        type: 'ddl',
+        type: 'DDL',
         content_type: 'general', 
         language: 'english',
         name: 'Crazy4tv',
         link: `http://crazy4tv.com/?s=%s`
     },
     {
-        type: 'ddl',
+        type: 'DDL',
         content_type: 'general', 
         language: 'english',
         name: '2DDL',
         link: `https://2ddl.ms/?q=%s`
     },
     {
-        type: 'ddl',
+        type: 'DDL',
         content_type: 'general', 
         language: 'english',
         name: 'RapidMoviez',
         link: `http://rmz.cr/search/%s`
     },
     {
-        type: 'ddl',
+        type: 'DDL',
         content_type: 'general', 
         language: 'english',
         name: 'MegaDDL',
         link: `https://megaddl.co/?s=%s`
     },
     {
-        type: 'ddl',
+        type: 'DDL',
         content_type: 'general', 
         language: 'english',
         name: 'MovieParadise',
         link: `https://movieparadise.org/?s=%s`
     },
     {
-        type: 'ddl',
+        type: 'DDL',
         content_type: 'general', 
         language: 'english',
         name: 'GdriveDL',
         link: `https://gdrivedl.com/?s=%s`
     },
     {
-        type: 'ddl',
+        type: 'DDL',
         content_type: 'general', 
         language: 'english',
         name: 'DDLValley',
         link: `https://www.ddlvalley.me/search/%s`
     },
     {
-        type: 'ddl',
+        type: 'DDL',
         content_type: 'general', 
         language: 'english',
         name: 'Snahp',
@@ -644,14 +612,7 @@ const sources_list = [
         link: `https://www12.9anime.to/search?keyword=%s`
     },
     {
-        type: 'online',
-        content_type: 'general', 
-        language: 'english',
-        name: 'GMovies',
-        link: `https://movies.gnie.world/search?query=%s`
-    },
-    {
-        type: 'ddl',
+        type: 'online,DDL',
         content_type: 'general', 
         language: 'english',
         name: 'GMovies',
@@ -715,97 +676,97 @@ const sources_list = [
     },
     {
         type: 'online',
-        content_type: 'adrama', 
+        content_type: 'asian drama', 
         language: 'english',
         name: 'KissAsian',
         link: `https://kissasian.la/?s=%s`
     },
     {
         type: 'online',
-        content_type: 'adrama', 
+        content_type: 'asian drama', 
         language: 'english',
         name: 'Dramanice',
         link: `https://dramanice.so//search.html?keyword=%s`
     },
     {
         type: 'online',
-        content_type: 'adrama', 
+        content_type: 'asian drama', 
         language: 'english',
         name: 'ViewAsian',
         link: `https://viewasian.co/movie/search/%s`
     },
     {
         type: 'online',
-        content_type: 'adrama', 
+        content_type: 'asian drama', 
         language: 'english',
         name: 'NewAsianTV',
         link: `https://newasiantv.biz/search/%s.html`
     },
     {
         type: 'online',
-        content_type: 'adrama', 
+        content_type: 'asian drama', 
         language: 'english',
         name: 'DramaHood',
         link: `https://kdramahood.com/?s=%s`
     },
     {
-        type: 'db',
+        type: 'database',
         content_type: 'general', 
         language: 'english',
         name: 'IMDB',
         link: `https://www.imdb.com/find?s=tt&q=%s&ref_=nv_sr_sm`
     },
     {
-        type: 'db',
+        type: 'database',
         content_type: 'general', 
         language: 'english',
         name: 'TheMovieDB',
         link: `https://www.themoviedb.org/search?query=%s`
     },
     {
-        type: 'db',
+        type: 'database',
         content_type: 'general', 
         language: 'english',
         name: 'TheTVDB',
         link: `https://thetvdb.com/search?query=%s`
     },
     {
-        type: 'db',
+        type: 'database',
         content_type: 'anime', 
         language: 'english',
         name: 'AniList',
         link: `https://anilist.co/search/anime?search=%s&sort=SEARCH_MATCH`
     },
     {
-        type: 'db',
+        type: 'database',
         content_type: 'anime', 
         language: 'english',
         name: 'MyAnimeList',
         link: `https://myanimelist.net/anime.php?q=%s&cat=anime`
     },
     {
-        type: 'db',
+        type: 'database',
         content_type: 'anime', 
         language: 'english',
         name: 'AniDB',
         link: `https://anidb.net/anime/?adb.search=%s&do.search=1`
     },
     {
-        type: 'db',
-        content_type: 'adrama', 
+        type: 'database',
+        content_type: 'asian drama', 
         language: 'english',
         name: 'MyDramaList',
         link: `https://mydramalist.com/search?q=%s`
     },
     {
-        type: 'db',
+        type: 'database',
         content_type: 'general', 
         language: 'russian',
         name: 'Kinopoisk',
         link: `https://www.kinopoisk.ru/index.php?kp_query=%s`
     },
     {
-        type: 'db',
+        type: 'database',
         content_type: 'anime', 
         language: 'russian',
         name: 'Shikimori',
@@ -859,22 +820,19 @@ document.addEventListener("DOMContentLoaded", function () {
         $('.alternative-watch-modal').append(`<div class="alternative-watch-content"/>`);
         $('.alternative-watch-content').append(`<div class="alternative-watch-close">&times;</div><div id="watch-search"><p type="text" id="watch-search-string"></p></div>`);
         $('.alternative-watch-modal #watch-search-string').html(`${original_aw_name}`);
-        createCB('year','Year-number','9','');
-        createCB('episode','Episode-data','7','');
-        createCB('cname','Custom-name','0',original_aw_name);
+        createCB('year','Year','');
+        createCB('episode','Episode','');
+        createCB('cname','Title',original_aw_name);
         $('html').on("change", `#cb_year`, function () {updateCB('year',original_year_number,'')});
         $('html').on("change", `#cb_episode`, function () {updateCB('episode',episode_data,'')});
         $('html').on("change", `#cb_cname`, function () {updateCB('cname','',original_aw_name)});
-        createList('online-sources-title','Online Sources');
-        createList('torrent-sources-title','Torrent Sources');
-        createList('ddl-sources-title','DDL Sources');
-        createList('db-sources-title','Databases');
+        createLB("language",['english','russian']);
+        createLB("type",['general','anime','cartoon','asian drama']);
+        createLB("source",['online','torrent','DDL','database']);
         addSites();
-        $('.alternative-watch-content').on('click','.main-button',function () {openList(this,'.content-type-button')});
-        $('.alternative-watch-content').on('click','.content-type-button .wt-title-button',function () {openList(this,'.language-button')});
-        $('.alternative-watch-content').on('click','.language-button .wt-title-button',function () {openList(this,'.wt-sources')});
-        $('html').on('input', '#cb_year_text,#cb_episode_text,#cb_cname_text', function () {updateString()});
-        $('.alternative-watch-modal .watch_sources_item').on("click", function () {
+        $('html').on("change", `#aw_language, #aw_type, #aw_source`, function () {addSites()});
+        $('html').on('input', '#cb_year_text, #cb_episode_text, #cb_cname_text', function () {updateString()});
+        $('html').on("click", '.aw-sources-item' , function () {
             let search_item_id=this.id.split("-")[1];
             let search_link=sources_list[search_item_id].link.replace('%s', $('.alternative-watch-modal #watch-search-string').html().toLowerCase().replace(/’/g, '%27'));
             window.open(search_link, "_blank");
@@ -1039,12 +997,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }).popover('destroy')
     }
 
-    function createCB(cb_type,cb_text,cb_padding,cb_original) {
-        $('.alternative-watch-content').find('#watch-search').append(`
-            <div class="watch_search_option">
-            <input type="checkbox" id="cb_${cb_type}">
+    function createCB(cb_type,cb_text,cb_original) {
+        $('.alternative-watch-content #watch-search').append(`
+            <div class="watch-search-option">
             <label for="cb_${cb_type}">${cb_text}</label>
-            <input type="text" id="cb_${cb_type}_text" style="padding-right: ${cb_padding}px; width: 55%" value="${cb_original}"></div>`);
+            <input type="checkbox" id="cb_${cb_type}">
+            <input type="text" id="cb_${cb_type}_text" value="${cb_original}"></div>`);
     }
 
     function updateCB(cb_type,cb_value,cb_reset) {
@@ -1059,42 +1017,31 @@ document.addEventListener("DOMContentLoaded", function () {
         updateString(); 
     }
 
+    function createLB(lb_type,lb_items) {
+        $('.alternative-watch-content #watch-search').append(`
+        <div class="watch-search-option">
+        <label for="aw_${lb_type}">${capFL(lb_type)}</label>
+        <select id="aw_${lb_type}" size="1"/></div>`);
+        for (let i=0; i < lb_items.length; i++) {
+            $(`select#aw_${lb_type}`).append(`<option value="${lb_items[i]}">${capFL(lb_items[i])}</option>`)
+        }
+    }
+
     function updateString() {
         let data_string=$('#cb_cname_text').val()+checkString($('#cb_year_text').val())+checkString($('#cb_episode_text').val());
         $('.alternative-watch-modal #watch-search-string').html(`${data_string}`) 
     }
-    
-    function createList(list_type,list_name) {
-        $('.alternative-watch-content').append(`
-        <div id="${list_type}" class="wt-title"><div class="wt-title-button main-button">${list_name}</div>
-        <div id="content-buttons"><div id="general-bt" class="content-type-button"><div class="wt-title-button">General</div>
-        <div id="language-buttons"><div id="english-bt" class="language-button"><div class="wt-title-button">English</div><div class="wt-sources"/></div>
-        <div id="russian-bt" class="language-button"><div class="wt-title-button">Russian</div><div class="wt-sources"/></div></div></div>
-        <div id="anime-bt" class="content-type-button"><div class="wt-title-button">Anime</div>
-        <div id="language-buttons"><div id="english-bt" class="language-button"><div class="wt-title-button">English</div><div class="wt-sources"/></div>
-        <div id="russian-bt" class="language-button"><div class="wt-title-button">Russian</div><div class="wt-sources"/></div></div></div>
-        <div id="cartoon-bt" class="content-type-button"><div class="wt-title-button">Cartoons</div>
-        <div id="language-buttons"><div id="english-bt" class="language-button"><div class="wt-title-button">English</div><div class="wt-sources"/></div>
-        <div id="russian-bt" class="language-button"><div class="wt-title-button">Russian</div><div class="wt-sources"/></div></div></div>
-        <div id="adrama-bt" class="content-type-button"><div class="wt-title-button">Asian Drama</div>
-        <div id="language-buttons"><div id="english-bt" class="language-button"><div class="wt-title-button">English</div><div class="wt-sources"/></div>
-        <div id="russian-bt" class="language-button"><div class="wt-title-button">Russian</div><div class="wt-sources"/></div></div></div>
-        </div></div>`);
-    }
-
-    function openList(list_object,list_type) {
-            if ($(list_object).parent().find(`${list_type}`).css('opacity') == '0') {
-                $(list_object).parent().find(`${list_type}`).each( function () {
-                    if ($(this).find('.watch_sources_item').length) {$(this).css({'visibility':'visible','height':'auto','opacity':'1'})}})}
-            else {$(list_object).parent().find(`${list_type}`).css({'visibility':'hidden','height':'0','opacity':'0'})}
-    }
 
     function addSites() {
+        $('.alternative-watch-content #aw-sources').remove();
+        $('.alternative-watch-content').append(`<div id="aw-sources"/>`);
         for(let i=0;i < sources_list.length;i++) {
-            let source_type='#'+sources_list[i].type+'-sources-title';
-            let source_content_type='#'+sources_list[i].content_type+'-bt';
-            let source_language='#'+sources_list[i].language+'-bt';
-            $(`${source_type}`).find(`${source_content_type}`).find(`${source_language}`).children('.wt-sources').append(`<div class="watch_sources_item wt-title-button" id="watch_sources_item-${i}"><div class="wt-source-name">${sources_list[i].name}</div></div>`);
+            let aw_type=$('#aw_type').val();
+            let aw_language=$('#aw_language').val();
+            let aw_source=$('#aw_source').val();
+            if ((sources_list[i].content_type.includes(aw_type)) && (sources_list[i].language.includes(aw_language)) && (sources_list[i].type.includes(aw_source))) {
+                $('.alternative-watch-content #aw-sources').append(`<div class="aw-sources-item wt-title-button" id="watch_sources_item-${i}"><div class="wt-source-name">${sources_list[i].name}</div></div>`);
+            }
         }
     }
 
@@ -1104,4 +1051,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function checkString(s) {
         return (s == '' ? '': ' ') + s
     }
+    function capFL(s) {
+        return s.charAt(0).toUpperCase() + s.slice(1);
+      }
 })
