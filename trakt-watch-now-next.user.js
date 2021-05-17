@@ -465,7 +465,7 @@ const sources_list = [
         link: `http://nnmclub.to/forum/tracker.php?nm=%s`
     },
     {
-        type: 'Torrent',
+        type: 'torrent',
         content_type: 'general', 
         language: 'russian',
         name: 'LostFilm',
