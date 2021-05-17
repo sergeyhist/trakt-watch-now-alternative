@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.4.1
+// @version     2.5
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal 
 // @run-at      document-start
@@ -235,6 +235,20 @@ const sources_list = [
     },
     {
         type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'CrunchyRoll',
+        link: `https://www.crunchyroll.com/search?from=search&q=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'general,anime,cartoon,asian drama', 
+        language: 'russian',
+        name: 'Yandex',
+        link: `https://yandex.ru/search/?text=%s%20%D1%81%D0%BC%D0%BE%D1%82%D1%80%D0%B5%D1%82%D1%8C%20%D0%BE%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD`
+    },
+    {
+        type: 'online',
         content_type: 'general', 
         language: 'english',
         name: 'Yes!Movies',
@@ -456,13 +470,6 @@ const sources_list = [
         language: 'russian',
         name: 'LostFilm',
         link: `https://www.lostfilm.tv/search/?q=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'general', 
-        language: 'russian',
-        name: 'Yandex',
-        link: `https://yandex.ru/search/?text=%s%20%D1%81%D0%BC%D0%BE%D1%82%D1%80%D0%B5%D1%82%D1%8C%20%D0%BE%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD`
     },
     {
         type: 'torrent',
@@ -764,6 +771,90 @@ const sources_list = [
         language: 'russian',
         name: 'Shikimori',
         link: `https://shikimori.one/animes?search=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'Zoro.to',
+        link: `https://zoro.to/search?keyword=%s`
+    },
+    {
+        type: 'DDL',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'Ani60FPS',
+        link: `https://www.anime60fps.com/search?q=%s`
+    },
+    {
+        type: 'DDL',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AniDL',
+        link: `https://anidl.org/?s=%s`
+    },
+    {
+        type: 'DDL',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimeKayo',
+        link: `https://animekayo.com/?s=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'russian',
+        name: 'AnimeGO',
+        link: `https://animego.org/search/all?q=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'russian',
+        name: 'YokiAnime',
+        link: `https://yokiani.me/anime_search?search=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'russian',
+        name: 'AniMedia',
+        link: `https://amedia.cc/index.php?do=search&subaction=search&story=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'russian',
+        name: 'AnimeStars',
+        link: `https://animestars.org/index.php?do=search&subaction=search&story=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'asian drama', 
+        language: 'russian',
+        name: 'Doramy.club',
+        link: `https://doramy.club/?s=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'asian drama', 
+        language: 'russian',
+        name: 'DoramaFox',
+        link: `https://doramafox.ru/?s=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'asian drama', 
+        language: 'russian',
+        name: 'VseDoramy',
+        link: `https://vsedoramy.net/index.php?do=search&subaction=search&story=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'general', 
+        language: 'russian',
+        name: 'HDRezka',
+        link: `https://rezka.ag/search/?do=search&subaction=search&q=%s`
     }
 ];
 document.addEventListener("DOMContentLoaded", function () {
