@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.5
+// @version     2.5.1
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal 
 // @run-at      document-start
@@ -28,6 +28,7 @@ var watchstyle = `
         margin-left: 5px;
         font-size: 15px;
         width: 60%;
+        background-color: #000000b3;
     }
     #watch-search {
         display: block;
@@ -521,13 +522,6 @@ const sources_list = [
         link: `https://psa.one/?s=%s`
     },
     {
-        type: 'torrent,DDL',
-        content_type: 'general', 
-        language: 'english',
-        name: 'HevcBay',
-        link: `https://hevcbay.com/?s=%s`
-    },
-    {
         type: 'torrent',
         content_type: 'general', 
         language: 'english',
@@ -547,13 +541,6 @@ const sources_list = [
         language: 'english',
         name: 'Hi10Anime',
         link: `https://hi10anime.com/?s=%s`
-    },
-    {
-        type: 'DDL',
-        content_type: 'general', 
-        language: 'english',
-        name: 'x265movies',
-        link: `https://x265movies.com/?s=%s`
     },
     {
         type: 'DDL',
