@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.5.1
+// @version     2.5.2
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal 
 // @run-at      document-start
@@ -233,6 +233,13 @@ const sources_list = [
         language: 'english,russian',
         name: 'Youtube',
         link: `https://www.youtube.com/results?search_query=%s`
+    },
+    {
+        type: 'database, torrent',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'AnimeK',
+        link: `https://animek.fun/search?q=%s`
     },
     {
         type: 'online',
@@ -842,7 +849,8 @@ const sources_list = [
         language: 'russian',
         name: 'HDRezka',
         link: `https://rezka.ag/search/?do=search&subaction=search&q=%s`
-    }
+    },
+
 ];
 document.addEventListener("DOMContentLoaded", function () {
     $('html').append(`<div class="alternative-watch-modal"/>`);
