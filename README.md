@@ -11,7 +11,4 @@ Differences from original modal:
 [Chrome](https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search)   
 For mobile devices install AdGuard and use their extension manager: [Android](https://adguard.com/en/adguard-android/overview.html), [iOS](https://adguard.com/en/adguard-ios/overview.html). Or use browser with extensions support and install any UserScript manager.
 2. Select script from this repository, click on "Raw button" and confirm installation. Or use this link:  
-   [Watch Now Alternative](https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/trakt-watch-now-next.user.js)  
-#### Screenshots:
-   ![Play Button](screenshots/play-button.png)   
-   ![Main Window](screenshots/main-inteface.png)  
+   [Watch Now Alternative](https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/trakt-watch-now-next.user.js)   
