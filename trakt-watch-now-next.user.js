@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.6.1
+// @version     2.6.3
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal 
 // @run-at      document-start
@@ -32,13 +32,18 @@ var watchstyle = `
     }
     #watch-search {
         display: block;
+        width: 340px;
+        position: absolute;
+        top: 80px;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%);
         color: #fff;
         background-color: rgba(0,0,0,.7);
         padding: 10px 15px 5px;
         font-size: 20px;
         font-family: proxima nova;
         text-align: left;
-        border-bottom: solid black 1px;
         background-image: linear-gradient(to right, #0000006e, #691b1b8a);
     }
     .watch-search-option {
@@ -72,15 +77,6 @@ var watchstyle = `
         top: 0!important;
         width: 100%!important;
         background-color: rgba(0,0,0,0.4);
-    }
-    .alternative-watch-content {
-        background-color: #000000de;
-        width: 340px;
-        position: absolute;
-        top: 100px;
-        left: 49.9%;
-        margin-right: -50%;
-        transform: translate(-50%);
     }
     #aw-sources::-webkit-scrollbar {
         width: 0px;
@@ -136,9 +132,17 @@ var watchstyle = `
         opacity: 0;
     }
     #aw-sources {
-        max-height: 500px;
-        margin-inline: 15px;
-        margin-block: 10px;
+        display: block;
+        width: 340px;
+        position: absolute;
+        top: 275px;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%);
+        padding: 10px 15px 5px;
+        background-color: #000000de;
+        max-height: 55%;
+        border: solid black 3px;
         overflow: auto;
         overflow-y: overlay;
         overscroll-behavior: contain;
