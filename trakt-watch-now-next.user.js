@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.6
+// @version     2.6.1
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal 
 // @run-at      document-start
@@ -136,7 +136,7 @@ var watchstyle = `
         opacity: 0;
     }
     #aw-sources {
-        max-height: 600px;
+        max-height: 500px;
         margin-inline: 15px;
         margin-block: 10px;
         overflow: auto;
