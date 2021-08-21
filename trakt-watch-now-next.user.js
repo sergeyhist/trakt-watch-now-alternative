@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.6.5
+// @version     2.6.6
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal 
 // @run-at      document-start
@@ -270,13 +270,6 @@ const sources_list = [
         type: 'online',
         content_type: 'general', 
         language: 'english',
-        name: 'FMovies',
-        link: `https://fmovies.to/search?keyword=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'general', 
-        language: 'english',
         name: 'LookMovie-Movies',
         link: `https://lookmovie.io/movies/search/?q=%s`
     },
@@ -286,6 +279,13 @@ const sources_list = [
         language: 'english',
         name: 'LookMovie-Series',
         link: `https://lookmovie.io/shows/search?q=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'general', 
+        language: 'english',
+        name: 'HiMovie',
+        link: `https://www5.himovies.to/search/%s`
     },
     {
         type: 'online',
@@ -314,6 +314,20 @@ const sources_list = [
         language: 'english',
         name: 'OpenloadMovies',
         link: `https://openloadmov.net/?s=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'general', 
+        language: 'english',
+        name: 'TeaTV',
+        link: `https://teatv.xyz/movies?q=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'general', 
+        language: 'english',
+        name: 'SockShare',
+        link: `https://sockshare.ac/search-movies/%s.html`
     },
     {
         type: 'online',
@@ -876,7 +890,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             else { data_link=$(this).find('h4 > a').attr('href') }
                             data_year=data_link.split('/')[2].split('-').pop()
                             if (isNaN(data_year)) {data_year=''}
-                            data_name=data_link.split('/')[2].replace(/-/g,' ').replace(`${data_year}`,'')
+                            data_name=data_link.split('/')[2].replace(/-/g,' ').replace(` ${data_year}`,'')
                             data_season=data_link.split('/')[4]
                             data_episode=data_link.split('/')[6]
                             data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
@@ -887,7 +901,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             data_link=$(this).find('meta[itemprop=url]').attr('content')
                             data_year=data_link.split('/')[4].split('-').pop()
                             if (isNaN(data_year)) {data_year=''}
-                            data_name=data_link.split('/')[4].replace(/-/g,' ').replace(`${data_year}`,'')
+                            data_name=data_link.split('/')[4].replace(/-/g,' ').replace(` ${data_year}`,'')
                             data_season=data_link.split('/')[6]
                             data_episode=data_link.split('/')[8]
                             data_poster=$(this).find('meta[itemprop=image]').attr('content')
