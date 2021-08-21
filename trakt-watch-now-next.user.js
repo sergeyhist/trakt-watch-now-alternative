@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.6.4
+// @version     2.6.5
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal 
 // @run-at      document-start
@@ -316,13 +316,6 @@ const sources_list = [
         link: `https://openloadmov.net/?s=%s`
     },
     {
-        type: 'DDL,online',
-        content_type: 'general', 
-        language: 'english',
-        name: 'Rarefilmm',
-        link: `https://rarefilmm.com/?s=%s`
-    },
-    {
         type: 'online',
         content_type: 'asian drama', 
         language: 'english',
@@ -347,8 +340,15 @@ const sources_list = [
         type: 'online',
         content_type: 'anime', 
         language: 'english',
-        name: 'KickAssAnime',
-        link: `https://www2.kickassanime.rs/search?q=%s`
+        name: 'Tenshi',
+        link: `https://tenshi.moe/anime?q=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'Zoro.to',
+        link: `https://zoro.to/search?keyword=%s`
     },
     {
         type: 'DDL',
@@ -540,13 +540,6 @@ const sources_list = [
         link: `https://forums.mvgroup.org/maintracker.php?forums=all&filter=%s&x=0&y=0&searchwhere=on`
     },
     {
-        type: 'torrent',
-        content_type: 'anime', 
-        language: 'english',
-        name: 'NyaaPantsu',
-        link: `https://nyaa.net/search?c=_&q=%s`
-    },
-    {
         type: 'torrent,DDL',
         content_type: 'anime', 
         language: 'english',
@@ -592,13 +585,6 @@ const sources_list = [
         type: 'DDL',
         content_type: 'general', 
         language: 'english',
-        name: 'GdriveDL',
-        link: `https://gdrivedl.com/?s=%s`
-    },
-    {
-        type: 'DDL',
-        content_type: 'general', 
-        language: 'english',
         name: 'DDLValley',
         link: `https://www.ddlvalley.me/search/%s`
     },
@@ -611,66 +597,10 @@ const sources_list = [
     },
     {
         type: 'online',
-        content_type: 'anime', 
-        language: 'english',
-        name: '9Anime',
-        link: `https://www12.9anime.to/search?keyword=%s`
-    },
-    {
-        type: 'online',
         content_type: 'cartoon', 
         language: 'english',
         name: 'WatchCartoonOnline.bz',
         link: `https://watchcartoononline.bz/?s=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'anime', 
-        language: 'english',
-        name: 'AnimeFrenzy',
-        link: `https://animefrenzy.org/browse/?search=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'anime', 
-        language: 'english',
-        name: 'AnimeKisa',
-        link: `https://animekisa.tv/search?q=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'anime', 
-        language: 'english',
-        name: 'AnimeHub',
-        link: `https://animehub.ac/search/%s`
-    },
-    {
-        type: 'online',
-        content_type: 'anime', 
-        language: 'english',
-        name: 'Tenshi',
-        link: `https://tenshi.moe/anime?q=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'anime', 
-        language: 'english',
-        name: 'AnimeVibe',
-        link: `https://animevibe.wtf/search?q=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'anime', 
-        language: 'english',
-        name: 'Shiro',
-        link: `https://shiro.is/browse/?search=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'anime', 
-        language: 'english',
-        name: 'AniNow',
-        link: `https://aninow.net/search?term=%s`
     },
     {
         type: 'online',
@@ -685,20 +615,6 @@ const sources_list = [
         language: 'english',
         name: 'Dramanice',
         link: `https://dramanice.so//search.html?keyword=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'asian drama', 
-        language: 'english',
-        name: 'ViewAsian',
-        link: `https://viewasian.co/movie/search/%s`
-    },
-    {
-        type: 'online',
-        content_type: 'asian drama', 
-        language: 'english',
-        name: 'NewAsianTV',
-        link: `https://newasiantv.biz/search/%s.html`
     },
     {
         type: 'online',
@@ -769,13 +685,6 @@ const sources_list = [
         language: 'russian',
         name: 'Shikimori',
         link: `https://shikimori.one/animes?search=%s`
-    },
-    {
-        type: 'online',
-        content_type: 'anime', 
-        language: 'english',
-        name: 'Zoro.to',
-        link: `https://zoro.to/search?keyword=%s`
     },
     {
         type: 'DDL',
@@ -855,18 +764,32 @@ const sources_list = [
         link: `https://rezka.ag/search/?do=search&subaction=search&q=%s`
     },
     {
-        type: 'torrent',
-        content_type: 'anime', 
-        language: 'english',
-        name: 'AcgnX',
-        link: `https://www.acgnx.se/search.php?sort_id=0&keyword=%s`
-    },
-    {
         type: 'online',
         content_type: 'anime', 
         language: 'english',
         name: 'YugenAnime',
         link: `https://yugenani.me/search/?q=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: 'KickAssAnime',
+        link: `https://www2.kickassanime.rs/search?q=%s`
+    },
+    {
+        type: 'online',
+        content_type: 'anime', 
+        language: 'english',
+        name: '5Anime',
+        link: `https://5anime.net/search.html?keyword=%s`
+    },
+    {
+        type: 'DDL,online',
+        content_type: 'general', 
+        language: 'english',
+        name: 'Rarefilmm',
+        link: `https://rarefilmm.com/?s=%s`
     }
 
 ];
@@ -930,7 +853,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $('html').on('input', '#cb_year_text, #cb_episode_text, #cb_cname_text', function () {updateString()})
         $('html').on('click', '.aw-sources-item' , function () {
             let search_item_id=this.id.split("-")[1];
-            let search_link=sources_list[search_item_id].link.replace('%s', $('.alternative-watch-modal #watch-search-string').html())
+            let search_link=sources_list[search_item_id].link.replace('%s', $('.alternative-watch-modal #watch-search-string').html().replace(/ /g,'+'))
             window.open(search_link, "_blank")
         });
     });
