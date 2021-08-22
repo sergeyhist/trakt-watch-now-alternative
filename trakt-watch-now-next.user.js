@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.6.6
+// @version     2.6.7
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal 
 // @run-at      document-start
@@ -165,7 +165,7 @@ var watchstyle = `
         text-decoration: none!important;
     }
     .main-aw-button {
-        margin-top: 5px;
+        margin-top: 3px;
         height: 54px;
         width: 100%;
         border: solid 1px #9e3131;
@@ -889,8 +889,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             if ($(this).find('h5 > a').length) { data_link=$(this).find('h5 > a').attr('href') }
                             else { data_link=$(this).find('h4 > a').attr('href') }
                             data_year=data_link.split('/')[2].split('-').pop()
-                            if (isNaN(data_year)) {data_year=''}
-                            data_name=data_link.split('/')[2].replace(/-/g,' ').replace(` ${data_year}`,'')
+                            if (isNaN(data_year)) {data_year=''; data_name=data_link.split('/')[4].replace(/-/g,' ')}
+                            else {data_name=data_link.split('/')[2].replace(/-/g,' ').replace(` ${data_year}`,'')}
                             data_season=data_link.split('/')[4]
                             data_episode=data_link.split('/')[6]
                             data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
@@ -900,8 +900,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         default:
                             data_link=$(this).find('meta[itemprop=url]').attr('content')
                             data_year=data_link.split('/')[4].split('-').pop()
-                            if (isNaN(data_year)) {data_year=''}
-                            data_name=data_link.split('/')[4].replace(/-/g,' ').replace(` ${data_year}`,'')
+                            if (isNaN(data_year)) {data_year=''; data_name=data_link.split('/')[4].replace(/-/g,' ')}
+                            else {data_name=data_link.split('/')[4].replace(/-/g,' ').replace(` ${data_year}`,'')}
                             data_season=data_link.split('/')[6]
                             data_episode=data_link.split('/')[8]
                             data_poster=$(this).find('meta[itemprop=image]').attr('content')
