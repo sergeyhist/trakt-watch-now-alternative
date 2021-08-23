@@ -3,7 +3,7 @@
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
 // @grant       GM_addStyle
-// @version     2.6.7
+// @version     2.6.8
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal 
 // @run-at      document-start
@@ -875,50 +875,53 @@ document.addEventListener("DOMContentLoaded", function () {
     function awButtons(playobject) {
         setInterval( function() {
             $('html').find(`${playobject}`).each( function () {
-                if (!$(this).find('#alternative-watch').length) {
-                    let data_link=""
-                    let data_name=""
-                    let data_episode=""
-                    let data_season=""
-                    let data_year=""
-                    let data_block=""
-                    let data_result=""
-                    let data_poster=""
-                    switch (playobject) {
-                        case '.schedule-episode':
-                            if ($(this).find('h5 > a').length) { data_link=$(this).find('h5 > a').attr('href') }
-                            else { data_link=$(this).find('h4 > a').attr('href') }
-                            data_year=data_link.split('/')[2].split('-').pop()
-                            if (isNaN(data_year)) {data_year=''; data_name=data_link.split('/')[4].replace(/-/g,' ')}
-                            else {data_name=data_link.split('/')[2].replace(/-/g,' ').replace(` ${data_year}`,'')}
-                            data_season=data_link.split('/')[4]
-                            data_episode=data_link.split('/')[6]
-                            data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode;
-                            data_block=awBlock('schedule',data_result)
-                            $(this).append(`${data_block}`)
-                            break;
-                        default:
-                            data_link=$(this).find('meta[itemprop=url]').attr('content')
-                            data_year=data_link.split('/')[4].split('-').pop()
-                            if (isNaN(data_year)) {data_year=''; data_name=data_link.split('/')[4].replace(/-/g,' ')}
-                            else {data_name=data_link.split('/')[4].replace(/-/g,' ').replace(` ${data_year}`,'')}
-                            data_season=data_link.split('/')[6]
-                            data_episode=data_link.split('/')[8]
-                            data_poster=$(this).find('meta[itemprop=image]').attr('content')
-                            data_result=data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode+'+|+'+data_poster
+                let aw_link=""
+                let aw_block=""
+                let aw_result=""
+                switch (playobject) {
+                    case '.schedule-episode':
+                        if (!$(this).find('#alternative-watch').length) {
+                            if ($(this).find('h5 > a').length) { aw_link=$(this).find('h5 > a').attr('href') }
+                            else { aw_link=$(this).find('h4 > a').attr('href') }
+                            aw_result=awData(2,aw_link)
+                            aw_block=awBlock('schedule',aw_result)
+                            $(this).append(`${aw_block}`)
+                        }
+                        break
+                    default:
+                        if (!$(this).find('.action-buttons > #alternative-watch').length) {
+                            aw_link=$(this).find('meta[itemprop=url]').attr('content')
+                            aw_result=awData(4,aw_link)
                             if ($(this).find('.action-buttons').length) {
-                                data_block=awBlock('main',data_result)
-                                $(this).find('.btn-collect').after(`${data_block}`)
+                                aw_block=awBlock('main',aw_result)
+                                $(this).find('.btn-collect').after(`${aw_block}`)
                             }
-                            else if ($(this).find('.quick-icons').length) {
-                                data_block=awBlock('quick',data_result)
-                                $(this).find('.collect').after(`${data_block}`)
-            }
-                    }
+                        }
+                        if (!$(this).find('.actions > #alternative-watch').length) {
+                            aw_link=$(this).find('meta[itemprop=url]').attr('content')
+                            aw_result=awData(4,aw_link)
+                            if ($(this).find('.actions').length) {
+                                aw_block=awBlock('quick',aw_result)
+                                $(this).find('.collect').after(`${aw_block}`)
+                            }
+                        }
                 }
             })
-            awTooltip();
-        },500);
+            awTooltip()
+        },500)
+    }
+
+    function awData(startnum,data_link) {
+        let data_name=""
+        let data_episode=""
+        let data_season=""
+        let data_year=""
+        data_year=data_link.split('/')[startnum].split('-').pop()
+        if (isNaN(data_year)) {data_year=''; data_name=data_link.split('/')[4].replace(/-/g,' ')}
+        else {data_name=data_link.split('/')[startnum].replace(/-/g,' ').replace(` ${data_year}`,'')}
+        data_season=data_link.split('/')[startnum+2]
+        data_episode=data_link.split('/')[startnum+4]
+        return data_name+'+|+'+data_year+'+|+'+data_season+'+|+'+data_episode
     }
 
     function awBlock(block_type,block_content) {
