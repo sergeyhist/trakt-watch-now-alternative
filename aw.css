@@ -31,7 +31,7 @@ select#aw_language, select#aw_type, select#aw_source {
     left: 50%;
     transform: translate(-50%);
     width: 350px;
-    height: 500px;
+    height: 85%;
 }
 #watch-search {
     width: 100%;
@@ -46,7 +46,6 @@ select#aw_language, select#aw_type, select#aw_source {
 #aw-sources {
     width: 100%;
     background-color: #000000de;
-    max-height: 55%;
     border: solid black 3px;
     overflow: auto;
     overflow-y: overlay;
