@@ -28,6 +28,7 @@ select#aw_language, select#aw_type, select#aw_source {
     display: flex;
     flex-direction: column;
     position: fixed;
+    top: 10%;
     left: 50%;
     transform: translate(-50%);
     width: 350px;

@@ -4,19 +4,19 @@
 // @match       *://trakt.tv/*
 // @version     2.6.9
 // @author      Hist
+// @resource    IMPORTED_CSS http://127.0.0.1/~hist/aw.css
+// @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
+// @grant       GM_addStyle
+// @grant       GM_getResourceText
 // @description Alternative version for trakt.tv watch now modal
 // @run-at      document-start
 // @downloadURL https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/trakt-watch-now-next.user.js
 // @homepageURL https://github.com/sergeyhist/trakt-watch-now-alternative
 // ==/UserScript==
 'use strict';
+const aw_styles = GM_getResourceText("IMPORTED_CSS"); GM_addStyle(aw_styles);
+const sources_list = JSON.parse(GM_getResourceText("IMPORTED_JSON"));
 document.addEventListener("DOMContentLoaded", function () {
-    const sources_list = [];
-    const aw_styles = document.createElement("link");
-    aw_styles.setAttribute("rel", "stylesheet");
-    aw_styles.setAttribute("type", "text/css");
-    aw_styles.setAttribute("href", "https://raw.githubusercontent.com/sergeyhist/histscript.github.io/gh-pages/123.css?token=APVTWKAUJHL75QDVIP2KZODB2MXOS");
-    document.getElementsByTagName("head")[0].appendChild(aw_styles);
     $('html').append(`<div class="alternative-watch-modal"/>`)
     $('html').on('click','.alternative-watch-modal', function (event) {
         if(!$(event.target).closest('.alternative-watch-content').length && !$(event.target).is('.alternative-watch-content')) {
@@ -205,9 +205,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function checkSepNum(n) {
         return (n < 10 ? '0' : '') + n
     }
+
     function checkString(s) {
         return (s == '' ? '': ' ') + s
     }
+
     function capFL(s) {
         return s.charAt(0).toUpperCase() + s.slice(1)
       }
