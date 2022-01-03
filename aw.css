@@ -1,0 +1,212 @@
+.streaming-links,
+.watch-now,
+.btn-watch-now,
+a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
+    display: none!important;
+}
+.btn-collect,
+.btn-list {
+    margin-top: 3px!important;
+}
+input#cb_year_text, input#cb_season_text, input#cb_episode_text, input#cb_cname_text,
+select#aw_language, select#aw_type, select#aw_source {
+    float: right;
+    margin-left: 5px;
+    font-size: 15px;
+    width: 60%;
+    background-color: #000000b3;
+}
+.alternative-watch-modal {
+    position: fixed;
+    z-index: 100000;
+    left: 0!important;
+    top: 0!important;
+    width: 100%!important;
+    background-color: rgba(0,0,0,0.4);
+}
+.alternative-watch-content {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%);
+    width: 350px;
+    height: 500px;
+}
+#watch-search {
+    width: 100%;
+    color: #fff;
+    background-color: rgba(0,0,0,.7);
+    padding: 10px 15px 5px;
+    font-size: 20px;
+    font-family: proxima nova;
+    text-align: left;
+    background-image: linear-gradient(to right, #000000, #691b1b8a);
+}
+#aw-sources {
+    width: 100%;
+    background-color: #000000de;
+    max-height: 55%;
+    border: solid black 3px;
+    overflow: auto;
+    overflow-y: overlay;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.watch-search-option {
+    display: table;
+    font-size: 16px;
+    height: 30px;
+    width: 100%
+}
+.watch-search-option label {
+    font-size: 15px;
+    padding-top: 2px;
+    padding-left: 2px;
+    font-weight: 100;
+}
+.watch-search-option input,
+.watch-search-option select {
+    font-size: 16px;
+    border-radius: 2px;
+    border: solid #232020 1px;
+    color: #fff;
+    background-color: #00000040;
+}
+.watch-search-option input[type="checkbox"] {
+    position: fixed;
+    left: 30%;
+}
+#aw-sources::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+.alternative-watch-close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-right: 10px;
+    margin-top: 4px;
+}
+.wt-title {
+    margin-inline: 4%;
+    font-family: proxima nova semibold;
+    margin-block: 10px;
+    text-align: center;
+    overflow: hidden;
+}
+.wt-title-button {
+    color: #fff;
+    padding-block: 5px;
+    text-align: center;
+    font-family: proxima nova semibold;
+    font-size: 15px;
+    border: solid #000000 1px;
+    border-radius: 5px;
+    background-image: linear-gradient(360deg, #1b04047d, #580d0d99);
+    margin-block: 3px;
+}
+.wt-title-button:hover {
+    color: #000000;
+    background-image: linear-gradient(360deg, #ff1e1ecc, #650d0d73);
+}
+.watch-search-option label[for=cb_cname]:hover,
+.watch-search-option label[for=cb_year]:hover,
+.watch-search-option label[for=cb_episode]:hover,
+.alternative-watch-close:hover,
+.alternative-watch-close:focus {
+    color: #a01717;
+
+}
+.alternative-watch-modal,
+input#cb_year_text,
+input#cb_season_text,
+input#cb_episode_text,
+input#cb_cname_text {
+    overflow: hidden;
+    visibility: hidden;
+    transition: opacity .4s ease;
+    height: 0;
+    opacity: 0;
+}
+.aw-sources-item {
+    padding-block: 15px;
+    margin-block: 5px;
+}
+#alternative-watch {
+    display: inline-block;
+    position: relative;
+    transition: all .5s;
+    color: #9e3131;
+}
+#alternative-watch:hover {
+    color: white;
+    background-color: #9e3131!important;
+    text-decoration: none!important;
+}
+.main-aw-button {
+    margin-top: 3px;
+    height: 54px;
+    width: 100%;
+    border: solid 1px #9e3131;
+    font-size: 3.4em;
+    line-height: 1.428571429;
+    background-color: inherit;
+    z-index: 1041;
+}
+.schedule-aw-button {
+    border-radius: 2px;
+    font-size: 0.7em;
+    position: relative;
+    top: 5px;
+    background-color: #1515158c;
+    margin-bottom: 5px;
+}
+.quick-aw-button > .trakt-icon-play2-thick {
+    font-size: 1.5em;
+    text-align: start;
+}
+.schedule-aw-button > .trakt-icon-play2-thick {
+    font-size: 2em;
+}
+.main-aw-button > .trakt-icon-play2 {
+    padding-top: 2.4px;
+    vertical-align: top;
+    margin-left: -1px;
+}
+.main-aw-button .wt-text {
+    display: inherit;
+    text-transform: uppercase;
+    color: inherit;
+    font-size: 0.355em;
+    position: absolute;
+    padding-top: 15px;
+    padding-left: 2px;
+    font-family: 'proxima nova semibold';
+}
+.schedule-aw-button .wt-text {
+    display: inherit;
+    text-transform: uppercase;
+    color: white;
+    padding-right: 7px;
+    font-family: 'proxima nova semibold';
+    padding-top: 2px;
+    vertical-align: middle;
+}
+.schedule-episode.same-show {
+    padding-top: 10px!important;
+}
+#alternative-watch,
+.wt-title-button,
+.alternative-watch-close,
+.watch-search-option label,
+.watch-search-option select {
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+}
