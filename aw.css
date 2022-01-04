@@ -8,14 +8,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 .btn-list {
     margin-top: 3px!important;
 }
-input#cb_year_text, input#cb_season_text, input#cb_episode_text, input#cb_cname_text,
-select#aw_language, select#aw_type, select#aw_source {
-    float: right;
-    margin-left: 5px;
-    font-size: 15px;
-    width: 60%;
-    background-color: #000000b3;
-}
+
 .alternative-watch-modal {
     position: fixed;
     z-index: 100000;
@@ -35,6 +28,8 @@ select#aw_language, select#aw_type, select#aw_source {
     height: 85%;
 }
 #watch-search {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     color: #fff;
     background-color: rgba(0,0,0,.7);
@@ -66,22 +61,23 @@ select#aw_language, select#aw_type, select#aw_source {
     padding-left: 2px;
     font-weight: 100;
 }
-.watch-search-option input,
+
 .watch-search-option select {
-    font-size: 16px;
+    float: right;
+    margin-left: 5px;
+    font-size: 15px;
+    width: 60%;
+    background-color: #000000b3;
     border-radius: 2px;
     border: solid #232020 1px;
     color: #fff;
-    background-color: #00000040;
 }
-.watch-search-option input[type="checkbox"] {
-    position: fixed;
-    left: 30%;
-}
+
 #aw-sources::-webkit-scrollbar {
     width: 0px;
     background: transparent;
 }
+
 .alternative-watch-close {
     color: white;
     float: right;
@@ -90,6 +86,7 @@ select#aw_language, select#aw_type, select#aw_source {
     margin-right: 10px;
     margin-top: 4px;
 }
+
 .wt-title {
     margin-inline: 4%;
     font-family: proxima nova semibold;
@@ -97,6 +94,7 @@ select#aw_language, select#aw_type, select#aw_source {
     text-align: center;
     overflow: hidden;
 }
+
 .wt-title-button {
     color: #fff;
     padding-block: 5px;
@@ -108,10 +106,12 @@ select#aw_language, select#aw_type, select#aw_source {
     background-image: linear-gradient(360deg, #1b04047d, #580d0d99);
     margin-block: 3px;
 }
+
 .wt-title-button:hover {
     color: #000000;
     background-image: linear-gradient(360deg, #ff1e1ecc, #650d0d73);
 }
+
 .watch-search-option label[for=cb_cname]:hover,
 .watch-search-option label[for=cb_year]:hover,
 .watch-search-option label[for=cb_episode]:hover,
