@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.0
+// @version     3.0.1
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -129,9 +129,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         aw_data.title = aw_data.default_title;
                     };
                 });
-                $('html').on('change', '#aw_language, #aw_type, #aw_source', function() {
+                $('html').on('change', '#aw_source', function() {
                     createLB_Info(aw_data.season, aw_data.episode);
                     $('.alternative-watch-modal #watch-search-string').html(`${aw_data.title}`);
+                    addSites();
+                });
+                $('html').on('change', '#aw_language, #aw_type', function() {
                     addSites();
                 });
                 $('html').on('click', '.aw-sources-item' , function () {
@@ -231,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if ($('.alternative-watch-content #watch-search').find('#aw_info')) {
             $('#aw_info').parent().remove();
         };
-        if (season && ($('#aw_source').val() != 'online') && $('#aw_source').val() != 'database') {
+        if (season && (($('#aw_source').val() != 'online') && ($('#aw_source').val() != 'database'))) {
             if (episode) {
                 createLB('info',['none','season','episode','year','all'],1);
             }
