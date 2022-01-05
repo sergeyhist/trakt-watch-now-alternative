@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.2
+// @version     3.1.3
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $('.alternative-watch-content').css({'visibility':'visible','height':'85%','opacity':'1'});
         $('.alternative-watch-content').append(`<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`);
         let main_int = setInterval(function() {
-            if (aw_data.poster) {
+            if (aw_data.backdrop) {
                 clearInterval(main_int);
                 $('.lds-ring').remove();
                 $('.alternative-watch-content').append(`<div class="aw-header"><div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div></div>`);

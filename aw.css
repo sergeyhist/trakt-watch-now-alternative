@@ -119,7 +119,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 .alternative-watch-content {
     overflow: hidden;
     visibility: hidden;
-    transition: opacity 1.2s ease;
+    transition: opacity .5s ease;
     height: 0;
     opacity: 0;
 }
