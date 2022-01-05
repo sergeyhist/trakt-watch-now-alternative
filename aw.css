@@ -26,8 +26,20 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     transform: translate(-50%);
     width: 350px;
     border-radius: 10px;
+}
+.aw-header {
+    border-inline: solid black 1px;
+    border-top: solid black 1px;
+    border-radius: 10px 10px 0 0;
+}
+.aw-footer {
+    border: solid black 1px;
+    border-radius: 0 0 10px 10px;
+}
+.aw-header, .aw-footer {
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center;
 }
 #watch-search {
     display: flex;
@@ -38,9 +50,6 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     font-size: 20px;
     font-family: proxima nova;
     text-align: left;
-    border-inline: solid black 1px;
-    border-top: solid black 1px;
-    border-radius: 10px 10px 0 0;
     background-image: linear-gradient(to right, #000000, rgb(40 14 14 / 35%));
 }
 #aw-sources {
