@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1
+// @version     3.1.1
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -65,6 +65,8 @@ document.addEventListener("DOMContentLoaded", function () {
             $('html').off('change', `#aw_language, #aw_type, #aw_source`);
             aw_data.title = "";
             aw_data.default_title = "";
+            aw_data.poster = "";
+            aw_data.tmdb = "";
         };
     });
     $(function () {
@@ -85,8 +87,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (aw_data.poster) {
                 clearInterval(main_int);
                 $('.lds-ring').remove();
-                $('.alternative-watch-content').css({'background-image':`url(${aw_data.poster})`});
-                $('.alternative-watch-content').append(`<div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div>`);
+                $('.alternative-watch-content').append(`<div class="aw-header"><div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div></div>`);
+                $('.aw-header').css({'background-image':`url(${aw_data.poster})`});
                 $('.alternative-watch-modal #watch-search-string').html(`${aw_data.title}`);
                 createLB("type",['general','anime','cartoon','asian drama'],2);
                 createLB("source",['online','torrent','DDL','database'],3);
@@ -251,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     function addSites() {
         $('.alternative-watch-content #aw-sources').remove();
-        $('.alternative-watch-content').append(`<div id="aw-sources"/>`);
+        $('.alternative-watch-content').append(`<div class="aw-footer"><div id="aw-sources"/></div>`);
         for(let i=0;i < aw_sources_list.length;i++) {
             let aw_type=$('#aw_type').val();
             let aw_language=$('#aw_language').val();
@@ -276,10 +278,10 @@ document.addEventListener("DOMContentLoaded", function () {
             aw_data.title = data.title;
             aw_data.year = data.year;
             aw_data.tmdb = data.ids['tmdb'];
-            fetch('https://api.themoviedb.org/3/tv/115036?api_key=a6dc8b1bcbeeaf4c970242298ccf059f&language=en-US')
+            fetch(`https://api.themoviedb.org/3/tv/${aw_data.tmdb}?api_key=a6dc8b1bcbeeaf4c970242298ccf059f&language=en-US`)
             .then(response => response.json())
             .then(data => {
-                aw_data.poster = 'https://image.tmdb.org/t/p/w300'+data.poster_path
+                aw_data.poster = 'https://image.tmdb.org/t/p/w500'+data.backdrop_path
             });
         });
     };
