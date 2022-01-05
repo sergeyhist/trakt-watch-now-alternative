@@ -26,13 +26,14 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     transform: translate(-50%);
     width: 350px;
     border-radius: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 #watch-search {
     display: flex;
     flex-direction: column;
     width: 100%;
     color: #fff;
-    background-color: rgba(0,0,0,.7);
     padding: 10px 15px 5px;
     font-size: 20px;
     font-family: proxima nova;

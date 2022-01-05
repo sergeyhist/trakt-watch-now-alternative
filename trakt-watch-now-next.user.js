@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.0.1
+// @version     3.1
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -51,7 +51,9 @@ const aw_data = {
     "title": "",
     "year": "",
     "season": "",
-    "episode": ""
+    "episode": "",
+    "tmdb": "",
+    "poster": ""
 };
 document.addEventListener("DOMContentLoaded", function () {
     $('html').append(`<div class="alternative-watch-modal"/>`);
@@ -80,9 +82,10 @@ document.addEventListener("DOMContentLoaded", function () {
         $('.alternative-watch-content').css({'visibility':'visible','height':'85%','opacity':'1'});
         $('.alternative-watch-content').append(`<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`);
         let main_int = setInterval(function() {
-            if (aw_data.title) {
+            if (aw_data.poster) {
                 clearInterval(main_int);
                 $('.lds-ring').remove();
+                $('.alternative-watch-content').css({'background-image':`url(${aw_data.poster})`});
                 $('.alternative-watch-content').append(`<div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div>`);
                 $('.alternative-watch-modal #watch-search-string').html(`${aw_data.title}`);
                 createLB("type",['general','anime','cartoon','asian drama'],2);
@@ -272,6 +275,12 @@ document.addEventListener("DOMContentLoaded", function () {
             aw_data.default_title = data.title;
             aw_data.title = data.title;
             aw_data.year = data.year;
+            aw_data.tmdb = data.ids['tmdb'];
+            fetch('https://api.themoviedb.org/3/tv/115036?api_key=a6dc8b1bcbeeaf4c970242298ccf059f&language=en-US')
+            .then(response => response.json())
+            .then(data => {
+                aw_data.poster = 'https://image.tmdb.org/t/p/w300'+data.poster_path
+            });
         });
     };
     function reqCall_Aliases(type,id) {
