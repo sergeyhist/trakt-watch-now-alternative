@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.1
+// @version     3.1.2
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -53,7 +53,8 @@ const aw_data = {
     "season": "",
     "episode": "",
     "tmdb": "",
-    "poster": ""
+    "poster": "",
+    "backdrop": ""
 };
 document.addEventListener("DOMContentLoaded", function () {
     $('html').append(`<div class="alternative-watch-modal"/>`);
@@ -66,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
             aw_data.title = "";
             aw_data.default_title = "";
             aw_data.poster = "";
+            aw_data.backdrop = ""
             aw_data.tmdb = "";
         };
     });
@@ -88,7 +90,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 clearInterval(main_int);
                 $('.lds-ring').remove();
                 $('.alternative-watch-content').append(`<div class="aw-header"><div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div></div>`);
-                $('.aw-header').css({'background-image':`url(${aw_data.poster})`});
+                $('.alternative-watch-content').append(`<div class="aw-footer"/>`);
+                if (aw_data.backdrop) {
+                    $('.aw-header').css({'background-image':`url(${aw_data.backdrop})`});
+                } else if (aw_data.poster) {
+                    $('.aw-header').css({'background-image':`url(${aw_data.poster})`});
+                };
+                $('.aw-footer').css({'background-image':`url("https://trakt.tv/assets/placeholders/thumb/poster-2561df5a41a5cb55c1d4a6f02d6532cf327f175bda97f4f813c18dea3435430c.png")`});
                 $('.alternative-watch-modal #watch-search-string').html(`${aw_data.title}`);
                 createLB("type",['general','anime','cartoon','asian drama'],2);
                 createLB("source",['online','torrent','DDL','database'],3);
@@ -252,8 +260,8 @@ document.addEventListener("DOMContentLoaded", function () {
         };
     };
     function addSites() {
-        $('.alternative-watch-content #aw-sources').remove();
-        $('.alternative-watch-content').append(`<div class="aw-footer"><div id="aw-sources"/></div>`);
+        $('.aw-footer #aw-sources').remove();
+        $('.aw-footer').append(`<div id="aw-sources"/>`);
         for(let i=0;i < aw_sources_list.length;i++) {
             let aw_type=$('#aw_type').val();
             let aw_language=$('#aw_language').val();
@@ -281,7 +289,8 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch(`https://api.themoviedb.org/3/tv/${aw_data.tmdb}?api_key=a6dc8b1bcbeeaf4c970242298ccf059f&language=en-US`)
             .then(response => response.json())
             .then(data => {
-                aw_data.poster = 'https://image.tmdb.org/t/p/w500'+data.backdrop_path
+                aw_data.poster = 'https://image.tmdb.org/t/p/w500'+data.poster_path;
+                aw_data.backdrop = 'https://image.tmdb.org/t/p/w500'+data.backdrop_path;
             });
         });
     };
