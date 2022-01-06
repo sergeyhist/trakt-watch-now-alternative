@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.12
+// @version     3.1.13
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
             case 'type':
                 $('#aw_Type').parent().remove();
-                createLB('Type',[],3);
+                createLB('Type',[],4);
                 for(let element of aw_sources_list) {
                     if (element.language.includes($('#aw_Language').val())) {
                         for (let item of element.type.split(',')) {
@@ -331,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
             case 'source':
                 $('#aw_Source').parent().remove();
-                createLB('Source',[],4);
+                createLB('Source',[],3);
                 for(let element of aw_sources_list) {
                     if ((element.language.includes($('#aw_Language').val())) &&
                     (element.type.includes($('#aw_Type').val()))) {
