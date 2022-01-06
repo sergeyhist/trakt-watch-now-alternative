@@ -238,13 +238,6 @@
         "link": "https://5anime.net/search.html?keyword=%s"
     },
     {
-        "source": "DDL,Online",
-        "type": "General",
-        "language": "English",
-        "name": "Rarefilmm",
-        "link": "https://rarefilmm.com/?s=%s"
-    },
-    {
         "source": "Torrent",
         "type": "General",
         "language": "English",
@@ -481,6 +474,13 @@
         "language": "English",
         "name": "AnimeKayo",
         "link": "https://animekayo.com/?s=%s"
+    },
+    {
+        "source": "DDL, Online",
+        "type": "General",
+        "language": "English",
+        "name": "Rarefilmm",
+        "link": "https://rarefilmm.com/?s=%s"
     },
     {
         "source": "Database",
