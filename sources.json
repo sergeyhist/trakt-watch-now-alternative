@@ -7,13 +7,6 @@
         "link": "https://www.youtube.com/results?search_query=%s"
     },
     {
-        "source": "Database, Torrent",
-        "type": "Anime",
-        "language": "English",
-        "name": "AnimeK",
-        "link": "https://animek.fun/search?q=%s"
-    },
-    {
         "source": "Online",
         "type": "General,Anime,Cartoon,Asian Drama",
         "language": "Russian",
@@ -112,104 +105,6 @@
         "link": "https://zoro.to/search?keyword=%s"
     },
     {
-        "source": "DDL",
-        "type": "General",
-        "language": "English",
-        "name":"HDEncode",
-        "link": "https://hdencode.com/?s=%s"
-    },
-    {
-        "source": "DDL",
-        "type": "General",
-        "language": "English",
-        "name":"RLSBB",
-        "link": "http://search.rlsbb.ru/?s=%s"
-    },
-    {
-        "source": "DDL",
-        "type": "General",
-        "language": "English",
-        "name":"Scene-Rls",
-        "link": "http://scene-rls.com/?s=%s"
-    },
-    {
-        "source": "DDL",
-        "type": "Anime",
-        "language": "English",
-        "name":"AnimeKaizoku",
-        "link": "https://animekaizoku.com/?s=%s"
-    },
-    {
-        "source": "Torrent",
-        "type": "General",
-        "language": "English",
-        "name": "RARBG",
-        "link": "https://rarbgtor.org/Torrents.php?search=%s"
-    },
-    {
-        "source": "Torrent",
-        "type": "General",
-        "language": "English",
-        "name":"1337x",
-        "link": "https://1337x.to/search/%s/1/"
-    },
-    {
-        "source": "Torrent",
-        "type": "General",
-        "language": "English",
-        "name": "The Pirate Bay",
-        "link": "https://thepiratebay.org/search/%s/0/3/0"
-    },
-    {
-        "source": "Torrent",
-        "type": "Anime",
-        "language": "English",
-        "name":"Nyaa",
-        "link": "https://nyaa.si/?f=0&c=1_2&q=%s"
-    },
-    {
-        "source": "Torrent",
-        "type": "Anime",
-        "language": "English",
-        "name": "Anidex",
-        "link": "https://anidex.info/?q=%s"
-    },
-    {
-        "source": "Torrent",
-        "type": "Anime",
-        "language": "English",
-        "name": "ShanaProject",
-        "link": "https://www.shanaproject.com/search/?title=%s"
-    },
-    {
-        "source": "Torrent",
-        "type": "General",
-        "language": "Russian",
-        "name": "Rutracker",
-        "link": "https://rutracker.org/forum/tracker.php?nm=%s"
-    },
-    {
-        "source": "Torrent",
-        "type": "Asian Drama",
-        "language": "English",
-        "name": "AvistaZ",
-        "link": "https://avistaz.to/Torrents?in=1&search=%s"
-    },
-    {
-        "source": "Torrent",
-        "type": "General",
-        "language": "English",
-        "name": "CinemaZ",
-        "link": "https://cinemaz.to/Torrents?in=1&search=%s"
-    },
-    {
-        "source": "Torrent",
-        "type": "General",
-        "language": "Russian",
-        "name": "Kinozal",
-        "link": "http://kinozal.tv/browse.php?s=%s"
-    },
-    {
         "source": "Online",
         "type": "General",
         "language": "Russian",
@@ -231,130 +126,11 @@
         "link": "https://megogo.ru/ru/search-extended?q=%s"
     },
     {
-        "source": "Torrent",
-        "type": "General",
-        "language": "Russian",
-        "name": "NNMClub",
-        "link": "http://nnmclub.to/forum/tracker.php?nm=%s"
-    },
-    {
-        "source": "Torrent",
-        "type": "General",
-        "language": "Russian",
-        "name": "LostFilm",
-        "link": "https://www.lostfilm.tv/search/?q=%s"
-    },
-    {
-        "source": "Torrent",
-        "type": "General",
-        "language": "Russian",
-        "name": "Rutor",
-        "link": "http://rutor.info/search/%s"
-    },
-    {
         "source": "Online",
         "type": "Anime",
         "language": "Russian",
         "name": "Jut.su",
         "link": "https://jut.su/search/?searchid=1893616&text=%s"
-    },
-    {
-        "source": "Torrent",
-        "type": "General",
-        "language": "English",
-        "name": "Torrents.csv",
-        "link": "https://Torrents-csv.ml/#/search/torrent/%s/1"
-    },
-    {
-        "source": "Torrent",
-        "type": "General",
-        "language": "English",
-        "name": "TorrentGalaxy",
-        "link": "https://torrentgalaxy.to/torrents.php?c9=1&c3=1&c46=1&c45=1&c42=1&c4=1&c1=1&c25=1&c41=1&c5=1&c6=1&c7=1&search=%s&lang=0&nox=2#results"
-    },
-    {
-        "source": "Torrent",
-        "type": "General",
-        "language": "English",
-        "name": "SolidTorrents",
-        "link": "https://solidtorrents.net/search?q=%s"
-    },
-    {
-        "source": "Torrent",
-        "type": "General",
-        "language": "English",
-        "name": "Ettv",
-        "link": "https://www.ettvcentral.com/torrents-search.php?search=%s"
-    },
-    {
-        "source": "Torrent,DDL",
-        "type": "General",
-        "language": "English",
-        "name": "Psarips",
-        "link": "https://psa.one/?s=%s"
-    },
-    {
-        "source": "Torrent",
-        "type": "General",
-        "language": "English",
-        "name": "MVGroup-Documentaries",
-        "link": "https://forums.mvgroup.org/maintracker.php?forums=all&filter=%s&x=0&y=0&searchwhere=on"
-    },
-    {
-        "source": "Torrent,DDL",
-        "type": "Anime",
-        "language": "English",
-        "name": "Hi10Anime",
-        "link": "https://hi10anime.com/?s=%s"
-    },
-    {
-        "source": "DDL",
-        "type": "General",
-        "language": "English",
-        "name": "Crazy4tv",
-        "link": "http://crazy4tv.com/?s=%s"
-    },
-    {
-        "source": "DDL",
-        "type": "General",
-        "language": "English",
-        "name": "2DDL",
-        "link": "https://2ddl.ms/?q=%s"
-    },
-    {
-        "source": "DDL",
-        "type": "General",
-        "language": "English",
-        "name": "RapidMoviez",
-        "link": "http://rmz.cr/search/%s"
-    },
-    {
-        "source": "DDL",
-        "type": "General",
-        "language": "English",
-        "name": "MegaDDL",
-        "link": "https://megaddl.co/?s=%s"
-    },
-    {
-        "source": "DDL",
-        "type": "General",
-        "language": "English",
-        "name": "MovieParadise",
-        "link": "https://movieparadise.org/?s=%s"
-    },
-    {
-        "source": "DDL",
-        "type": "General",
-        "language": "English",
-        "name": "DDLValley",
-        "link": "https://www.ddlvalley.me/search/%s"
-    },
-    {
-        "source": "DDL",
-        "type": "General",
-        "language": "English",
-        "name": "Snahp",
-        "link": "https://snahp.it/?s=%s"
     },
     {
         "source": "Online",
@@ -383,90 +159,6 @@
         "language": "English",
         "name": "DramaHood",
         "link": "https://kdramahood.com/?s=%s"
-    },
-    {
-        "source": "Database",
-        "type": "General",
-        "language": "English",
-        "name": "IMDB",
-        "link": "https://www.imdb.com/find?s=tt&q=%s&ref_=nv_sr_sm"
-    },
-    {
-        "source": "Database",
-        "type": "General",
-        "language": "English",
-        "name": "TheMovieDB",
-        "link": "https://www.themoviedb.org/search?query=%s"
-    },
-    {
-        "source": "Database",
-        "type": "General",
-        "language": "English",
-        "name": "TheTVDB",
-        "link": "https://thetvdb.com/search?query=%s"
-    },
-    {
-        "source": "Database",
-        "type": "Anime",
-        "language": "English",
-        "name": "AniList",
-        "link": "https://anilist.co/search/anime?search=%s&sort=SEARCH_MATCH"
-    },
-    {
-        "source": "Database",
-        "type": "Anime",
-        "language": "English",
-        "name": "MyAnimeList",
-        "link": "https://myanimelist.net/anime.php?q=%s&cat=anime"
-    },
-    {
-        "source": "Database",
-        "type": "Anime",
-        "language": "English",
-        "name": "AniDB",
-        "link": "https://anidb.net/anime/?adb.search=%s&do.search=1"
-    },
-    {
-        "source": "Database",
-        "type": "Asian Drama",
-        "language": "English",
-        "name": "MyDramaList",
-        "link": "https://mydramalist.com/search?q=%s"
-    },
-    {
-        "source": "Database",
-        "type": "General",
-        "language": "Russian",
-        "name": "Kinopoisk",
-        "link": "https://www.kinopoisk.ru/index.php?kp_query=%s"
-    },
-    {
-        "source": "Database",
-        "type": "Anime",
-        "language": "Russian",
-        "name": "Shikimori",
-        "link": "https://shikimori.one/animes?search=%s"
-    },
-    {
-        "source": "DDL",
-        "type": "Anime",
-        "language": "English",
-        "name": "Ani60FPS",
-        "link": "https://www.anime60fps.com/search?q=%s"
-    },
-    {
-        "source": "DDL",
-        "type": "Anime",
-        "language": "English",
-        "name": "AniDL",
-        "link": "https://anidl.org/?s=%s"
-    },
-    {
-        "source": "DDL",
-        "type": "Anime",
-        "language": "English",
-        "name": "AnimeKayo",
-        "link": "https://animekayo.com/?s=%s"
     },
     {
         "source": "Online",
@@ -551,5 +243,306 @@
         "language": "English",
         "name": "Rarefilmm",
         "link": "https://rarefilmm.com/?s=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "English",
+        "name": "RARBG",
+        "link": "https://rarbgtor.org/Torrents.php?search=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "English",
+        "name":"1337x",
+        "link": "https://1337x.to/search/%s/1/"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "English",
+        "name": "The Pirate Bay",
+        "link": "https://thepiratebay.org/search/%s/0/3/0"
+    },
+    {
+        "source": "Torrent",
+        "type": "Anime",
+        "language": "English",
+        "name":"Nyaa",
+        "link": "https://nyaa.si/?f=0&c=1_2&q=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "Anime",
+        "language": "English",
+        "name": "Anidex",
+        "link": "https://anidex.info/?q=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "Anime",
+        "language": "English",
+        "name": "ShanaProject",
+        "link": "https://www.shanaproject.com/search/?title=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "Russian",
+        "name": "Rutracker",
+        "link": "https://rutracker.org/forum/tracker.php?nm=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "Asian Drama",
+        "language": "English",
+        "name": "AvistaZ",
+        "link": "https://avistaz.to/Torrents?in=1&search=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "English",
+        "name": "CinemaZ",
+        "link": "https://cinemaz.to/Torrents?in=1&search=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "Russian",
+        "name": "Kinozal",
+        "link": "http://kinozal.tv/browse.php?s=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "Russian",
+        "name": "NNMClub",
+        "link": "http://nnmclub.to/forum/tracker.php?nm=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "Russian",
+        "name": "LostFilm",
+        "link": "https://www.lostfilm.tv/search/?q=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "Russian",
+        "name": "Rutor",
+        "link": "http://rutor.info/search/%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "English",
+        "name": "Torrents.csv",
+        "link": "https://Torrents-csv.ml/#/search/torrent/%s/1"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "English",
+        "name": "TorrentGalaxy",
+        "link": "https://torrentgalaxy.to/torrents.php?c9=1&c3=1&c46=1&c45=1&c42=1&c4=1&c1=1&c25=1&c41=1&c5=1&c6=1&c7=1&search=%s&lang=0&nox=2#results"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "English",
+        "name": "SolidTorrents",
+        "link": "https://solidtorrents.net/search?q=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "English",
+        "name": "Ettv",
+        "link": "https://www.ettvcentral.com/torrents-search.php?search=%s"
+    },
+    {
+        "source": "Torrent,DDL",
+        "type": "General",
+        "language": "English",
+        "name": "Psarips",
+        "link": "https://psa.one/?s=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "General",
+        "language": "English",
+        "name": "MVGroup-Documentaries",
+        "link": "https://forums.mvgroup.org/maintracker.php?forums=all&filter=%s&x=0&y=0&searchwhere=on"
+    },
+    {
+        "source": "DDL",
+        "type": "General",
+        "language": "English",
+        "name":"HDEncode",
+        "link": "https://hdencode.com/?s=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "General",
+        "language": "English",
+        "name":"RLSBB",
+        "link": "http://search.rlsbb.ru/?s=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "General",
+        "language": "English",
+        "name":"Scene-Rls",
+        "link": "http://scene-rls.com/?s=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "Anime",
+        "language": "English",
+        "name":"AnimeKaizoku",
+        "link": "https://animekaizoku.com/?s=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "Anime",
+        "language": "English",
+        "name": "Ani60FPS",
+        "link": "https://www.anime60fps.com/search?q=%s"
+    },
+    {
+        "source": "Torrent,DDL",
+        "type": "Anime",
+        "language": "English",
+        "name": "Hi10Anime",
+        "link": "https://hi10anime.com/?s=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "General",
+        "language": "English",
+        "name": "Crazy4tv",
+        "link": "http://crazy4tv.com/?s=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "General",
+        "language": "English",
+        "name": "2DDL",
+        "link": "https://2ddl.ms/?q=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "General",
+        "language": "English",
+        "name": "RapidMoviez",
+        "link": "http://rmz.cr/search/%s"
+    },
+    {
+        "source": "DDL",
+        "type": "General",
+        "language": "English",
+        "name": "MegaDDL",
+        "link": "https://megaddl.co/?s=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "General",
+        "language": "English",
+        "name": "MovieParadise",
+        "link": "https://movieparadise.org/?s=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "General",
+        "language": "English",
+        "name": "DDLValley",
+        "link": "https://www.ddlvalley.me/search/%s"
+    },
+    {
+        "source": "DDL",
+        "type": "General",
+        "language": "English",
+        "name": "Snahp",
+        "link": "https://snahp.it/?s=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "Anime",
+        "language": "English",
+        "name": "AniDL",
+        "link": "https://anidl.org/?s=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "Anime",
+        "language": "English",
+        "name": "AnimeKayo",
+        "link": "https://animekayo.com/?s=%s"
+    },
+    {
+        "source": "Database",
+        "type": "General",
+        "language": "English",
+        "name": "IMDB",
+        "link": "https://www.imdb.com/find?s=tt&q=%s&ref_=nv_sr_sm"
+    },
+    {
+        "source": "Database",
+        "type": "General",
+        "language": "English",
+        "name": "TheMovieDB",
+        "link": "https://www.themoviedb.org/search?query=%s"
+    },
+    {
+        "source": "Database",
+        "type": "General",
+        "language": "English",
+        "name": "TheTVDB",
+        "link": "https://thetvdb.com/search?query=%s"
+    },
+    {
+        "source": "Database",
+        "type": "Anime",
+        "language": "English",
+        "name": "AniList",
+        "link": "https://anilist.co/search/anime?search=%s&sort=SEARCH_MATCH"
+    },
+    {
+        "source": "Database",
+        "type": "Anime",
+        "language": "English",
+        "name": "MyAnimeList",
+        "link": "https://myanimelist.net/anime.php?q=%s&cat=anime"
+    },
+    {
+        "source": "Database",
+        "type": "Anime",
+        "language": "English",
+        "name": "AniDB",
+        "link": "https://anidb.net/anime/?adb.search=%s&do.search=1"
+    },
+    {
+        "source": "Database",
+        "type": "Asian Drama",
+        "language": "English",
+        "name": "MyDramaList",
+        "link": "https://mydramalist.com/search?q=%s"
+    },
+    {
+        "source": "Database",
+        "type": "General",
+        "language": "Russian",
+        "name": "Kinopoisk",
+        "link": "https://www.kinopoisk.ru/index.php?kp_query=%s"
+    },
+    {
+        "source": "Database",
+        "type": "Anime",
+        "language": "Russian",
+        "name": "Shikimori",
+        "link": "https://shikimori.one/animes?search=%s"
     }
 ]   
