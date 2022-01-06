@@ -58,7 +58,6 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     transition: opacity .5s ease;
     height: 0;
     opacity: 0;
-    width: 100%;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
