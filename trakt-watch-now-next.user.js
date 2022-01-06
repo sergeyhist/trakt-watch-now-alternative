@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.8
+// @version     3.1.9
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -95,7 +95,6 @@ document.addEventListener("DOMContentLoaded", function () {
         let main_int = setInterval(function() {
             if (aw_data.poster) {
                 clearInterval(main_int);
-                $('.aw-loading').remove();
                 $('.aw-header').css({'border':'solid black 1px'});
                 $('.aw-footer').css({'border':'solid black 1px'});
                 if (aw_data.backdrop) {
@@ -106,6 +105,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 $('.aw-header').append(`<div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div>`);
                 $('.aw-footer').css({'background-image':`url("https://trakt.tv/assets/placeholders/thumb/poster-2561df5a41a5cb55c1d4a6f02d6532cf327f175bda97f4f813c18dea3435430c.png")`});
                 $('#watch-search-string').html(`${aw_data.title}`);
+                $('.aw-loading').remove();
+                $('.aw-header').css({'visibility':'visible','height':'100%','opacity':'1'});
+                $('.aw-footer').css({'visibility':'visible','height':'100%','opacity':'1'});
                 createLB('Titles',['Default'],1);
                 createLB('Additional Info',['None','Year'],2);
                 createLB('Language',[],5);
