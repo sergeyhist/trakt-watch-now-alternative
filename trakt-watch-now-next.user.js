@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.10
+// @version     3.1.11
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -95,8 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let main_int = setInterval(function() {
             if (aw_data.poster) {
                 clearInterval(main_int);
-                $('.aw-header').css({'border':'solid black 1px'});
-                $('.aw-footer').css({'border':'solid black 1px'});
+                $('.aw-footer').css({'border':'solid black 2px'});
                 if (aw_data.backdrop) {
                     $('.aw-header').css({'background-image':`url(${aw_data.backdrop})`});
                 } else if (aw_data.poster) {
