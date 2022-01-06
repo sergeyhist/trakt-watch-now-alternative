@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.6
+// @version     3.1.7
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
         reqCall_Data(aw_data.type, aw_data.id);
         $('.aw-modal').append(`<div class="aw-content"/>`);
         $('.aw-modal').css({'visibility':'visible','height':'100%','opacity':'1'});
-        $('.aw-content').css({'visibility':'visible','height':'85%','opacity':'1'});
+        $('.aw-content').css({'visibility':'visible','height':'fit-content','opacity':'1'});
         $('.aw-content').append(`<div class="aw-header"/>`);
         $('.aw-content').append(`<div class="aw-footer"/>`);
         $('.aw-content').append(`<div class="aw-loading"><div></div><div></div><div></div><div></div></div>`);
@@ -106,36 +106,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 $('.aw-header').append(`<div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div>`);
                 $('.aw-footer').css({'background-image':`url("https://trakt.tv/assets/placeholders/thumb/poster-2561df5a41a5cb55c1d4a6f02d6532cf327f175bda97f4f813c18dea3435430c.png")`});
                 $('#watch-search-string').html(`${aw_data.title}`);
+                createLB("Titles",['Default'],1);
+                createLB("Additional Info",['None','Year'],2);
                 createLB("Type",['General','Anime','Cartoon','Asian Drama'],3);
                 createLB("Source",['Online','Torrent','DDL','Database'],4);
-                createLB_Info(aw_data.season, aw_data.episode);
                 createLB("Language",['English','Russian'],5);
-                createLB("Titles",['Default'],1);
                 reqCall_Aliases(aw_data.type, aw_data.id);
                 addSites();
-                $('html').on('change', '#aw_Additional_Info', function () {
-                    switch ($('#aw_Additional_Info').val()) {
-                        case 'None':
-                            $('#watch-search-string').html(`${aw_data.title}`);
-                            break;
-                        case 'Season':
-                            $('#watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season));
-                            break;
-                        case 'Episode':
-                            $('#watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+'e'+checkSepNum(aw_data.episode));
-                            break;
-                        case 'Year':
-                            $('#watch-search-string').html(`${aw_data.title}`+' '+`${aw_data.year}`);
-                            break;
-                        case 'All':
-                            if (aw_data.episode) {
-                                $('#watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+'e'+checkSepNum(aw_data.episode)+' '+`${aw_data.year}`);
-                            }
-                            else {
-                                $('#watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+' '+`${aw_data.year}`);
-                            };
-                    };
-                });
                 $('html').on('change', '#aw_Titles', function() {
                     if ($('#aw_Titles').val() != 'Default') {
                         $('#watch-search-string')
@@ -151,14 +128,22 @@ document.addEventListener("DOMContentLoaded", function () {
                     };
                 });
                 $('html').on('change', '#aw_Source', function() {
-                    createLB_Info(aw_data.season, aw_data.episode);
-                    if (($('#aw_Source').val() != "Torrent" ) && ($('#aw_Source').val() != "DDL" )) {
-                        $('#watch-search-string')
-                        .html($('#watch-search-string')
-                        .html().replace(' s'+checkSepNum(aw_data.season),'')
-                        .replace('e'+checkSepNum(aw_data.episode),''));
+                    if (($('#aw_Source').val() != 'Online') && ($('#aw_Source').val() != 'Database')) {
+                        if (aw_data.season) {
+                            if (aw_data.episode) {
+                                updateLB('aw_Additional_Info',['Episode','Season','All'],[])
+                            } else {
+                                updateLB('aw_Additional_Info',['Season','All'],[])
+                            };
+                        };
+                    } else {
+                        updateLB('aw_Additional_Info',[],['Episode','Season','All']);
                     };
+                    updateInfo();
                     addSites();
+                });
+                $('html').on('change', '#aw_Additional_Info', function () {
+                    updateInfo();
                 });
                 $('html').on('change', '#aw_Language, #aw_Type', function() {
                     addSites();
@@ -266,29 +251,43 @@ document.addEventListener("DOMContentLoaded", function () {
         <div style="order:${order}" class="watch-search-option">
         <label for="aw_${type.replace(' ','_')}">${type}</label>
         <select id="aw_${type.replace(' ','_')}" size="1"/></div>`);
-        for (let i=0; i < items.length; i++) {
-            $(`select#aw_${type.replace(' ','_')}`).append(`<option value="${items[i]}">${items[i]}</option>`);
+        for (let element of items) {
+            $(`select#aw_${type.replace(' ','_')}`)
+            .append(`<option value="${element}">${element}</option>`);
         };
     };
 
-    function updateLB(type,items,order) {
-        ;
+    function updateLB(type,items_add,items_delete) {
+        for (let element of items_add) {
+            $(`select#${type}`)
+            .append(`<option value="${element}">${element.replace('aw_','').replace('_',' ')}</option>`);
+        };
+        for (let element of items_delete) {
+            $(`#${type} > option[value="${element}"]`).remove();
+        };
     };
 
-    function createLB_Info(season, episode) {
-        if ($('.aw-content #watch-search').find('#aw_Additional_Info')) {
-            $('#aw_Additional_Info').parent().remove();
-        };
-        if (season && (($('#aw_Source').val() != 'Online') && ($('#aw_Source').val() != 'Database'))) {
-            if (episode) {
-                createLB('Additional Info',['None','Season','Episode','Year','All'],2);
-            }
-            else {
-                createLB('Additional Info',['None','Season','Year','All'],2);
-            }
-        }
-        else {
-            createLB('Additional Info',['None','Year'],2);
+    function updateInfo() {
+        switch ($('#aw_Additional_Info').val()) {
+            case 'None':
+                $('#watch-search-string').html(`${aw_data.title}`);
+                break;
+            case 'Season':
+                $('#watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season));
+                break;
+            case 'Episode':
+                $('#watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+'e'+checkSepNum(aw_data.episode));
+                break;
+            case 'Year':
+                $('#watch-search-string').html(`${aw_data.title}`+' '+`${aw_data.year}`);
+                break;
+            case 'All':
+                if (aw_data.episode) {
+                    $('#watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+'e'+checkSepNum(aw_data.episode)+' '+`${aw_data.year}`);
+                }
+                else {
+                    $('#watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+' '+`${aw_data.year}`);
+                };
         };
     };
 
@@ -323,8 +322,8 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch(`https://api.themoviedb.org/3/${type.replace('shows','tv').replace('movies','movie')}/${aw_data.tmdb}?api_key=a6dc8b1bcbeeaf4c970242298ccf059f&language=en-US`)
             .then(response => response.json())
             .then(data => {
-                aw_data.poster = 'https://image.tmdb.org/t/p/w300'+data.poster_path;
-                aw_data.backdrop = 'https://image.tmdb.org/t/p/w300'+data.backdrop_path;
+                aw_data.poster = 'https://image.tmdb.org/t/p/w500'+data.poster_path;
+                aw_data.backdrop = 'https://image.tmdb.org/t/p/w500'+data.backdrop_path;
             });
         });
     };

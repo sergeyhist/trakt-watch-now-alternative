@@ -27,6 +27,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     transform: translate(-50%);
     width: 350px;
     border-radius: 10px;
+    max-height: 85%;
 }
 
 .aw-modal,
@@ -68,7 +69,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     flex-direction: column;
     color: #fff;
     padding: 10px 15px 5px;
-    font-size: 20px;
+    font-size: 16px;
     font-family: proxima nova;
     text-align: left;
     background-image: linear-gradient(to right, #000000, rgb(40 14 14 / 35%));
@@ -81,13 +82,12 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 
 .watch-search-option {
     display: table;
-    font-size: 16px;
+    font-size: 13px;
     height: 30px;
     width: 100%
 }
 
 .watch-search-option label {
-    font-size: 15px;
     padding-top: 2px;
     padding-left: 2px;
     font-weight: 100;
@@ -96,7 +96,6 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 .watch-search-option select {
     float: right;
     margin-left: 5px;
-    font-size: 15px;
     width: 60%;
     background-color: #000000b3;
     border-radius: 2px;
