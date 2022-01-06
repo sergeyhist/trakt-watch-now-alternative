@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.4
+// @version     3.1.5
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -39,9 +39,14 @@ const play_item= [
         "type": 'movies'
     },
     {
-        "link": '.schedule-episode',
+        "link": '.schedule-episode[attr="data-show-id"]',
         "id": 'data-show-id',
         "type": 'shows'
+    },
+    {
+        "link": '.schedule-episode[attr="data-movie-id"]',
+        "id": 'data-movie-id',
+        "type": 'movies'
     }
 ];
 const aw_data = {
@@ -57,11 +62,11 @@ const aw_data = {
     "backdrop": ""
 };
 document.addEventListener("DOMContentLoaded", function () {
-    $('html').append(`<div class="alternative-watch-modal"/>`);
-    $('html').on('click','.alternative-watch-modal', function (event) {
-        if(!$(event.target).closest('.alternative-watch-content').length && !$(event.target).is('.alternative-watch-content')) {
-            $('.alternative-watch-content').remove();
-            $('.alternative-watch-modal').css({'visibility':'hidden','height':'0','opacity':'0'});
+    $('html').append(`<div class="aw-modal"/>`);
+    $('html').on('click','.aw-modal', function (event) {
+        if(!$(event.target).closest('.aw-content').length && !$(event.target).is('.aw-content')) {
+            $('.aw-content').remove();
+            $('.aw-modal').css({'visibility':'hidden','height':'0','opacity':'0'});
             $('html').off('click', '.aw-sources-item');
             $('html').off('change', `#aw_language, #aw_type, #aw_source`);
             aw_data.title = "";
@@ -81,23 +86,24 @@ document.addEventListener("DOMContentLoaded", function () {
         aw_data.season = $(this).attr('aw-data-season');
         aw_data.episode = $(this).attr('aw-data-episode');
         reqCall_Data(aw_data.type, aw_data.id);
-        $('.alternative-watch-modal').append(`<div class="alternative-watch-content"/>`);
-        $('.alternative-watch-modal').css({'visibility':'visible','height':'100%','opacity':'1'});
-        $('.alternative-watch-content').css({'visibility':'visible','height':'85%','opacity':'1'});
-        $('.alternative-watch-content').append(`<div class="lds-ring"><div></div><div></div><div></div><div></div></div>`);
+        $('.aw-modal').append(`<div class="aw-content"/>`);
+        $('.aw-modal').css({'visibility':'visible','height':'100%','opacity':'1'});
+        $('.aw-content').css({'visibility':'visible','height':'85%','opacity':'1'});
+        $('.aw-content').append(`<div class="aw-header"/>`);
+        $('.aw-content').append(`<div class="aw-footer"/>`);
+        $('.aw-header').append(`<div class="aw-loading"><div></div><div></div><div></div><div></div></div>`);
         let main_int = setInterval(function() {
             if (aw_data.backdrop) {
                 clearInterval(main_int);
-                $('.lds-ring').remove();
-                $('.alternative-watch-content').append(`<div class="aw-header"><div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div></div>`);
-                $('.alternative-watch-content').append(`<div class="aw-footer"/>`);
+                $('.aw-loading').remove();
+                $('.aw-header').append(`<div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div>`);
                 if (aw_data.backdrop) {
                     $('.aw-header').css({'background-image':`url(${aw_data.backdrop})`});
                 } else if (aw_data.poster) {
                     $('.aw-header').css({'background-image':`url(${aw_data.poster})`});
                 };
                 $('.aw-footer').css({'background-image':`url("https://trakt.tv/assets/placeholders/thumb/poster-2561df5a41a5cb55c1d4a6f02d6532cf327f175bda97f4f813c18dea3435430c.png")`});
-                $('.alternative-watch-modal #watch-search-string').html(`${aw_data.title}`);
+                $('.aw-modal #watch-search-string').html(`${aw_data.title}`);
                 createLB("type",['general','anime','cartoon','asian drama'],2);
                 createLB("source",['online','torrent','DDL','database'],3);
                 createLB_Info(aw_data.season, aw_data.episode);
@@ -108,43 +114,43 @@ document.addEventListener("DOMContentLoaded", function () {
                 $('html').on('change', '#aw_info', function () {
                     switch ($('#aw_info').val()) {
                         case 'none':
-                            $('.alternative-watch-modal #watch-search-string').html(`${aw_data.title}`);
+                            $('.aw-modal #watch-search-string').html(`${aw_data.title}`);
                             break;
                         case 'season':
-                            $('.alternative-watch-modal #watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season));
+                            $('.aw-modal #watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season));
                             break;
                         case 'episode':
-                            $('.alternative-watch-modal #watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+'e'+checkSepNum(aw_data.episode));
+                            $('.aw-modal #watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+'e'+checkSepNum(aw_data.episode));
                             break;
                         case 'year':
-                            $('.alternative-watch-modal #watch-search-string').html(`${aw_data.title}`+' '+`${aw_data.year}`);
+                            $('.aw-modal #watch-search-string').html(`${aw_data.title}`+' '+`${aw_data.year}`);
                             break;
                         case 'all':
                             if (aw_data.episode) {
-                                $('.alternative-watch-modal #watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+'e'+checkSepNum(aw_data.episode)+' '+`${aw_data.year}`);
+                                $('.aw-modal #watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+'e'+checkSepNum(aw_data.episode)+' '+`${aw_data.year}`);
                             }
                             else {
-                                $('.alternative-watch-modal #watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+' '+`${aw_data.year}`);
+                                $('.aw-modal #watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+' '+`${aw_data.year}`);
                             };
                     };
                 });
                 $('html').on('change', '#aw_titles', function() {
                     if ($('#aw_titles').val() != 'Default') {
-                        $('.alternative-watch-modal #watch-search-string')
-                        .html($('.alternative-watch-modal #watch-search-string')
+                        $('.aw-modal #watch-search-string')
+                        .html($('.aw-modal #watch-search-string')
                         .html().replace(aw_data.title, $('#aw_titles').val()));
                         aw_data.title = $('#aw_titles').val();
                     }
                     else {
-                        $('.alternative-watch-modal #watch-search-string')
-                        .html($('.alternative-watch-modal #watch-search-string')
+                        $('.aw-modal #watch-search-string')
+                        .html($('.aw-modal #watch-search-string')
                         .html().replace(aw_data.title, aw_data.default_title));
                         aw_data.title = aw_data.default_title;
                     };
                 });
                 $('html').on('change', '#aw_source', function() {
                     createLB_Info(aw_data.season, aw_data.episode);
-                    $('.alternative-watch-modal #watch-search-string').html(`${aw_data.title}`);
+                    $('.aw-modal #watch-search-string').html(`${aw_data.title}`);
                     addSites();
                 });
                 $('html').on('change', '#aw_language, #aw_type', function() {
@@ -152,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
                 $('html').on('click', '.aw-sources-item' , function () {
                     let search_item_id=this.id.split("-")[1];
-                    let search_link=aw_sources_list[search_item_id].link.replace('%s', $('.alternative-watch-modal #watch-search-string').html().replace(/ /g,'+'));
+                    let search_link=aw_sources_list[search_item_id].link.replace('%s', $('.aw-modal #watch-search-string').html().replace(/ /g,'+'));
                     window.open(search_link, "_blank");
                 });
             }
@@ -235,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     function createLB(lb_type,lb_items,lb_order) {
-        $('.alternative-watch-content #watch-search').append(`
+        $('.aw-content #watch-search').append(`
         <div style="order:${lb_order}" class="watch-search-option">
         <label for="aw_${lb_type}">${capFL(lb_type)}</label>
         <select id="aw_${lb_type}" size="1"/></div>`);
@@ -244,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
     };
     function createLB_Info(season, episode) {
-        if ($('.alternative-watch-content #watch-search').find('#aw_info')) {
+        if ($('.aw-content #watch-search').find('#aw_info')) {
             $('#aw_info').parent().remove();
         };
         if (season && (($('#aw_source').val() != 'online') && ($('#aw_source').val() != 'database'))) {
@@ -267,7 +273,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let aw_language=$('#aw_language').val();
             let aw_source=$('#aw_source').val();
             if ((aw_sources_list[i].content_type.includes(aw_type)) && (aw_sources_list[i].language.includes(aw_language)) && (aw_sources_list[i].type.includes(aw_source))) {
-                $('.alternative-watch-content #aw-sources').append(`<div class="aw-sources-item wt-title-button" id="watch_sources_item-${i}"><div class="wt-source-name">${aw_sources_list[i].name}</div></div>`);
+                $('.aw-content #aw-sources').append(`<div class="aw-sources-item wt-title-button" id="watch_sources_item-${i}"><div class="wt-source-name">${aw_sources_list[i].name}</div></div>`);
             };
         };
     };

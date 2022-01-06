@@ -9,7 +9,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     margin-top: 3px!important;
 }
 
-.alternative-watch-modal {
+.aw-modal {
     position: fixed;
     z-index: 100000;
     left: 0!important;
@@ -17,7 +17,8 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     width: 100%!important;
     background-color: rgba(0,0,0,0.4);
 }
-.alternative-watch-content {
+
+.aw-content {
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -27,11 +28,22 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     width: 350px;
     border-radius: 10px;
 }
+
+.aw-modal,
+.aw-content {
+    overflow: hidden;
+    visibility: hidden;
+    transition: opacity .5s ease;
+    height: 0;
+    opacity: 0;
+}
+
 .aw-header {
     border-inline: solid black 1px;
     border-top: solid black 1px;
     border-radius: 10px 10px 0 0;
 }
+
 .aw-footer {
     overflow: auto;
     overflow-y: overlay;
@@ -41,12 +53,19 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     border: solid black 1px;
     border-radius: 0 0 10px 10px;
 }
+
+.aw-footer::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
 .aw-header, .aw-footer {
     width: 100%;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
+
 #watch-search {
     display: flex;
     flex-direction: column;
@@ -57,16 +76,19 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     text-align: left;
     background-image: linear-gradient(to right, #000000, rgb(40 14 14 / 35%));
 }
+
 #aw-sources {
     background-color: rgb(0 0 0 / 85%);
     padding: 5px;
 }
+
 .watch-search-option {
     display: table;
     font-size: 16px;
     height: 30px;
     width: 100%
 }
+
 .watch-search-option label {
     font-size: 15px;
     padding-top: 2px;
@@ -83,11 +105,6 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     border-radius: 2px;
     border: solid #232020 1px;
     color: #fff;
-}
-
-.aw-footer::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
 }
 
 .wt-title {
@@ -115,29 +132,24 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     background-image: linear-gradient(360deg, #ff1e1ecc, #650d0d73);
 }
 
-.alternative-watch-modal,
-.alternative-watch-content {
-    overflow: hidden;
-    visibility: hidden;
-    transition: opacity .5s ease;
-    height: 0;
-    opacity: 0;
-}
 .aw-sources-item {
     padding-block: 15px;
     margin-block: 5px;
 }
+
 #alternative-watch {
     display: inline-block;
     position: relative;
     transition: all .5s;
     color: #9e3131;
 }
+
 #alternative-watch:hover {
     color: white;
     background-color: #9e3131!important;
     text-decoration: none!important;
 }
+
 .main-aw-button {
     margin-top: 3px;
     height: 54px;
@@ -148,6 +160,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     background-color: inherit;
     z-index: 1041;
 }
+
 .schedule-aw-button {
     border-radius: 2px;
     font-size: 0.7em;
@@ -156,18 +169,22 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     background-color: #1515158c;
     margin-bottom: 5px;
 }
+
 .quick-aw-button > .trakt-icon-play2-thick {
     font-size: 1.5em;
     text-align: start;
 }
+
 .schedule-aw-button > .trakt-icon-play2-thick {
     font-size: 2em;
 }
+
 .main-aw-button > .trakt-icon-play2 {
     padding-top: 2.4px;
     vertical-align: top;
     margin-left: -1px;
 }
+
 .main-aw-button .wt-text {
     display: inherit;
     text-transform: uppercase;
@@ -178,6 +195,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     padding-left: 2px;
     font-family: 'proxima nova semibold';
 }
+
 .schedule-aw-button .wt-text {
     display: inherit;
     text-transform: uppercase;
@@ -187,9 +205,11 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     padding-top: 2px;
     vertical-align: middle;
 }
+
 .schedule-episode.same-show {
     padding-top: 10px!important;
 }
+
 #alternative-watch,
 .wt-title-button,
 .alternative-watch-close,
@@ -202,32 +222,33 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     -o-user-select:none;
     user-select:none;
 }
-.lds-ring {
+
+.aw-loading {
     align-self: center;
     margin-top: 50%;
     width: 80px;
     height: 80px;
   }
-  .lds-ring div {
+  .aw-loading div {
     box-sizing: border-box;
     position: absolute;
     width: 64px;
     height: 64px;
     border: 8px solid #fff;
     border-radius: 50%;
-    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    animation: aw-loading 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     border-color: #fff transparent transparent transparent;
   }
-  .lds-ring div:nth-child(1) {
+  .aw-loading div:nth-child(1) {
     animation-delay: -0.45s;
   }
-  .lds-ring div:nth-child(2) {
+  .aw-loading div:nth-child(2) {
     animation-delay: -0.3s;
   }
-  .lds-ring div:nth-child(3) {
+  .aw-loading div:nth-child(3) {
     animation-delay: -0.15s;
   }
-  @keyframes lds-ring {
+  @keyframes aw-loading {
     0% {
       transform: rotate(0deg);
     }
