@@ -242,7 +242,7 @@
         "type": "General",
         "language": "English",
         "name": "RARBG",
-        "link": "https://rarbgtor.org/Torrents.php?search=%s"
+        "link": "https://rarbgtor.org/torrents.php?search=%s"
     },
     {
         "source": "Torrent",
@@ -291,14 +291,14 @@
         "type": "Asian Drama",
         "language": "English",
         "name": "AvistaZ",
-        "link": "https://avistaz.to/Torrents?in=1&search=%s"
+        "link": "https://avistaz.to/torrents?in=1&search=%s"
     },
     {
         "source": "Torrent",
         "type": "General",
         "language": "English",
         "name": "CinemaZ",
-        "link": "https://cinemaz.to/Torrents?in=1&search=%s"
+        "link": "https://cinemaz.to/torrents?in=1&search=%s"
     },
     {
         "source": "Torrent",
@@ -333,7 +333,7 @@
         "type": "General",
         "language": "English",
         "name": "Torrents.csv",
-        "link": "https://Torrents-csv.ml/#/search/torrent/%s/1"
+        "link": "https://torrents-csv.ml/#/search/torrent/%s/1"
     },
     {
         "source": "Torrent",
