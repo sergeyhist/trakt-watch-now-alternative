@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.5
+// @version     3.1.6
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -17,7 +17,6 @@
 const aw_styles = GM_getResourceText("IMPORTED_CSS"); GM_addStyle(aw_styles);
 const aw_sources_list = JSON.parse(GM_getResourceText("IMPORTED_JSON"));
 const play_item= [
-    
     {
         "link": '[itemtype="http://schema.org/TVSeries"]',
         "id": 'data-show-id',
@@ -39,12 +38,12 @@ const play_item= [
         "type": 'movies'
     },
     {
-        "link": '.schedule-episode[attr="data-show-id"]',
+        "link": '.schedule-episode[data-show-id]',
         "id": 'data-show-id',
         "type": 'shows'
     },
     {
-        "link": '.schedule-episode[attr="data-movie-id"]',
+        "link": '.schedule-episode[data-movie-id]',
         "id": 'data-movie-id',
         "type": 'movies'
     }
@@ -91,11 +90,12 @@ document.addEventListener("DOMContentLoaded", function () {
         $('.aw-content').css({'visibility':'visible','height':'85%','opacity':'1'});
         $('.aw-content').append(`<div class="aw-header"/>`);
         $('.aw-content').append(`<div class="aw-footer"/>`);
-        $('.aw-header').append(`<div class="aw-loading"><div></div><div></div><div></div><div></div></div>`);
+        $('.aw-content').append(`<div class="aw-loading"><div></div><div></div><div></div><div></div></div>`);
         let main_int = setInterval(function() {
             if (aw_data.backdrop) {
                 clearInterval(main_int);
                 $('.aw-loading').remove();
+                $('.aw-header').css({'border':'solid black 1px'});
                 $('.aw-header').append(`<div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div>`);
                 if (aw_data.backdrop) {
                     $('.aw-header').css({'background-image':`url(${aw_data.backdrop})`});
@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 let aw_block;
                 let aw_data;
                 switch (playobject.link) {
-                    case '.schedule-episode':
+                    case '.schedule-episode[data-show-id]':
                         if ($(this).parent().parent().parent().find('h3').text().split(' ')[0] == 'Today') {
                             if (!$(this).find('#alternative-watch').length) {
                                 aw_data = 'aw-data-id="'+$(this).attr(`${playobject.id}`)+'"';
@@ -182,6 +182,16 @@ document.addEventListener("DOMContentLoaded", function () {
                                 if ($(this).find('h5 > a').attr('href').includes('/episodes')) {
                                     aw_data = aw_data+' aw-data-episode="'+$(this).find('h5 > a').attr('href').split('/').pop()+'"';
                                 };
+                                aw_block = awBlock('schedule', aw_data);
+                                $(this).append(`${aw_block}`);
+                            };
+                        };
+                        break;
+                    case '.schedule-episode[data-movie-id]':
+                        if ($(this).parent().parent().parent().find('h3').text().split(' ')[0] == 'Today') {
+                            if (!$(this).find('#alternative-watch').length) {
+                                aw_data = 'aw-data-id="'+$(this).attr(`${playobject.id}`)+'"';
+                                aw_data = aw_data+' aw-data-type="'+playobject.type+'"';
                                 aw_block = awBlock('schedule', aw_data);
                                 $(this).append(`${aw_block}`);
                             };

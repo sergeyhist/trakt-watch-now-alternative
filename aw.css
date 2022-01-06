@@ -39,8 +39,6 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 }
 
 .aw-header {
-    border-inline: solid black 1px;
-    border-top: solid black 1px;
     border-radius: 10px 10px 0 0;
 }
 
@@ -50,7 +48,6 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     overscroll-behavior: contain;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    border: solid black 1px;
     border-radius: 0 0 10px 10px;
 }
 
