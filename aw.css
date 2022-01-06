@@ -30,8 +30,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     max-height: 85%;
 }
 
-.aw-modal, .aw-content,
-.aw-header, .aw-footer {
+.aw-modal, .aw-content {
     overflow: hidden;
     visibility: hidden;
     transition: opacity 1s ease;
@@ -58,6 +57,10 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 }
 
 .aw-header, .aw-footer {
+    visibility: hidden;
+    transition: opacity 1s ease;
+    height: 0;
+    opacity: 0;
     width: 100%;
     background-size: cover;
     background-repeat: no-repeat;
