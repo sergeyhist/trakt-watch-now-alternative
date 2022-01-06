@@ -32,10 +32,6 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 
 .aw-modal, .aw-content {
     overflow: hidden;
-    visibility: hidden;
-    transition: opacity 1s ease;
-    height: 0;
-    opacity: 0;
 }
 
 .aw-header {
@@ -56,9 +52,10 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     background: transparent;
 }
 
-.aw-header, .aw-footer {
+.aw-header, .aw-footer,
+.aw-modal, .aw-content {
     visibility: hidden;
-    transition: opacity 1s ease;
+    transition: opacity .5s ease;
     height: 0;
     opacity: 0;
     width: 100%;
@@ -104,6 +101,10 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     border-radius: 2px;
     border: solid #232020 1px;
     color: #fff;
+}
+
+.watch-search-option select:focus-visible {
+    outline: 0;
 }
 
 .wt-title {
