@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.11
+// @version     3.1.12
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -130,27 +130,21 @@ document.addEventListener("DOMContentLoaded", function () {
                     };
                 });
                 $('html').on('change', '#aw_Source', function() {
-                    if (($('#aw_Source').val() != 'Online') && ($('#aw_Source').val() != 'Database')) {
-                        if (aw_data.season) {
-                            if (aw_data.episode) {
-                                updateLB('aw_Additional_Info',[],['Season','Episode','All'])
-                            } else {
-                                updateLB('aw_Additional_Info',[],['Season','All'])
-                            };
-                        };
-                    } else {
-                        updateLB('aw_Additional_Info',['Season','Episode','All'],[]);
-                    };
+                    updateLBInfo();
                     updateInfo();
                     addSites();
                 });
                 $('html').on('change', '#aw_Language', function() {
                     addCategories('type');
                     addCategories('source');
+                    updateLBInfo();
+                    updateInfo();
                     addSites();
                 });
                 $('html').on('change', '#aw_Type', function() {
                     addCategories('source');
+                    updateLBInfo();
+                    updateInfo();
                     addSites();
                 });
                 $('html').on('change', '#aw_Additional_Info', function () {
@@ -276,6 +270,20 @@ document.addEventListener("DOMContentLoaded", function () {
             };
         };
     };
+
+    function updateLBInfo() {
+        if (($('#aw_Source').val() != 'Online') && ($('#aw_Source').val() != 'Database')) {
+            if (aw_data.season) {
+                if (aw_data.episode) {
+                    updateLB('aw_Additional_Info',[],['Season','Episode','All'])
+                } else {
+                    updateLB('aw_Additional_Info',[],['Season','All'])
+                };
+            };
+        } else {
+            updateLB('aw_Additional_Info',['Season','Episode','All'],[]);
+        };
+    }
 
     function updateInfo() {
         switch ($('#aw_Additional_Info').val()) {
