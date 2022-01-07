@@ -55,10 +55,8 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 }
 
 .aw-header, .aw-footer,
-.aw-modal, .aw-content {
-    visibility: hidden;
+.aw-modal {
     transition: opacity .5s ease;
-    height: 0;
     opacity: 0;
     background-size: cover;
     background-repeat: no-repeat;

@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.16
+// @version     3.1.17
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -56,18 +56,19 @@ const aw_data = {
     "placeholder": "https://trakt.tv/assets/placeholders/thumb/poster-2561df5a41a5cb55c1d4a6f02d6532cf327f175bda97f4f813c18dea3435430c.png"
 };
 
-document.addEventListener("DOMContentLoaded", function () {
-    $('html').append(`<div class="aw-modal"/>`);
+document.addEventListener("DOMContentLoaded", function () {;
     $('html').on('click','.aw-modal', function (event) {
         if(!$(event.target).closest('.aw-content').length && !$(event.target).is('.aw-content')) {
-            $('.aw-content').remove();
-            $('.aw-modal').css({'visibility':'hidden','height':'0','opacity':'0'});
-            $('html').off('click', '.aw-sources-item');
-            $('html').off('change', `#aw_Language, #aw_Type, #aw_Source`);
-            aw_data.title = "";
-            aw_data.default_title = "";
-            aw_data.image = "";
-            aw_data.tmdb = "";
+            $('.aw-modal').css({'opacity':'0'});
+            setTimeout(function() {
+                $('.aw-modal').remove();
+                $('html').off('click', '.aw-sources-item');
+                $('html').off('change', `#aw_Language, #aw_Type, #aw_Source`);
+                aw_data.title = "";
+                aw_data.default_title = "";
+                aw_data.image = "";
+                aw_data.tmdb = "";
+            },500);
         };
     });
     $(function () {
@@ -75,26 +76,30 @@ document.addEventListener("DOMContentLoaded", function () {
             awButtons(element);
     }});
     $('html').on('click', '#alternative-watch', function () {
+        $('html').append(`
+            <div class="aw-modal">
+                <div class="aw-content">
+                    <div class="aw-loading"><div></div><div></div><div></div><div></div></div>
+                    <div class="aw-header">
+                        <div id="watch-search">
+                            <p contenteditable="true" type="text" id="watch-search-string"/>
+                        </div>
+                    </div>
+                    <div class="aw-footer"/>
+                </div>
+            </div>`);
+        $('.aw-modal').css({'opacity':'1'});
         aw_data.id = $(this).attr('aw-data-id');
         aw_data.type = $(this).attr('aw-data-type');
         aw_data.season = $(this).attr('aw-data-season');
         aw_data.episode = $(this).attr('aw-data-episode');
         reqCall_Data(aw_data.type, aw_data.id);
-        $('.aw-modal').append(`<div class="aw-content"/>`);
-        $('.aw-modal').css({'visibility':'visible','height':'100%','opacity':'1'});
-        $('.aw-content').css({'visibility':'visible','height':'fit-content','opacity':'1'});
-        $('.aw-content').append(`<div class="aw-loading"><div></div><div></div><div></div><div></div></div>`);
         let main_int = setInterval(function() {
             if (aw_data.image) {
                 clearInterval(main_int);
                 $('.aw-loading').remove();
-                $('.aw-content').append(`<div class="aw-header"/>`);
-                $('.aw-content').append(`<div class="aw-footer"/>`);
-                $('.aw-header').append(`<div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div>`);
                 $('.aw-header').css({'background-image':`url(${aw_data.image})`});
                 $('#watch-search-string').html(`${aw_data.title}`);
-                $('.aw-header').css({'visibility':'visible','height':'100%','opacity':'1'});
-                $('.aw-footer').css({'visibility':'visible','height':'100%','opacity':'1'});
                 createLB('Titles',['Default'],1);
                 createLB('Additional Info',['None','Year'],2);
                 createLB('Language',[],5);
@@ -103,6 +108,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 addCategories('type');
                 addCategories('source');
                 addSites();
+                $('.aw-header').css({'opacity':'1'});
+                $('.aw-footer').css({'opacity':'1'});
                 $('html').on('change', '#aw_Titles', function() {
                     if ($('#aw_Titles').val() != 'Default') {
                         $('#watch-search-string')
