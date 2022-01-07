@@ -2,9 +2,9 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.17
+// @version     3.1.18
 // @author      Hist
-// @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
+// @resource    IMPORTED_CSS https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
 // @grant       GM_addStyle
 // @grant       GM_getResourceText
@@ -53,7 +53,7 @@ const aw_data = {
     "episode": "",
     "tmdb": "",
     "image": "",
-    "placeholder": "https://trakt.tv/assets/placeholders/thumb/poster-2561df5a41a5cb55c1d4a6f02d6532cf327f175bda97f4f813c18dea3435430c.png"
+    "placeholder": "https://trakt.tv/assets/placeholders/full/fanart-7fd177378498acd815bf2386dfb1411223785b1c4dc1f4eada7b7e1f357621b4.png.webp"
 };
 
 document.addEventListener("DOMContentLoaded", function () {;
@@ -98,11 +98,8 @@ document.addEventListener("DOMContentLoaded", function () {;
             if (aw_data.image) {
                 clearInterval(main_int);
                 $('.aw-loading').remove();
-                $('.aw-header').css({'background-image':`url(${aw_data.image})`});
-                $('#watch-search-string').html(`${aw_data.title}`);
                 createLB('Titles',['Default'],1);
                 createLB('Additional Info',['None','Year'],2);
-                createLB('Language',[],5);
                 reqCall_Aliases(aw_data.type, aw_data.id);
                 addCategories('language');
                 addCategories('type');
@@ -301,6 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {;
     function addCategories(type) {
         switch (type) {
             case 'language':
+                createLB('Language',[],5);
                 for(let element of aw_sources_list) {
                     for (let item of element.language.split(',')) {
                         updateLB('aw_Language',[],[item]);
@@ -361,18 +359,22 @@ document.addEventListener("DOMContentLoaded", function () {;
             aw_data.title = data.title;
             aw_data.year = data.year;
             aw_data.tmdb = data.ids['tmdb'];
+            $('#watch-search-string').html(`${aw_data.title}`);
             fetch(`https://api.themoviedb.org/3/${type.replace('shows','tv').replace('movies','movie')}/${aw_data.tmdb}?api_key=a6dc8b1bcbeeaf4c970242298ccf059f&language=en-US`)
             .then(response => response.json())
             .then(data => {
                 if (data.backdrop_path) {
                     aw_data.image = 'https://image.tmdb.org/t/p/w500'+data.backdrop_path;
+                    $('.aw-header').css({'background-size':'99%'});
                 } else {
                     if (data.poster_path) {
                         aw_data.image = 'https://image.tmdb.org/t/p/w500'+data.poster_path;
+                        $('.aw-header').css({'background-size':'99%'});
                     } else {
                         aw_data.image = aw_data.placeholder;
                     };
                 };
+                $('.aw-header').css({'background-image':`url(${aw_data.image})`});
             });
         });
     };
