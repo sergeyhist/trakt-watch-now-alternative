@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.13
+// @version     3.1.14
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -57,8 +57,8 @@ const aw_data = {
     "season": "",
     "episode": "",
     "tmdb": "",
-    "poster": "",
-    "backdrop": ""
+    "image": "",
+    "placeholder": "https://trakt.tv/assets/placeholders/thumb/poster-2561df5a41a5cb55c1d4a6f02d6532cf327f175bda97f4f813c18dea3435430c.png"
 };
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -71,8 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
             $('html').off('change', `#aw_Language, #aw_Type, #aw_Source`);
             aw_data.title = "";
             aw_data.default_title = "";
-            aw_data.poster = "";
-            aw_data.backdrop = ""
+            aw_data.image = "";
             aw_data.tmdb = "";
         };
     });
@@ -93,18 +92,15 @@ document.addEventListener("DOMContentLoaded", function () {
         $('.aw-content').append(`<div class="aw-footer"/>`);
         $('.aw-content').append(`<div class="aw-loading"><div></div><div></div><div></div><div></div></div>`);
         let main_int = setInterval(function() {
-            if (aw_data.poster) {
+            if (aw_data.image) {
                 clearInterval(main_int);
-                $('.aw-footer').css({'border':'solid black 2px'});
-                if (aw_data.backdrop) {
-                    $('.aw-header').css({'background-image':`url(${aw_data.backdrop})`});
-                } else if (aw_data.poster) {
-                    $('.aw-header').css({'background-image':`url(${aw_data.poster})`});
-                };
-                $('.aw-header').append(`<div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div>`);
-                $('.aw-footer').css({'background-image':`url("https://trakt.tv/assets/placeholders/thumb/poster-2561df5a41a5cb55c1d4a6f02d6532cf327f175bda97f4f813c18dea3435430c.png")`});
-                $('#watch-search-string').html(`${aw_data.title}`);
                 $('.aw-loading').remove();
+                $('.aw-header').css({'border':'solid black 1px'});
+                $('.aw-footer').css({'border':'solid black 1px'});
+                $('.aw-header').css({'background-image':`url(${aw_data.image})`});
+                $('.aw-footer').css({'background-image':`url("${aw_data.placeholder}")`});
+                $('.aw-header').append(`<div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div>`);
+                $('#watch-search-string').html(`${aw_data.title}`);
                 $('.aw-header').css({'visibility':'visible','height':'100%','opacity':'1'});
                 $('.aw-footer').css({'visibility':'visible','height':'100%','opacity':'1'});
                 createLB('Titles',['Default'],1);
@@ -375,8 +371,15 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch(`https://api.themoviedb.org/3/${type.replace('shows','tv').replace('movies','movie')}/${aw_data.tmdb}?api_key=a6dc8b1bcbeeaf4c970242298ccf059f&language=en-US`)
             .then(response => response.json())
             .then(data => {
-                aw_data.poster = 'https://image.tmdb.org/t/p/w500'+data.poster_path;
-                aw_data.backdrop = 'https://image.tmdb.org/t/p/w500'+data.backdrop_path;
+                if (data.backdrop_path) {
+                    aw_data.image = 'https://image.tmdb.org/t/p/w500'+data.backdrop_path;
+                } else {
+                    if (data.poster_path) {
+                        aw_data.image = 'https://image.tmdb.org/t/p/w500'+data.poster_path;
+                    } else {
+                        aw_data.image = aw_data.placeholder;
+                    };
+                };
             });
         });
     };

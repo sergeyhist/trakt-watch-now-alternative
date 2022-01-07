@@ -26,7 +26,6 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     left: 50%;
     transform: translate(-50%);
     width: 350px;
-    border-radius: 10px;
     max-height: 85%;
 }
 
@@ -35,7 +34,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 }
 
 .aw-header {
-    border-radius: 10px 10px 0 0;
+    border: solid black 1px;
 }
 
 .aw-footer {
@@ -71,7 +70,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     font-size: 16px;
     font-family: proxima nova;
     text-align: left;
-    background-image: linear-gradient(to right, #000000, rgb(40 14 14 / 35%));
+    background-image: linear-gradient(90deg, black, rgb(42 8 8 / 45%),black);
 }
 
 #aw-sources {
