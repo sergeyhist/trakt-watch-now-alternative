@@ -38,6 +38,9 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 }
 
 .aw-footer {
+    background-color: #3e0909;
+    background-image:   linear-gradient(to top, black, rgb(42 8 8 / 30%), black),
+                        linear-gradient(to left, black, transparent, black);
     overflow: auto;
     overflow-y: overlay;
     overscroll-behavior: contain;
@@ -49,6 +52,10 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 .aw-footer::-webkit-scrollbar {
     width: 0px;
     background: transparent;
+}
+
+.aw-header, .aw-footer {
+    border: solid black 1px;
 }
 
 .aw-header, .aw-footer,
@@ -71,11 +78,6 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     font-family: proxima nova;
     text-align: left;
     background-image: linear-gradient(90deg, black, rgb(42 8 8 / 45%),black);
-}
-
-#aw-sources {
-    background-color: rgb(0 0 0 / 85%);
-    padding: 5px;
 }
 
 .watch-search-option {
@@ -105,34 +107,21 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     outline: 0;
 }
 
-.wt-title {
-    margin-inline: 4%;
-    font-family: proxima nova semibold;
-    margin-block: 10px;
-    text-align: center;
-    overflow: hidden;
-}
-
-.wt-title-button {
+.aw-sources-item {
+    padding-block: 15px;
+    margin: 5px;
     color: #fff;
-    padding-block: 5px;
     text-align: center;
     font-family: proxima nova semibold;
     font-size: 15px;
     border: solid #000000 1px;
     border-radius: 10px;
     background-image: linear-gradient(360deg, rgb(27 4 4 / 75%), rgb(88 13 13 / 75%));
-    margin-block: 3px;
 }
 
-.wt-title-button:hover {
+.aw-sources-item:hover {
     color: #000000;
     background-image: linear-gradient(360deg, #ff1e1ecc, #650d0d73);
-}
-
-.aw-sources-item {
-    padding-block: 15px;
-    margin-block: 5px;
 }
 
 #alternative-watch {

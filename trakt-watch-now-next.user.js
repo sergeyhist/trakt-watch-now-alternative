@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.14
+// @version     3.1.15
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -38,14 +38,9 @@ const play_item= [
         "type": 'movies'
     },
     {
-        "link": '.schedule-episode[data-show-id]',
+        "link": '.schedule-episode',
         "id": 'data-show-id',
         "type": 'shows'
-    },
-    {
-        "link": '.schedule-episode[data-movie-id]',
-        "id": 'data-movie-id',
-        "type": 'movies'
     }
 ];
 const aw_data = {
@@ -88,18 +83,15 @@ document.addEventListener("DOMContentLoaded", function () {
         $('.aw-modal').append(`<div class="aw-content"/>`);
         $('.aw-modal').css({'visibility':'visible','height':'100%','opacity':'1'});
         $('.aw-content').css({'visibility':'visible','height':'fit-content','opacity':'1'});
-        $('.aw-content').append(`<div class="aw-header"/>`);
-        $('.aw-content').append(`<div class="aw-footer"/>`);
         $('.aw-content').append(`<div class="aw-loading"><div></div><div></div><div></div><div></div></div>`);
         let main_int = setInterval(function() {
             if (aw_data.image) {
                 clearInterval(main_int);
                 $('.aw-loading').remove();
-                $('.aw-header').css({'border':'solid black 1px'});
-                $('.aw-footer').css({'border':'solid black 1px'});
-                $('.aw-header').css({'background-image':`url(${aw_data.image})`});
-                $('.aw-footer').css({'background-image':`url("${aw_data.placeholder}")`});
+                $('.aw-content').append(`<div class="aw-header"/>`);
+                $('.aw-content').append(`<div class="aw-footer"/>`);
                 $('.aw-header').append(`<div id="watch-search"><p contenteditable="true" type="text" id="watch-search-string"></p></div>`);
+                $('.aw-header').css({'background-image':`url(${aw_data.image})`});
                 $('#watch-search-string').html(`${aw_data.title}`);
                 $('.aw-header').css({'visibility':'visible','height':'100%','opacity':'1'});
                 $('.aw-footer').css({'visibility':'visible','height':'100%','opacity':'1'});
@@ -162,27 +154,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 let aw_block;
                 let aw_data;
                 switch (playobject.link) {
-                    case '.schedule-episode[data-show-id]':
+                    case '.schedule-episode':
                         if ($(this).parent().parent().parent().find('h3').text().split(' ')[0] == 'Today') {
                             if (!$(this).find('#alternative-watch').length) {
                                 aw_data = 'aw-data-id="'+$(this).attr(`${playobject.id}`)+'"';
-                                aw_data = aw_data+' aw-data-type="'+playobject.type+'"';
-                                if ($(this).find('h5 > a').attr('href').includes('/seasons')) {
-                                    aw_data = aw_data+' aw-data-season="'+$(this).find('h5 > a').attr('href').split('/')[4]+'"';
+                                if ($(this).find('h5 > a').attr('href')) {
+                                    aw_data = aw_data+' aw-data-type="'+playobject.type+'"';
+                                    if ($(this).find('h5 > a').attr('href').includes('/seasons')) {
+                                        aw_data = aw_data+' aw-data-season="'+$(this).find('h5 > a').attr('href').split('/')[4]+'"';
+                                    };
+                                    if ($(this).find('h5 > a').attr('href').includes('/episodes')) {
+                                        aw_data = aw_data+' aw-data-episode="'+$(this).find('h5 > a').attr('href').split('/').pop()+'"';
+                                    };
+                                } else {
+                                    aw_data = aw_data+' aw-data-type="movies"';
                                 };
-                                if ($(this).find('h5 > a').attr('href').includes('/episodes')) {
-                                    aw_data = aw_data+' aw-data-episode="'+$(this).find('h5 > a').attr('href').split('/').pop()+'"';
-                                };
-                                aw_block = awBlock('schedule', aw_data);
-                                $(this).append(`${aw_block}`);
-                            };
-                        };
-                        break;
-                    case '.schedule-episode[data-movie-id]':
-                        if ($(this).parent().parent().parent().find('h3').text().split(' ')[0] == 'Today') {
-                            if (!$(this).find('#alternative-watch').length) {
-                                aw_data = 'aw-data-id="'+$(this).attr(`${playobject.id}`)+'"';
-                                aw_data = aw_data+' aw-data-type="'+playobject.type+'"';
                                 aw_block = awBlock('schedule', aw_data);
                                 $(this).append(`${aw_block}`);
                             };
@@ -347,7 +333,7 @@ document.addEventListener("DOMContentLoaded", function () {
             (element.language.includes($('#aw_Language').val())) &&
             (element.source.includes($('#aw_Source').val()))) {
                 $('.aw-content #aw-sources')
-                .append(`<div class="aw-sources-item wt-title-button" aw-source-link="${element.link}">
+                .append(`<div class="aw-sources-item" aw-source-link="${element.link}">
                 <div class="wt-source-name">${element.name}</div></div>`);
             };
         };
