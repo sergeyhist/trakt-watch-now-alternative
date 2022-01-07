@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.15
+// @version     3.1.16
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let icon="";
         let text="";
         if (type != 'main') {icon='trakt-icon-play2-thick'} else {icon='trakt-icon-play2'};
-        if (type != 'quick') {text=`<div class="wt-text">watch now</div>`} else {text=''};
+        if (type != 'quick') {text=`<div class="aw-text">watch now</div>`} else {text=''};
         return `<a id="alternative-watch" class="${type}-aw-button" ${content}>
         <div class="${icon}"/>${text}</a>`;
     };
@@ -334,7 +334,7 @@ document.addEventListener("DOMContentLoaded", function () {
             (element.source.includes($('#aw_Source').val()))) {
                 $('.aw-content #aw-sources')
                 .append(`<div class="aw-sources-item" aw-source-link="${element.link}">
-                <div class="wt-source-name">${element.name}</div></div>`);
+                <div class="aw-source-name">${element.name}</div></div>`);
             };
         };
     };

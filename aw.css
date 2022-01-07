@@ -34,7 +34,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 }
 
 .aw-footer {
-    background-color: #3e0909;
+    background-color: #220606;
     background-image:   linear-gradient(to top, black, rgb(42 8 8 / 30%), black),
                         linear-gradient(to left, black, transparent, black);
     overflow: auto;
@@ -169,7 +169,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     margin-left: -1px;
 }
 
-.main-aw-button .wt-text {
+.main-aw-button .aw-text {
     display: inherit;
     text-transform: uppercase;
     color: inherit;
@@ -180,7 +180,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     font-family: 'proxima nova semibold';
 }
 
-.schedule-aw-button .wt-text {
+.schedule-aw-button .aw-text {
     display: inherit;
     text-transform: uppercase;
     color: white;
@@ -195,8 +195,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 }
 
 #alternative-watch,
-.wt-title-button,
-.alternative-watch-close,
+.aw-source-name,
 .watch-search-option label,
 .watch-search-option select {
     -webkit-user-select:none;
