@@ -357,13 +357,6 @@
         "link": "https://www.ettvcentral.com/torrents-search.php?search=%s"
     },
     {
-        "source": "Torrent,DDL",
-        "type": "General",
-        "language": "English",
-        "name": "Psarips",
-        "link": "https://psa.one/?s=%s"
-    },
-    {
         "source": "Torrent",
         "type": "General",
         "language": "English",
@@ -416,13 +409,6 @@
         "source": "DDL",
         "type": "General",
         "language": "English",
-        "name": "Crazy4tv",
-        "link": "http://crazy4tv.com/?s=%s"
-    },
-    {
-        "source": "DDL",
-        "type": "General",
-        "language": "English",
         "name": "2DDL",
         "link": "https://2ddl.ms/?q=%s"
     },
@@ -456,13 +442,6 @@
     },
     {
         "source": "DDL",
-        "type": "General",
-        "language": "English",
-        "name": "Snahp",
-        "link": "https://snahp.it/?s=%s"
-    },
-    {
-        "source": "DDL",
         "type": "Anime",
         "language": "English",
         "name": "AniDL",
@@ -474,6 +453,13 @@
         "language": "English",
         "name": "AnimeKayo",
         "link": "https://animekayo.com/?s=%s"
+    },
+    {
+        "source": "DDL,Torrent",
+        "type": "General",
+        "language": "English",
+        "name": "Psarips",
+        "link": "https://psa.pm/?s=%s"
     },
     {
         "source": "DDL,Online",
