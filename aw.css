@@ -73,8 +73,8 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     font-size: 16px;
     font-family: proxima nova;
     text-align: left;
-    background-image:   linear-gradient(to top, black, rgb(42 8 8 / 40%), rgb(42 8 8 / 30%), rgb(42 8 8 / 20%), rgb(42 8 8 / 20%), rgb(42 8 8 / 30%), rgb(42 8 8 / 40%), black),
-                        linear-gradient(to right, black, rgb(0 0 0 / 70%), rgb(0 0 0 / 30%), transparent, transparent, transparent, transparent, transparent, transparent, black);
+    background-image:   linear-gradient(to top, black, rgb(42 8 8 / 40%), rgb(42 8 8 / 40%), rgb(42 8 8 / 40%), rgb(42 8 8 / 40%), rgb(42 8 8 / 40%), rgb(42 8 8 / 40%), black),
+                        linear-gradient(to right, black, rgb(0 0 0 / 70%), rgb(0 0 0 / 30%), transparent, transparent, transparent, transparent, black);
 }
 
 .watch-search-option {
