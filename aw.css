@@ -38,8 +38,8 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 
 .aw-footer {
     margin-top: -1px;
-    background-color: #260808;
-    background-image: radial-gradient(at 50% 20%,transparent, black);
+    background-color: #200000;
+    background-image: radial-gradient(circle at 50% 50%,transparent, black);
 }
 
 .aw-footer::-webkit-scrollbar,
@@ -73,8 +73,8 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     font-size: 16px;
     font-family: proxima nova;
     text-align: left;
-    background-image:   linear-gradient(to top, black, rgb(42 8 8 / 30%), black),
-                        linear-gradient(to left, black, transparent, black);
+    background-image:   linear-gradient(to top, black, rgb(42 8 8 / 40%), rgb(42 8 8 / 30%), rgb(42 8 8 / 20%), rgb(42 8 8 / 20%), rgb(42 8 8 / 30%), rgb(42 8 8 / 40%), black),
+                        linear-gradient(to right, black, rgb(0 0 0 / 70%), rgb(0 0 0 / 30%), transparent, transparent, transparent, transparent, transparent, transparent, black);
 }
 
 .watch-search-option {

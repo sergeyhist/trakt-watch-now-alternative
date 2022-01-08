@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.18
+// @version     3.1.19
 // @author      Hist
 // @resource    IMPORTED_CSS https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
@@ -98,8 +98,8 @@ document.addEventListener("DOMContentLoaded", function () {;
             if (aw_data.image) {
                 clearInterval(main_int);
                 $('.aw-loading').remove();
-                createLB('Titles',['Default'],1);
-                createLB('Additional Info',['None','Year'],2);
+                createLB('Aliases',['Default'],1);
+                createLB('Info',['None','Year'],2);
                 reqCall_Aliases(aw_data.type, aw_data.id);
                 addCategories('language');
                 addCategories('type');
@@ -107,12 +107,12 @@ document.addEventListener("DOMContentLoaded", function () {;
                 addSites();
                 $('.aw-header').css({'opacity':'1'});
                 $('.aw-footer').css({'opacity':'1'});
-                $('html').on('change', '#aw_Titles', function() {
-                    if ($('#aw_Titles').val() != 'Default') {
+                $('html').on('change', '#aw_Aliases', function() {
+                    if ($(this).val() != 'Default') {
                         $('#watch-search-string')
                         .html($('#watch-search-string')
-                        .html().replace(aw_data.title, $('#aw_Titles').val()));
-                        aw_data.title = $('#aw_Titles').val();
+                        .html().replace(aw_data.title, $(this).val()));
+                        aw_data.title = $(this).val();
                     }
                     else {
                         $('#watch-search-string')
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {;
                     updateInfo();
                     addSites();
                 });
-                $('html').on('change', '#aw_Additional_Info', function () {
+                $('html').on('change', '#aw_Info', function () {
                     updateInfo();
                 });
                 $('html').on('click', '.aw-sources-item' , function () {
@@ -261,18 +261,18 @@ document.addEventListener("DOMContentLoaded", function () {;
         if (($('#aw_Source').val() != 'Online') && ($('#aw_Source').val() != 'Database')) {
             if (aw_data.season) {
                 if (aw_data.episode) {
-                    updateLB('aw_Additional_Info',[],['Season','Episode','All'])
+                    updateLB('aw_Info',[],['Season','Episode','All'])
                 } else {
-                    updateLB('aw_Additional_Info',[],['Season','All'])
+                    updateLB('aw_Info',[],['Season','All'])
                 };
             };
         } else {
-            updateLB('aw_Additional_Info',['Season','Episode','All'],[]);
+            updateLB('aw_Info',['Season','Episode','All'],[]);
         };
     }
 
     function updateInfo() {
-        switch ($('#aw_Additional_Info').val()) {
+        switch ($('#aw_Info').val()) {
             case 'None':
                 $('#watch-search-string').html(`${aw_data.title}`);
                 break;
@@ -391,8 +391,8 @@ document.addEventListener("DOMContentLoaded", function () {;
         .then(response => response.json())
         .then(data => {
             for (let element of data) {
-                if (!$(`#aw_Titles > option[value="${element.title}"]`).text()) {
-                    $('#aw_Titles').append(`<option value="${element.title}">${element.title}</option>`);
+                if (!$(`#aw_Aliases > option[value="${element.title}"]`).text()) {
+                    $('#aw_Aliases').append(`<option value="${element.title}">${element.title}</option>`);
                 };
             };
         });
