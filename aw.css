@@ -73,7 +73,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     font-size: 16px;
     font-family: proxima nova;
     text-align: left;
-    background-image:   linear-gradient(to top, black, rgb(42 8 8 / 10%))
+    background-image:   linear-gradient(to top, black, rgb(42 8 8 / 10%)),
                         linear-gradient(to right, black, transparent);
 }
 

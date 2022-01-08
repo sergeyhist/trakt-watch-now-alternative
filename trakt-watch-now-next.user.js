@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.20
+// @version     3.1.21
 // @author      Hist
 // @resource    IMPORTED_CSS https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/aw.css
 // @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
