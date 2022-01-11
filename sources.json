@@ -52,7 +52,7 @@
         "source": "Online",
         "type": "General",
         "language": "English",
-        "name": "OpenloadMovies",
+        "name": "Openload Movies",
         "link": "https://openloadmov.net/?s=%s"
     },
     {
@@ -71,6 +71,13 @@
     },
     {
         "source": "Online",
+        "type": "Anime",
+        "language": "English",
+        "name": "AniMixPlay",
+        "link": "https://animixplay.to/?q=%s"
+    },
+    {
+        "source": "Online",
         "type": "Asian Drama",
         "language": "English",
         "name": "Dramacool",
@@ -82,13 +89,6 @@
         "language": "English",
         "name":"KimCartoon",
         "link": "https://kimcartoon.to/AdvanceSearch?cartoonName=%s"
-    },
-    {
-        "source": "Online",
-        "type": "Anime",
-        "language": "English",
-        "name": "AniMixPlay",
-        "link": "https://animixplay.to/?q=%s"
     },
     {
         "source": "Online",
@@ -360,7 +360,7 @@
         "source": "Torrent",
         "type": "General",
         "language": "English",
-        "name": "MVGroup-Documentaries",
+        "name": "MVGroup",
         "link": "https://forums.mvgroup.org/maintracker.php?forums=all&filter=%s&x=0&y=0&searchwhere=on"
     },
     {

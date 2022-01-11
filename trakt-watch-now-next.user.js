@@ -2,10 +2,10 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.1.21
+// @version     3.2
 // @author      Hist
-// @resource    IMPORTED_CSS https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/aw.css
-// @resource    IMPORTED_JSON https://raw.githubusercontent.com/sergeyhist/trakt-watch-now-alternative/main/sources.json
+// @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
+// @resource    IMPORTED_JSON https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/sources.json
 // @grant       GM_addStyle
 // @grant       GM_getResourceText
 // @description Alternative version for trakt.tv watch now modal
@@ -51,12 +51,17 @@ const aw_data = {
     "year": "",
     "season": "",
     "episode": "",
+    "abs_episode": "",
     "tmdb": "",
     "image": "",
     "placeholder": "https://trakt.tv/assets/placeholders/full/fanart-7fd177378498acd815bf2386dfb1411223785b1c4dc1f4eada7b7e1f357621b4.png.webp"
 };
 
 document.addEventListener("DOMContentLoaded", function () {;
+    $(function () {
+        for (let element of play_item) {
+            awButtons(element);
+    }});
     $('html').on('click','.aw-modal', function (event) {
         if(!$(event.target).closest('.aw-content').length && !$(event.target).is('.aw-content')) {
             $('.aw-modal').css({'opacity':'0'});
@@ -68,22 +73,32 @@ document.addEventListener("DOMContentLoaded", function () {;
                 aw_data.default_title = "";
                 aw_data.image = "";
                 aw_data.tmdb = "";
+                aw_data.abs_episode = "";
             },500);
         };
     });
-    $(function () {
-        for (let element of play_item) {
-            awButtons(element);
-    }});
+    $('html').on('click', '.aw-option' , function () {
+        $(this).parent().find('.aw-option').each(function() {
+            $(this).removeClass('aw-selected');
+        });
+        $(this).addClass('aw-selected');
+        updateTitle();
+        updateInfo();
+        addSites();
+    });
+    $('html').on('click', '.aw-sources-item' , function () {
+        window.open($(this).attr('aw-source-link')
+        .replace('%s', $('#aw-search-string').html().replace(/ /g,'+')), "_blank");
+    });
     $('html').on('click', '#alternative-watch', function () {
         $('html').append(`
             <div class="aw-modal">
                 <div class="aw-content">
                     <div class="aw-loading"><div></div><div></div><div></div><div></div></div>
                     <div class="aw-header">
-                        <div id="watch-search">
-                            <p contenteditable="true" type="text" id="watch-search-string"/>
-                        </div>
+                        <div contenteditable="true" type="text" id="aw-search-string"/>
+                        <div id="aw-search-options"/>
+                        <div class="aw-image"/>
                     </div>
                     <div class="aw-footer"/>
                 </div>
@@ -91,62 +106,40 @@ document.addEventListener("DOMContentLoaded", function () {;
         $('.aw-modal').css({'opacity':'1'});
         aw_data.id = $(this).attr('aw-data-id');
         aw_data.type = $(this).attr('aw-data-type');
-        aw_data.season = $(this).attr('aw-data-season');
-        aw_data.episode = $(this).attr('aw-data-episode');
-        reqCall_Data(aw_data.type, aw_data.id);
+        aw_data.season = checkSepNum($(this).attr('aw-data-season'));
+        aw_data.episode = checkSepNum($(this).attr('aw-data-episode'));
+        createLB('type',['General','Anime','Cartoon','Asian Drama'],3);
+        createLB('source',['Online','Torrent','DDL','Database'],4);
+        createLB('language',['English','Russian'],5);
+        reqCall_Data();
+        reqCall_Episode();
+        reqCall_Aliases();
+        let data_int = setInterval(function() {
+            if (aw_data.tmdb) {
+                clearInterval(data_int);
+                reqCall_Image();
+            };
+        },500);
         let main_int = setInterval(function() {
             if (aw_data.image) {
                 clearInterval(main_int);
-                $('.aw-loading').remove();
-                createLB('Aliases',['Default'],1);
-                createLB('Info',['None','Year'],2);
-                reqCall_Aliases(aw_data.type, aw_data.id);
-                addCategories('language');
-                addCategories('type');
-                addCategories('source');
+                if (aw_data.season) {
+                    if (aw_data.episode) {
+                        createLB('info',['None','Year','Season','Episode','Absolute','Season+Year','Episode+Year','Absolute+Year'],2);
+                    } else {
+                        createLB('info',['None','Year','Season','Season+Year'],2);
+                    };
+                } else {
+                createLB('info',['None','Year'],2);
+                };
                 addSites();
+                $('.aw-loading').remove();
                 $('.aw-header').css({'opacity':'1'});
                 $('.aw-footer').css({'opacity':'1'});
-                $('html').on('change', '#aw_Aliases', function() {
-                    if ($(this).val() != 'Default') {
-                        $('#watch-search-string')
-                        .html($('#watch-search-string')
-                        .html().replace(aw_data.title, $(this).val()));
-                        aw_data.title = $(this).val();
-                    }
-                    else {
-                        $('#watch-search-string')
-                        .html($('#watch-search-string')
-                        .html().replace(aw_data.title, aw_data.default_title));
-                        aw_data.title = aw_data.default_title;
-                    };
-                });
-                $('html').on('change', '#aw_Source', function() {
-                    updateLBInfo();
-                    updateInfo();
-                    addSites();
-                });
-                $('html').on('change', '#aw_Language', function() {
-                    addCategories('type');
-                    addCategories('source');
-                    updateLBInfo();
-                    updateInfo();
-                    addSites();
-                });
-                $('html').on('change', '#aw_Type', function() {
-                    addCategories('source');
-                    updateLBInfo();
-                    updateInfo();
-                    addSites();
-                });
-                $('html').on('change', '#aw_Info', function () {
-                    updateInfo();
-                });
-                $('html').on('click', '.aw-sources-item' , function () {
-                    window.open($(this).attr('aw-source-link')
-                    .replace('%s', $('#watch-search-string').html().replace(/ /g,'+')), "_blank");
-                });
-            }
+                setTimeout(function() {
+                    $('.aw-image').css({'opacity':'1'});
+                },500);     
+            };
         },500);
     });
     
@@ -234,109 +227,75 @@ document.addEventListener("DOMContentLoaded", function () {;
     };
 
     function createLB(type,items,order) {
-        $('.aw-content #watch-search').append(`
-        <div style="order:${order}" class="watch-search-option">
-        <label for="aw_${type.replace(' ','_')}">${type}</label>
-        <select id="aw_${type.replace(' ','_')}" size="1"/></div>`);
-        for (let element of items) {
-            $(`select#aw_${type.replace(' ','_')}`)
-            .append(`<option value="${element}">${element}</option>`);
-        };
-    };
-
-    function updateLB(type,items_delete,items_add) {
-        for (let element of items_delete) {
-            $(`#${type} > option[value="${element}"]`).remove();
-        };
-        for (let element of items_add) {
-            if (!$(`select#${type} option[value="${element}"]`).text()) {
-                $(`select#${type}`)
-                .append(`<option value="${element}">${element.replace('aw_','')
-                .replace('_',' ')}</option>`);
+        $('#aw-search-options').append(`
+        <div style="order:${order}" class="aw-search-option" id="aw-${type}">
+            <div class="aw-label">${upFL(type)}</div>
+            <div class="aw-select"/></div>`);
+        if (items) {
+            for (let element of items) {
+                $(`#aw-${type} > .aw-select`)
+                .append(`<div class="aw-option">${element}</div>`);
             };
         };
+        $(`#aw-${type} .aw-option`).first().addClass('aw-selected');
     };
 
-    function updateLBInfo() {
-        if (($('#aw_Source').val() != 'Online') && ($('#aw_Source').val() != 'Database')) {
-            if (aw_data.season) {
-                if (aw_data.episode) {
-                    updateLB('aw_Info',[],['Season','Episode','All'])
-                } else {
-                    updateLB('aw_Info',[],['Season','All'])
-                };
-            };
-        } else {
-            updateLB('aw_Info',['Season','Episode','All'],[]);
+    function updateTitle() {
+        if ($('#aw-aliases > .aw-select > .aw-option.aw-selected').text() != 'Default') {
+            $('#aw-search-string')
+            .html($('#aw-search-string').html()
+                .replace(aw_data.title, $('#aw-aliases > .aw-select > .aw-option.aw-selected')
+                .text()));
+            aw_data.title = $('#aw-aliases > .aw-select > .aw-option.aw-selected').text();
+        }
+        else {
+            $('#aw-search-string')
+            .html($('#aw-search-string')
+            .html().replace(aw_data.title, aw_data.default_title));
+            aw_data.title = aw_data.default_title;
         };
     }
 
     function updateInfo() {
-        switch ($('#aw_Info').val()) {
+        switch ($('#aw-info > .aw-select > .aw-option.aw-selected').text()) {
             case 'None':
-                $('#watch-search-string').html(`${aw_data.title}`);
+                $('#aw-search-string').html(aw_data.title);
                 break;
             case 'Season':
-                $('#watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season));
+                $('#aw-search-string').html(aw_data.title+' s'+aw_data.season);
                 break;
             case 'Episode':
-                $('#watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+'e'+checkSepNum(aw_data.episode));
+                $('#aw-search-string').html(aw_data.title+' s'+aw_data.season+'e'+aw_data.episode);
                 break;
             case 'Year':
-                $('#watch-search-string').html(`${aw_data.title}`+' '+`${aw_data.year}`);
+                $('#aw-search-string').html(aw_data.title+' '+aw_data.year);
                 break;
-            case 'All':
-                if (aw_data.episode) {
-                    $('#watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+'e'+checkSepNum(aw_data.episode)+' '+`${aw_data.year}`);
-                }
-                else {
-                    $('#watch-search-string').html(`${aw_data.title}`+' s'+checkSepNum(aw_data.season)+' '+`${aw_data.year}`);
-                };
+            case 'Absolute':
+                $('#aw-search-string').html(aw_data.title+' '+aw_data.abs_episode);
+                break;
+            case 'Season+Year':
+                $('#aw-search-string').html(aw_data.title+' s'+aw_data.season+' '+aw_data.year);
+                break;
+            case 'Episode+Year':
+                $('#aw-search-string').html(aw_data.title+' s'+aw_data.season+'e'+aw_data.episode+' '+aw_data.year);
+                break;
+            case 'Absolute+Year':
+                $('#aw-search-string').html(aw_data.title+' '+aw_data.abs_episode+' '+aw_data.year);
         };
-    };
-
-    function addCategories(type) {
-        switch (type) {
-            case 'language':
-                createLB('Language',[],5);
-                for(let element of aw_sources_list) {
-                    for (let item of element.language.split(',')) {
-                        updateLB('aw_Language',[],[item]);
-                    };
-                };
-                break;
-            case 'type':
-                $('#aw_Type').parent().remove();
-                createLB('Type',[],4);
-                for(let element of aw_sources_list) {
-                    if (element.language.includes($('#aw_Language').val())) {
-                        for (let item of element.type.split(',')) {
-                            updateLB('aw_Type',[],[item]);
-                        };
-                    }; 
-                };
-                break;
-            case 'source':
-                $('#aw_Source').parent().remove();
-                createLB('Source',[],3);
-                for(let element of aw_sources_list) {
-                    if ((element.language.includes($('#aw_Language').val())) &&
-                    (element.type.includes($('#aw_Type').val()))) {
-                        for (let item of element.source.split(',')) {
-                            updateLB('aw_Source',[],[item]);
-                        };
-                    }; 
-                };
-        }
     };
 
     function addSites() {
         $('.aw-footer #aw-sources').remove();
         $('.aw-footer').append(`<div id="aw-sources"/>`);
         for(let element of aw_sources_list) {
-            if ((element.type.includes($('#aw_Type').val())) &&
-            (element.language.includes($('#aw_Language').val())) &&
-            (element.source.includes($('#aw_Source').val()))) {
+            if (
+                element.type
+                .includes($('#aw-type > .aw-select > .aw-option.aw-selected').text()) &&
+                element.language
+                .includes($('#aw-language > .aw-select > .aw-option.aw-selected').text()) &&
+                element.source
+                .includes($('#aw-source > .aw-select > .aw-option.aw-selected').text())
+            ) {
                 $('.aw-content #aw-sources')
                 .append(`<div class="aw-sources-item" aw-source-link="${element.link}">
                 <div class="aw-source-name">${element.name}</div></div>`);
@@ -344,8 +303,18 @@ document.addEventListener("DOMContentLoaded", function () {;
         };
     };
 
-    function reqCall_Data(type,id) {
-        fetch(`https://api.trakt.tv/${type}/${id}`, {
+    function checkSepNum(n) {
+        return (n < 10 ? '0' : '') + n;
+    };
+
+    function upFL(s) {
+        return s.charAt(0).toUpperCase() + s.slice(1);
+    };
+
+    //API Functions
+
+    function reqCall_Data() {
+        fetch(`https://api.trakt.tv/${aw_data.type}/${aw_data.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -359,28 +328,29 @@ document.addEventListener("DOMContentLoaded", function () {;
             aw_data.title = data.title;
             aw_data.year = data.year;
             aw_data.tmdb = data.ids['tmdb'];
-            $('#watch-search-string').html(`${aw_data.title}`);
-            fetch(`https://api.themoviedb.org/3/${type.replace('shows','tv').replace('movies','movie')}/${aw_data.tmdb}?api_key=a6dc8b1bcbeeaf4c970242298ccf059f&language=en-US`)
+            $('#aw-search-string').html(aw_data.title);
+        });
+    };
+
+    function reqCall_Image() {
+        fetch(`https://api.themoviedb.org/3/${aw_data.type.replace('shows','tv').replace('movies','movie')}/${aw_data.tmdb}?api_key=a6dc8b1bcbeeaf4c970242298ccf059f&language=en-US`)
             .then(response => response.json())
             .then(data => {
                 if (data.backdrop_path) {
                     aw_data.image = 'https://image.tmdb.org/t/p/w500'+data.backdrop_path;
-                    $('.aw-header').css({'background-size':'99%'});
                 } else {
                     if (data.poster_path) {
                         aw_data.image = 'https://image.tmdb.org/t/p/w500'+data.poster_path;
-                        $('.aw-header').css({'background-size':'99%'});
                     } else {
                         aw_data.image = aw_data.placeholder;
                     };
                 };
-                $('.aw-header').css({'background-image':`url(${aw_data.image})`});
+                $('.aw-image').css('background-image', `url(${aw_data.image})`);
             });
-        });
     };
 
-    function reqCall_Aliases(type,id) {
-        fetch(`https://api.trakt.tv/${type}/${id}/aliases`, {
+    function reqCall_Aliases() {
+        fetch(`https://api.trakt.tv/${aw_data.type}/${aw_data.id}/aliases`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -390,15 +360,32 @@ document.addEventListener("DOMContentLoaded", function () {;
         })
         .then(response => response.json())
         .then(data => {
+            let element_titles = "Default";
             for (let element of data) {
-                if (!$(`#aw_Aliases > option[value="${element.title}"]`).text()) {
-                    $('#aw_Aliases').append(`<option value="${element.title}">${element.title}</option>`);
+                if (!element_titles.includes(element.title)) {
+                    element_titles=element_titles+','+element.title;
                 };
             };
+            createLB('aliases',element_titles.split(','),1)
         });
     };
 
-    function checkSepNum(n) {
-        return (n < 10 ? '0' : '') + n;
+    function reqCall_Episode() {
+        fetch(`https://api.trakt.tv/${aw_data.type}/${aw_data.id}/seasons/${aw_data.season}/episodes/${aw_data.episode}?extended=full`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'trakt-api-version': '2',
+                'trakt-api-key': '17daa2eaed9a329a2d60ae14ba020245d05bb9151c377d488de8d4293ce5a9ff'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.number_abs) {
+                aw_data.abs_episode = checkSepNum(data.number_abs);
+            } else {
+                aw_data.abs_episode = checkSepNum(data.number);
+            };
+        });
     };
 });

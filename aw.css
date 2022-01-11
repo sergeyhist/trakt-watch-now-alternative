@@ -20,100 +20,145 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 }
 
 .aw-content {
+    position: fixed;
     display: flex;
     flex-direction: column;
-    position: fixed;
-    top: 10%;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%);
-    width: 350px;
-        height: 85%;
-    border-radius: 5px;
+    transform: translate(-50%,-50%);
+    width: 85%;
+    max-width: 580px;
+    height: fit-content;
+    max-height: 75%;
 }
 
-.aw-modal, .aw-content,
-.aw-footer, #aw-sources {
-    overflow: hidden;
+.aw-header {
+    color: #fff;
+    font-family: proxima nova;
+    background-image:   linear-gradient(to top, black, rgb(46 0 0 / 20%), rgb(46 0 0 / 20%)),
+                        linear-gradient(to right, black, transparent, transparent, black)
 }
 
 .aw-footer {
+    height: 28em;
     margin-top: -1px;
-    background-color: #200000;
-    background-image: radial-gradient(circle at 50% 50%,transparent, black);
+    background-color: black;
 }
 
-.aw-footer::-webkit-scrollbar,
-#aw-sources::-webkit-scrollbar {
+.aw-image {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 50%;
+    border: solid black 1px;
+}
+
+.aw-modal::-webkit-scrollbar,
+.aw-content::-webkit-scrollbar {
     width: 0px;
     background: transparent;
 }
 
 .aw-header, .aw-footer,
-.aw-modal {
+.aw-modal, .aw-image {
     transition: opacity .5s ease;
     opacity: 0;
+    overflow: hidden;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
 
-#aw-sources {
-    height: 98%;
-    overflow: auto;
+#aw-sources,
+#aw-search-options,
+.aw-select,
+#aw-search-string {
+    overflow: hidden;
     overflow-y: overlay;
     overscroll-behavior: contain;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
 }
 
-#watch-search {
-    display: flex;
-    flex-direction: column;
-    color: #fff;
-    padding: 10px 15px 5px;
+#aw-search-string {
+    height: 1.3em;
+    width: 100%;
+    text-align: center;
+    background-color: rgb(0 0 0 / 70%);
     font-size: 16px;
-    font-family: proxima nova;
-    text-align: left;
-    background-image:   linear-gradient(to top, black, rgb(42 8 8 / 10%)),
-                        linear-gradient(to right, black, transparent);
+    border-bottom: solid black 1px;
 }
 
-.watch-search-option {
-    display: table;
+#aw-search-options {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    height: 13.6em;
+    background-color: rgb(0 0 0 / 10%);
+}
+
+#aw-sources {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    height: 100%;
+    align-content: flex-start;
+    justify-content: center;
+}
+
+.aw-search-option {
+    display: flex;
+    flex-flow: row wrap;
     font-size: 13px;
-    height: 30px;
-    width: 100%
+    width: 95px;
+    margin: 10px 10px 15px;
+    height: fit-content;
 }
 
-.watch-search-option label {
-    padding-top: 2px;
-    padding-left: 2px;
+.aw-label {
+    text-align: center;
     font-weight: 100;
+    width: 100%;
+    background-color: rgb(0 0 0 / 60%);
+    border-radius: 5px;
+    margin-bottom: 5px;
 }
 
-.watch-search-option select {
-    float: right;
-    margin-left: 5px;
-    width: 60%;
-    background-color: #000000b3;
-    border-radius: 2px;
-    border: solid #232020 1px;
-    color: #fff;
+.aw-select {
+    width: 100%;
+    height: 90px;
+    background-color: rgb(0 0 0 / 60%);
+    border: solid black 1px;
 }
 
-.watch-search-option select:focus-visible {
-    outline: 0;
+.aw-option {
+    padding-left: 3px;
+    border: solid black 1px;
+}
+
+.aw-selected {
+    background-color: #280202;
+    color: white;
+}
+
+.aw-option:not(.aw-selected):hover {
+    background-color: #4c1313;
+    color: white;
 }
 
 .aw-sources-item {
-    padding-block: 15px;
-    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 95px;
+    height: 60px;
+    margin: 10px;
     color: #fff;
     text-align: center;
     font-family: proxima nova semibold;
-    font-size: 15px;
-    border: solid #000000 1px;
+    font-size: 13px;
+    border: solid #ffffff 1px;
     border-radius: 5px;
-    background-image: linear-gradient(to top, transparent, transparent, rgb(88 13 13 / 45%));
+    background-image: linear-gradient(to top, black, rgb(70 2 2 / 58%));
 }
 
 .aw-sources-item:hover {
@@ -196,8 +241,9 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 
 #alternative-watch,
 .aw-source-name,
-.watch-search-option label,
-.watch-search-option select {
+.aw-label,
+.aw-select,
+.aw-content {
     -webkit-user-select:none;
     -khtml-user-select:none;
     -moz-user-select:none;
@@ -207,12 +253,14 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 }
 
 .aw-loading {
-    align-self: center;
-    margin-top: 50%;
-    width: 80px;
-    height: 80px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%);
+    width: 65px;
+    height: 65px;
   }
-  .aw-loading div {
+.aw-loading div {
     box-sizing: border-box;
     position: absolute;
     width: 64px;
@@ -221,21 +269,45 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     border-radius: 50%;
     animation: aw-loading 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     border-color: #fff transparent transparent transparent;
-  }
-  .aw-loading div:nth-child(1) {
+}
+.aw-loading div:nth-child(1) {
     animation-delay: -0.45s;
-  }
-  .aw-loading div:nth-child(2) {
+}
+.aw-loading div:nth-child(2) {
     animation-delay: -0.3s;
-  }
-  .aw-loading div:nth-child(3) {
+}
+.aw-loading div:nth-child(3) {
     animation-delay: -0.15s;
-  }
-  @keyframes aw-loading {
+}
+@keyframes aw-loading {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }  
+}
+
+.aw-content *:focus-visible {
+    outline: 0;
+}
+
+.aw-content *::selection {
+    outline: 0;
+}
+
+.aw-content *::-webkit-scrollbar {
+    width: 5px;
+}
+
+.aw-content *::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+.aw-content *::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+.aw-content *::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}  
