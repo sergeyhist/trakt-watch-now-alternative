@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.2
+// @version     3.2.1
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/sources.json
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {;
     }});
     $('html').on('click','.aw-modal', function (event) {
         if(!$(event.target).closest('.aw-content').length && !$(event.target).is('.aw-content')) {
-            $('.aw-modal').css({'opacity':'0'});
+            $('.aw-modal').css('opacity','0');
             setTimeout(function() {
                 $('.aw-modal').remove();
                 $('html').off('click', '.aw-sources-item');
@@ -98,12 +98,11 @@ document.addEventListener("DOMContentLoaded", function () {;
                     <div class="aw-header">
                         <div contenteditable="true" type="text" id="aw-search-string"/>
                         <div id="aw-search-options"/>
-                        <div class="aw-image"/>
                     </div>
                     <div class="aw-footer"/>
                 </div>
             </div>`);
-        $('.aw-modal').css({'opacity':'1'});
+        $('.aw-modal').css('opacity','1');
         aw_data.id = $(this).attr('aw-data-id');
         aw_data.type = $(this).attr('aw-data-type');
         aw_data.season = checkSepNum($(this).attr('aw-data-season'));
@@ -134,11 +133,10 @@ document.addEventListener("DOMContentLoaded", function () {;
                 };
                 addSites();
                 $('.aw-loading').remove();
-                $('.aw-header').css({'opacity':'1'});
-                $('.aw-footer').css({'opacity':'1'});
+                $('.aw-header').css('opacity','1');
                 setTimeout(function() {
-                    $('.aw-image').css({'opacity':'1'});
-                },500);     
+                    $('.aw-footer').css({'height':'24.9em','opacity':'1'});
+                },500);    
             };
         },500);
     });
@@ -345,7 +343,10 @@ document.addEventListener("DOMContentLoaded", function () {;
                         aw_data.image = aw_data.placeholder;
                     };
                 };
-                $('.aw-image').css('background-image', `url(${aw_data.image})`);
+                $('.aw-header').css('background-image', `
+                linear-gradient(to top, black, rgb(0 0 0 / 15%)),
+                linear-gradient(to right, black, transparent, transparent, transparent, black),
+                url(${aw_data.image})`);
             });
     };
 
