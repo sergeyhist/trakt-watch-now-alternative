@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.2.2
+// @version     3.2.3
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/sources.json
@@ -111,24 +111,9 @@ document.addEventListener("DOMContentLoaded", function () {;
         reqCall_Data();
         reqCall_Episode();
         reqCall_Aliases();
-        let data_int = setInterval(function() {
-            if (aw_data.tmdb) {
-                clearInterval(data_int);
-                reqCall_Image();
-            };
-        },500);
         let main_int = setInterval(function() {
             if (aw_data.image) {
                 clearInterval(main_int);
-                if (aw_data.season) {
-                    if (aw_data.episode) {
-                        createLB('info',['None','Year','Season','Episode','Absolute','Season+Year','Episode+Year','Absolute+Year'],2);
-                    } else {
-                        createLB('info',['None','Year','Season','Season+Year'],2);
-                    };
-                } else {
-                createLB('info',['None','Year'],2);
-                };
                 addSites();
                 $('.aw-loading').remove();
                 $('.aw-header').css('opacity','1');
@@ -325,6 +310,7 @@ document.addEventListener("DOMContentLoaded", function () {;
             aw_data.year = data.year;
             aw_data.tmdb = data.ids['tmdb'];
             $('#aw-search-string').html(aw_data.title);
+            reqCall_Image();
         });
     };
 
@@ -384,6 +370,15 @@ document.addEventListener("DOMContentLoaded", function () {;
                 aw_data.abs_episode = checkSepNum(data.number_abs);
             } else {
                 aw_data.abs_episode = checkSepNum(data.number);
+            };
+            if (aw_data.season) {
+                if (aw_data.episode) {
+                    createLB('info',['None','Year','Season','Episode','Absolute','Season+Year','Episode+Year','Absolute+Year'],2);
+                } else {
+                    createLB('info',['None','Year','Season','Season+Year'],2);
+                };
+            } else {
+            createLB('info',['None','Year'],2);
             };
         });
     };
