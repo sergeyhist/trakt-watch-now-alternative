@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.2.3
+// @version     3.2.4
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/sources.json
@@ -103,13 +103,12 @@ document.addEventListener("DOMContentLoaded", function () {;
         $('.aw-modal').css('opacity','1');
         aw_data.id = $(this).attr('aw-data-id');
         aw_data.type = $(this).attr('aw-data-type');
-        aw_data.season = checkSepNum($(this).attr('aw-data-season'));
-        aw_data.episode = checkSepNum($(this).attr('aw-data-episode'));
+        aw_data.season = $(this).attr('aw-data-season');
+        aw_data.episode = $(this).attr('aw-data-episode');
         createLB('type',['General','Anime','Cartoon','Asian Drama'],3);
         createLB('source',['Online','Torrent','DDL','Database'],4);
         createLB('language',['English','Russian'],5);
         reqCall_Data();
-        reqCall_Episode();
         reqCall_Aliases();
         let main_int = setInterval(function() {
             if (aw_data.image) {
@@ -139,10 +138,10 @@ document.addEventListener("DOMContentLoaded", function () {;
                                 if ($(this).find('h5 > a').attr('href')) {
                                     aw_data = aw_data+' aw-data-type="'+playobject.type+'"';
                                     if ($(this).find('h5 > a').attr('href').includes('/seasons')) {
-                                        aw_data = aw_data+' aw-data-season="'+$(this).find('h5 > a').attr('href').split('/')[4]+'"';
+                                        aw_data = aw_data+' aw-data-season="'+checkSepNum($(this).find('h5 > a').attr('href').split('/')[4])+'"';
                                     };
                                     if ($(this).find('h5 > a').attr('href').includes('/episodes')) {
-                                        aw_data = aw_data+' aw-data-episode="'+$(this).find('h5 > a').attr('href').split('/').pop()+'"';
+                                        aw_data = aw_data+' aw-data-episode="'+checkSepNum($(this).find('h5 > a').attr('href').split('/').pop())+'"';
                                     };
                                 } else {
                                     aw_data = aw_data+' aw-data-type="movies"';
@@ -159,11 +158,11 @@ document.addEventListener("DOMContentLoaded", function () {;
                                 aw_data = aw_data+' aw-data-type="'+playobject.type+'"';
                                 if ($(this).parents().find('meta[itemprop=url]').attr('content').includes('/seasons')) {
                                     aw_data = aw_data+' aw-data-season="'+
-                                    $(this).parents().find('meta[itemprop=url]').attr('content').split('/')[6]+'"';
+                                    checkSepNum($(this).parents().find('meta[itemprop=url]').attr('content').split('/')[6])+'"';
                                 };
                                 if ($(this).parents().find('meta[itemprop=url]').attr('content').includes('/episodes')) {
                                     aw_data = aw_data+' aw-data-episode="'+
-                                    $(this).parents().find('meta[itemprop=url]').attr('content').split('/').pop()+'"';
+                                    checkSepNum($(this).parents().find('meta[itemprop=url]').attr('content').split('/').pop())+'"';
                                 };
                                 aw_block = awBlock('main', aw_data);
                                 $(this).find('.btn-collect').after(`${aw_block}`);
@@ -175,11 +174,11 @@ document.addEventListener("DOMContentLoaded", function () {;
                                 aw_data = aw_data+' aw-data-type="'+playobject.type+'"';
                                 if ($(this).parent().find('meta[itemprop=url]').attr('content').includes('/seasons')) {
                                     aw_data = aw_data+' aw-data-season="'+
-                                    $(this).parent().find('meta[itemprop=url]').attr('content').split('/')[6]+'"';
+                                    checkSepNum($(this).parent().find('meta[itemprop=url]').attr('content').split('/')[6])+'"';
                                 };
                                 if ($(this).parent().find('meta[itemprop=url]').attr('content').includes('/episodes')) {
                                     aw_data = aw_data+' aw-data-episode="'+
-                                    $(this).parent().find('meta[itemprop=url]').attr('content').split('/').pop()+'"';
+                                    checkSepNum($(this).parent().find('meta[itemprop=url]').attr('content').split('/').pop())+'"';
                                 };
                                 aw_block = awBlock('quick', aw_data);
                                 $(this).find('.collect').after(`${aw_block}`);
@@ -311,6 +310,15 @@ document.addEventListener("DOMContentLoaded", function () {;
             aw_data.tmdb = data.ids['tmdb'];
             $('#aw-search-string').html(aw_data.title);
             reqCall_Image();
+            if (aw_data.episode) {
+                reqCall_Episode();
+            } else {
+                if (aw_data.season) {
+                    createLB('info',['None','Year','Season','Season+Year'],2);
+                } else {
+                    createLB('info',['None','Year'],2);
+                };
+            };
         });
     };
 
@@ -371,15 +379,7 @@ document.addEventListener("DOMContentLoaded", function () {;
             } else {
                 aw_data.abs_episode = checkSepNum(data.number);
             };
-            if (aw_data.season) {
-                if (aw_data.episode) {
-                    createLB('info',['None','Year','Season','Episode','Absolute','Season+Year','Episode+Year','Absolute+Year'],2);
-                } else {
-                    createLB('info',['None','Year','Season','Season+Year'],2);
-                };
-            } else {
-            createLB('info',['None','Year'],2);
-            };
+            createLB('info',['None','Year','Season','Episode','Absolute','Season+Year','Episode+Year','Absolute+Year'],2);
         });
     };
 });
