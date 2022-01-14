@@ -93,8 +93,8 @@ document.addEventListener("DOMContentLoaded", function () {;
     $('html').on('click', '#alternative-watch', function () {
         $('html').append(`
             <div class="aw-modal">
+                <div class="aw-loading"><div></div><div></div><div></div><div></div></div>
                 <div class="aw-content">
-                    <div class="aw-loading"><div></div><div></div><div></div><div></div></div>
                     <div class="aw-header">
                         <div contenteditable="true" type="text" id="aw-search-string"/>
                         <div id="aw-search-options"/>
@@ -331,8 +331,8 @@ document.addEventListener("DOMContentLoaded", function () {;
                         aw_data.image = aw_data.placeholder;
                     };
                 };
-                aw_data.tmdb_title = data.name;
-                aw_data.tmdb_original_title = data.original_name;
+                if (data.name) {aw_data.tmdb_title = data.name;};
+                if (data.original_name) {aw_data.tmdb_original_title = data.original_name;};
                 reqCall_Aliases();
             });
     };
