@@ -23,9 +23,9 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     position: fixed;
     display: flex;
     flex-direction: column;
-    top: 50%;
+    top: 15%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%);
     width: 85%;
     max-width: 800px;
     height: fit-content;
@@ -40,12 +40,15 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     background-position-y: center;
     background-repeat: no-repeat;
     padding-bottom: 2em;
+    border-radius: 15px 15px 0 0;
+    background-color: black;
 }
 
 .aw-footer {
     height: 0;
     background-color: black;
     margin-top: -2px;
+    border-radius: 0 0 15px 15px;
 }
 
 .aw-modal::-webkit-scrollbar,
@@ -83,6 +86,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     background-color: rgb(0 0 0 / 75%);
     font-size: 16px;
     border-bottom: solid black 1px;
+    white-space: nowrap;
 }
 
 #aw-search-options {

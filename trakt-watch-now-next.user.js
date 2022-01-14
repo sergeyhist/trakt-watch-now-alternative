@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.2.5
+// @version     3.2.6
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/sources.json
@@ -323,10 +323,10 @@ document.addEventListener("DOMContentLoaded", function () {;
             .then(response => response.json())
             .then(data => {
                 if (data.backdrop_path) {
-                    aw_data.image = 'https://image.tmdb.org/t/p/original'+data.backdrop_path;
+                    aw_data.image = 'https://image.tmdb.org/t/p/w1280'+data.backdrop_path;
                 } else {
                     if (data.poster_path) {
-                        aw_data.image = 'https://image.tmdb.org/t/p/original'+data.poster_path;
+                        aw_data.image = 'https://image.tmdb.org/t/p/w1280'+data.poster_path;
                     } else {
                         aw_data.image = aw_data.placeholder;
                     };
