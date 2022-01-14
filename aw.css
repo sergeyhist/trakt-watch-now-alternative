@@ -27,7 +27,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     left: 50%;
     transform: translate(-50%,-50%);
     width: 85%;
-    max-width: 580px;
+    max-width: 800px;
     height: fit-content;
     max-height: 75%;
 }
@@ -36,8 +36,10 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     color: #fff;
     font-family: proxima nova;
     border: solid black 1px;
-    background-size: 100%;
+    background-size: cover;
     background-position-y: center;
+    background-repeat: no-repeat;
+    padding-bottom: 2em;
 }
 
 .aw-footer {
@@ -57,7 +59,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    transition: all .5s ease;
+    transition: all .3s ease;
     opacity: 0;
     overflow: hidden;
 }
@@ -72,7 +74,10 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 }
 
 #aw-search-string {
-    height: 1.3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2em;
     width: 100%;
     text-align: center;
     background-color: rgb(0 0 0 / 75%);
@@ -84,7 +89,6 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    height: 13.8em;
 }
 
 #aw-sources {
@@ -100,9 +104,8 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     display: flex;
     flex-flow: row wrap;
     font-size: 13px;
-    width: 95px;
-    margin: 10px 10px 15px;
-    height: fit-content;
+    width: 10em;
+    margin: 5px 10px;
 }
 
 .aw-label {
@@ -117,7 +120,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 
 .aw-select {
     width: 100%;
-    height: 90px;
+    height: 7em;
     background-color: rgb(0 0 0 / 60%);
     border: solid black 1px;
 }
@@ -141,11 +144,10 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 95px;
-    height: 60px;
+    width: 10em;
+    height: 5em;
     margin: 10px;
     color: #fff;
-    text-align: center;
     font-family: proxima nova semibold;
     font-size: 13px;
     border: solid #ffffff 1px;
@@ -290,13 +292,13 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 }
 
 .aw-content *::-webkit-scrollbar-track {
-    background: transparent; 
+    background: transparent;
 }
 
 .aw-content *::-webkit-scrollbar-thumb {
-    background: #888; 
+    background: #888;
 }
 
 .aw-content *::-webkit-scrollbar-thumb:hover {
-    background: #555; 
-}  
+    background: #555;
+}
