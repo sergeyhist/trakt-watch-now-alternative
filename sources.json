@@ -530,5 +530,47 @@
         "language": "Russian",
         "name": "Shikimori",
         "link": "https://shikimori.one/animes?search=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "General,Anime,Asian Drama",
+        "language": "English",
+        "name": "Pahe.in",
+        "link": "https://pahe.li/?s=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "General",
+        "language": "English",
+        "name": "MyDuckisDead",
+        "link": "http://myduckisdead.org/?s=%s"
+    },
+    {
+        "source": "Online",
+        "type": "General",
+        "language": "English",
+        "name": "HDO",
+        "link": "https://w10.hdonline.eu/search-query/%s/"
+    },
+    {
+        "source": "Online",
+        "type": "General",
+        "language": "English",
+        "name": "C1ne",
+        "link": "https://c1ne.co/?s=%s"
+    },
+    {
+        "source": "DDL",
+        "type": "Asian Drama",
+        "language": "English",
+        "name": "MkvDrama",
+        "link": "https://mkvdrama.com/?s=%s"
+    },
+    {
+        "source": "Online,DDL",
+        "type": "Asian Drama",
+        "language": "English",
+        "name": "TDrama",
+        "link": "http://tdrama.net/search/?id=%s"
     }
-]   
+]

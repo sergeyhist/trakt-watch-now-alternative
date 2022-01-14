@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.2.4
+// @version     3.2.4.1
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/sources.json
@@ -118,11 +118,11 @@ document.addEventListener("DOMContentLoaded", function () {;
                 $('.aw-header').css('opacity','1');
                 setTimeout(function() {
                     $('.aw-footer').css({'height':'24.9em','opacity':'1'});
-                },500);    
+                },500);
             };
         },500);
     });
-    
+
     //Functions
 
     function awButtons(playobject) {
