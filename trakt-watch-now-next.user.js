@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.2.8.2
+// @version     3.2.9
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/sources.json
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {;
     });
     $('html').on('click', '.aw-sources-item' , function () {
         window.open($(this).attr('aw-source-link')
-        .replace('%s', $('#aw-search-string').html().replace(/ /g,'%20')), "_blank");
+        .replace('%s', $('#aw-search-string').val().replace(/ /g,'%20')), "_blank");
     });
     $('html').on('click', '#alternative-watch', function () {
         $('html').append(`
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {;
                 <div class="aw-loading"><div></div><div></div><div></div><div></div></div>
                 <div class="aw-content">
                     <div class="aw-header">
-                        <div contenteditable="true" type="text" id="aw-search-string"/>
+                        <input type="text" id="aw-search-string"/>
                         <div id="aw-search-options"/>
                     </div>
                     <div class="aw-footer"/>
@@ -225,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {;
 
     function updateTitle() {
         $('#aw-search-string')
-        .html($('#aw-search-string').html()
+        .html($('#aw-search-string').val()
             .replace(aw_data.title, $('#aw-aliases > .aw-select > .aw-option.aw-selected')
             .text()));
         aw_data.title = $('#aw-aliases > .aw-select > .aw-option.aw-selected').text();
@@ -234,28 +234,28 @@ document.addEventListener("DOMContentLoaded", function () {;
     function updateInfo() {
         switch ($('#aw-info > .aw-select > .aw-option.aw-selected').text()) {
             case 'None':
-                $('#aw-search-string').html(aw_data.title);
+                $('#aw-search-string').val(aw_data.title);
                 break;
             case 'Season':
-                $('#aw-search-string').html(aw_data.title+' s'+aw_data.season);
+                $('#aw-search-string').val(aw_data.title+' s'+aw_data.season);
                 break;
             case 'Episode':
-                $('#aw-search-string').html(aw_data.title+' s'+aw_data.season+'e'+aw_data.episode);
+                $('#aw-search-string').val(aw_data.title+' s'+aw_data.season+'e'+aw_data.episode);
                 break;
             case 'Year':
-                $('#aw-search-string').html(aw_data.title+' '+aw_data.year);
+                $('#aw-search-string').val(aw_data.title+' '+aw_data.year);
                 break;
             case 'Absolute':
-                $('#aw-search-string').html(aw_data.title+' '+aw_data.abs_episode);
+                $('#aw-search-string').val(aw_data.title+' '+aw_data.abs_episode);
                 break;
             case 'Season+Year':
-                $('#aw-search-string').html(aw_data.title+' s'+aw_data.season+' '+aw_data.year);
+                $('#aw-search-string').val(aw_data.title+' s'+aw_data.season+' '+aw_data.year);
                 break;
             case 'Episode+Year':
-                $('#aw-search-string').html(aw_data.title+' s'+aw_data.season+'e'+aw_data.episode+' '+aw_data.year);
+                $('#aw-search-string').val(aw_data.title+' s'+aw_data.season+'e'+aw_data.episode+' '+aw_data.year);
                 break;
             case 'Absolute+Year':
-                $('#aw-search-string').html(aw_data.title+' '+aw_data.abs_episode+' '+aw_data.year);
+                $('#aw-search-string').val(aw_data.title+' '+aw_data.abs_episode+' '+aw_data.year);
         };
     };
 
@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", function () {;
             aw_data.title = data.title;
             aw_data.year = data.year;
             aw_data.tmdb_id = data.ids['tmdb'];
-            $('#aw-search-string').html(aw_data.title);
+            $('#aw-search-string').val(aw_data.title);
             if (aw_data.episode) {
                 reqCall_Episode();
             } else {
