@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.2.7
+// @version     3.2.8
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/sources.json
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {;
     });
     $('html').on('click', '.aw-sources-item' , function () {
         window.open($(this).attr('aw-source-link')
-        .replace('%s', $('#aw-search-string').html().replace(/ /g,'+')), "_blank");
+        .replace('%s', $('#aw-search-string').html().replace(/ /g,'%20')), "_blank");
     });
     $('html').on('click', '#alternative-watch', function () {
         $('html').append(`
@@ -111,21 +111,6 @@ document.addEventListener("DOMContentLoaded", function () {;
         createLB('source',['Online','Torrent','DDL','Database'],4);
         createLB('language',['English','Russian'],5);
         reqCall_Data();
-        let main_int = setInterval(function() {
-            if (aw_data.image) {
-                clearInterval(main_int);
-                $('.aw-header').css('background-image', `
-                linear-gradient(to top, black, rgb(0 0 0 / 15%)),
-                linear-gradient(to right, black, transparent, transparent, transparent, black),
-                url(${aw_data.image})`);
-                addSites();
-                $('.aw-loading').remove();
-                $('.aw-header').css('opacity','1');
-                setTimeout(function() {
-                    $('.aw-footer').css({'height':'100%','opacity':'1'});
-                },500);
-            };
-        },500);
     });
 
     //Functions
@@ -209,6 +194,19 @@ document.addEventListener("DOMContentLoaded", function () {;
             title: "Watch Now Alternative",
             placement: 'bottom'
         }).popover('destroy');
+    };
+
+    function openAW() {
+        $('.aw-header').css('background-image', `
+        linear-gradient(to top, black, rgb(0 0 0 / 15%)),
+        linear-gradient(to right, black, transparent, transparent, transparent, black),
+        url(${aw_data.image})`);
+        addSites();
+        $('.aw-loading').remove();
+        $('.aw-header').css('opacity','1');
+        setTimeout(function() {
+            $('.aw-footer').css({'height':'100%','opacity':'1'});
+        },500);
     };
 
     function createLB(type,items,order) {
@@ -305,7 +303,6 @@ document.addEventListener("DOMContentLoaded", function () {;
             aw_data.year = data.year;
             aw_data.tmdb_id = data.ids['tmdb'];
             $('#aw-search-string').html(aw_data.title);
-            reqCall_TMDB_Data();
             if (aw_data.episode) {
                 reqCall_Episode();
             } else {
@@ -314,6 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {;
                 } else {
                     createLB('info',['None','Year'],2);
                 };
+                reqCall_TMDB_Data();
             };
         });
     };
@@ -361,6 +359,7 @@ document.addEventListener("DOMContentLoaded", function () {;
                 element_titles=element_titles+','+aw_data.tmdb_original_title;
             };
             createLB('aliases',element_titles.split(','),1)
+            openAW();
         });
     };
 
@@ -381,6 +380,7 @@ document.addEventListener("DOMContentLoaded", function () {;
                 aw_data.abs_episode = checkSepNum(data.number);
             };
             createLB('info',['None','Year','Season','Episode','Absolute','Season+Year','Episode+Year','Absolute+Year'],2);
+            reqCall_TMDB_Data();
         });
     };
 });

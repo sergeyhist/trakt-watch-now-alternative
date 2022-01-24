@@ -179,7 +179,7 @@
         "type": "Anime",
         "language": "Russian",
         "name": "AniMedia",
-        "link": "https://amedia.cc/index.php?do=search&subaction=search&story=%s"
+        "link": "https://m45.animedia.pro/catalog?q=%s"
     },
     {
         "source": "Online",
