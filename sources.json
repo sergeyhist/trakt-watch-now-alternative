@@ -175,7 +175,7 @@
         "link": "https://yokiani.me/anime_search?search=%s"
     },
     {
-        "source": "Online",
+        "source": "Online, Torrent",
         "type": "Anime",
         "language": "Russian",
         "name": "AniMedia",
@@ -281,7 +281,7 @@
     },
     {
         "source": "Torrent",
-        "type": "General",
+        "type": "General,Anime",
         "language": "Russian",
         "name": "Rutracker",
         "link": "https://rutracker.org/forum/tracker.php?nm=%s"
@@ -302,14 +302,14 @@
     },
     {
         "source": "Torrent",
-        "type": "General",
+        "type": "General,Anime",
         "language": "Russian",
         "name": "Kinozal",
         "link": "http://kinozal.tv/browse.php?s=%s"
     },
     {
         "source": "Torrent",
-        "type": "General",
+        "type": "General,Anime",
         "language": "Russian",
         "name": "NNMClub",
         "link": "http://nnmclub.to/forum/tracker.php?nm=%s"
@@ -323,7 +323,7 @@
     },
     {
         "source": "Torrent",
-        "type": "General",
+        "type": "General,Anime",
         "language": "Russian",
         "name": "Rutor",
         "link": "http://rutor.info/search/%s"
@@ -572,5 +572,12 @@
         "language": "English",
         "name": "TDrama",
         "link": "http://tdrama.net/search/?id=%s"
+    },
+    {
+        "source": "Torrent",
+        "type": "Anime",
+        "language": "Russian",
+        "name": "AnimeLayer",
+        "link": "https://www.animelayer.ru/torrents/anime/?q=%s"
     }
 ]
