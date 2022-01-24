@@ -72,7 +72,7 @@ a.btn.btn-block.btn-summary.btn-watch-now.visible-xs.selected {
 .aw-select,
 #aw-search-string {
     overflow: hidden;
-    overflow-y: overlay;
+    overflow-y: auto;
     overscroll-behavior: contain;
 }
 
