@@ -18,7 +18,8 @@
         "type": "General",
         "language": "English",
         "name": "HiMovie",
-        "link": "https://www5.himovies.to/search/%s"
+        "link": "https://www5.himovies.to/search/%s",
+        "space": "-"
     },
     {
         "source": "Online",
