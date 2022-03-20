@@ -33,14 +33,14 @@
         "type": "General",
         "language": "English",
         "name": "LookMovie-Movies",
-        "link": "https://lookmovie.io/movies/search/?q=%s"
+        "link": "https://lookmovie.la/movies/search/?q=%s"
     },
     {
         "source": "Online",
         "type": "General",
         "language": "English",
         "name": "LookMovie-Series",
-        "link": "https://lookmovie.io/shows/search?q=%s"
+        "link": "https://lookmovie.la/shows/search?q=%s"
     },
     {
         "source": "Online",
@@ -551,7 +551,8 @@
         "type": "General",
         "language": "English",
         "name": "HDO",
-        "link": "https://w10.hdonline.eu/search-query/%s/"
+        "link": "https://w10.hdonline.eu/search-query/%s/",
+        "space": "+"
     },
     {
         "source": "Online",

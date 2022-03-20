@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     3.2.9
+// @version     3.2.9.1
 // @author      Hist
 // @resource    IMPORTED_CSS https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/aw.css
 // @resource    IMPORTED_JSON https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/sources.json
@@ -58,8 +58,8 @@ const aw_data = {
     "placeholder": "https://trakt.tv/assets/placeholders/full/fanart-7fd177378498acd815bf2386dfb1411223785b1c4dc1f4eada7b7e1f357621b4.png.webp"
 };
 
-document.addEventListener("DOMContentLoaded", function () {;
-    $(function () {
+document.addEventListener("DOMContentLoaded", () => {
+    $(() => {
         for (let element of play_item) {
             awButtons(element);
     }});
@@ -85,10 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {;
         updateTitle();
         updateInfo();
         addSites();
-    });
-    $('html').on('click', '.aw-sources-item' , function () {
-        window.open($(this).attr('aw-source-link')
-        .replace('%s', $('#aw-search-string').val().replace(/ /g,'%20')), "_blank");
     });
     $('html').on('click', '#alternative-watch', function () {
         $('html').append(`
@@ -272,8 +268,17 @@ document.addEventListener("DOMContentLoaded", function () {;
                 .includes($('#aw-source > .aw-select > .aw-option.aw-selected').text())
             ) {
                 $('.aw-content #aw-sources')
-                .append(`<div class="aw-sources-item" aw-source-link="${element.link}">
+                .append(`<div class="aw-sources-item" data-aw-space="${element.space || '%20'}" data-aw-source="${element.link}">
                 <div class="aw-source-name">${element.name}</div></div>`);
+            };
+        };
+        let awSourceButtons = document.querySelectorAll('.aw-sources-item');
+        for (let item of awSourceButtons) {
+            item.onclick = () => {
+                let awSearchString = document.querySelector('#aw-search-string');
+                let awSourceLink = item.dataset.awSource;
+                let awLinkSpace = item.dataset.awSpace;
+                window.open(awSourceLink.replace('%s', awSearchString.value.replace(/ /g, awLinkSpace)));
             };
         };
     };
