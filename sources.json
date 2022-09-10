@@ -32,20 +32,6 @@
         "source": "Online",
         "type": "General",
         "language": "English",
-        "name": "LookMovie-Movies",
-        "link": "https://lookmovie.la/movies/search/?q=%s"
-    },
-    {
-        "source": "Online",
-        "type": "General",
-        "language": "English",
-        "name": "LookMovie-Series",
-        "link": "https://lookmovie.la/shows/search?q=%s"
-    },
-    {
-        "source": "Online",
-        "type": "General",
-        "language": "English",
         "name": "Soap2day",
         "link": "https://soap2day.ac/search/keyword/%s"
     },
@@ -581,5 +567,12 @@
         "language": "Russian",
         "name": "AnimeLayer",
         "link": "https://www.animelayer.ru/torrents/anime/?q=%s"
+    },
+    {
+      "source": "Online",
+      "type": "General",
+      "language": "English",
+      "name": "SolarMovie",
+      "link": "https://www2.solarmovie.to/search.html?q=%s"
     }
 ]
