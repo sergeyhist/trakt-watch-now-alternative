@@ -573,6 +573,7 @@
       "type": "General",
       "language": "English",
       "name": "SolarMovie",
-      "link": "https://www2.solarmovie.to/search.html?q=%s"
+      "link": "https://www2.solarmovie.to/search.html?q=%s",
+      "space": "-"
     }
 ]
