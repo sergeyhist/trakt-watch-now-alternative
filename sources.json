@@ -107,13 +107,6 @@
   },
   {
     "type": "Online",
-    "section": "General",
-    "language": "Russian",
-    "name": "Megogo",
-    "link": "https://megogo.ru/ru/search-extended?q=%s"
-  },
-  {
-    "type": "Online",
     "section": "Anime",
     "language": "Russian",
     "name": "Jut.su",
@@ -209,13 +202,6 @@
     "language": "English",
     "name": "KickAssAnime",
     "link": "https://www2.kickassanime.rs/search?q=%s"
-  },
-  {
-    "type": "Online",
-    "section": "Anime",
-    "language": "English",
-    "name": "5Anime",
-    "link": "https://5anime.co/search?keyword=%s"
   },
   {
     "type": "Torrent",
@@ -523,7 +509,7 @@
     "section": "General",
     "language": "English",
     "name": "HDO",
-    "link": "https://w10.hdonline.eu/search-query/%s/",
+    "link": "https://w10.hdonline.eu/searching/%s/",
     "space": "+"
   },
   {
