@@ -1,7 +1,7 @@
 ## Watch Now Alternative
-###About
+### About
 This script does not interact with the sources API. It's just a bunch of search links with flexible options.
-###Features
+### Features
 + Various sources:
   - Online
   - DDL
@@ -14,7 +14,7 @@ This script does not interact with the sources API. It's just a bunch of search 
   - Language
 + Optimization for mobile devices
 + Play button everywhere
-###Installation
+### Installation
 1. Install any UserScript manager (Recommended: TamperMonkey):
 [Chrome](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/)   
 For mobile devices install AdGuard and use their extension manager: [Android](https://adguard.com/en/adguard-android/overview.html), [iOS](https://adguard.com/en/adguard-ios/overview.html).   
