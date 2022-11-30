@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.0
+// @version     4.0.1
 // @author      Hist
 // @grant       GM_addStyle
 // @description Alternative version for trakt.tv watch now modal
@@ -188,9 +188,10 @@ div[class^=aw-]::-webkit-scrollbar {
   right: 0;
   height: 40px;
   width: 40px;
-  max-height: 20%;
-  max-width: 30%;
+  max-height: 30%;
+  max-width: 40%;
   font-size: 1.7em;
+  opacity: .8;
 }
 
 .alternative-watch-action {
@@ -211,6 +212,7 @@ div[class^=aw-]::-webkit-scrollbar {
   width: fit-content;
   max-width: 100%;
   padding-inline: 1px 5px;
+  font-size: 1.2em;
 }
 
 .alternative-watch-action::after, .alternative-watch-schedule::after {
@@ -865,8 +867,6 @@ for (let source of sources) {
   })
 };
 
-console.log(sourcesCategories);
-
 document.addEventListener("DOMContentLoaded", () => {
   for (let element of playItems) {
     awButtons(element)
@@ -1088,6 +1088,7 @@ function createLB(type, items) {
       let option = document.createElement('div');
 
       option.textContent = element;
+      option.classList.add('aw-option');
       option.classList.add('aw-unselectable');
       awSelect.append(option);
 
@@ -1157,24 +1158,24 @@ function updateOptions() {
   const awLanguage = document.querySelector('#aw-language');
   const awCategory = document.querySelector('#aw-category');
   const awSource = document.querySelector('#aw-source');
+  const optionsCheck = (options, checkArray) => {
+    for (let option of options.querySelectorAll('.aw-option')) {
+      if (!checkArray.includes(option.textContent)) {
+        option.classList.add('aw-hidden');
 
-  for (let option of awCategory.querySelector('.aw-select').querySelectorAll('div')) {
-    if (!Object.keys(sourcesList[awLanguage.querySelector('span').textContent]).includes(option.textContent)) {
-      !option.classList.contains('aw-hidden') && option.classList.add('aw-hidden');
-      if (awCategory.querySelector('span').textContent == option.textContent) {awCategory.querySelector('span').textContent = awCategory.querySelector('.aw-select').querySelector('div:not(.aw-hidden)').textContent};
-    } else {
-      option.classList.contains('aw-hidden') && option.classList.remove('aw-hidden');
+        if (options.querySelector('span').textContent == option.textContent) {
+          options.querySelector('span').textContent = option.parentElement.querySelector('div:not(.aw-hidden)').textContent;
+        };
+      };
     };
   };
 
-  for (let option of awSource.querySelector('.aw-select').querySelectorAll('div')) {
-    if (!sourcesList[awLanguage.querySelector('span').textContent][awCategory.querySelector('span').textContent].includes(option.textContent)) {
-      !option.classList.contains('aw-hidden') && option.classList.add('aw-hidden');
-      if (awSource.querySelector('span').textContent == option.textContent) {awSource.querySelector('span').textContent = awSource.querySelector('.aw-select').querySelector('div:not(.aw-hidden)').textContent};
-    } else {
-      option.classList.contains('aw-hidden') && option.classList.remove('aw-hidden');
-    };
+  for (let option of document.querySelectorAll('.aw-option')) {
+    option.classList.contains('aw-hidden') && option.classList.remove('aw-hidden');
   };
+
+  optionsCheck(awCategory, Object.keys(sourcesList[awLanguage.querySelector('span').textContent]));
+  optionsCheck(awSource, sourcesList[awLanguage.querySelector('span').textContent][awCategory.querySelector('span').textContent]);
 };
 
 function addSites() {
