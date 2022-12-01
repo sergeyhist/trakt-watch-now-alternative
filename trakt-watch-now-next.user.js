@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.0.1
+// @version     4.1
 // @author      Hist
 // @grant       GM_addStyle
 // @description Alternative version for trakt.tv watch now modal
@@ -17,9 +17,9 @@ div[class^="aw-"] {
   transition: .3s;
 }
 
-div[class^=aw-]::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
+div[class^="aw-"]:focus-visible {
+  border: 0;
+  outline: 0;
 }
 
 .aw-search-string, .aw-button {
@@ -81,8 +81,8 @@ div[class^=aw-]::-webkit-scrollbar {
   transition: .5s;
 }
 
-.aw-button:hover, .aw-button-selected {
-  background-color: #b1101063;
+.aw-button:hover, .aw-button:focus, .aw-button:focus-visible, .aw-button-selected {
+  background-color: #9e3131!important;
 }
 
 .aw-content, .aw-select {
@@ -115,6 +115,10 @@ div[class^=aw-]::-webkit-scrollbar {
   font-size: 14px;
 }
 
+.aw-search-option:focus-visible > .aw-title {
+  background-color: #161616;
+}
+
 .aw-label {
   align-self: baseline;
   margin-top: 3px;
@@ -143,7 +147,7 @@ div[class^=aw-]::-webkit-scrollbar {
   border-radius: 0 0 3px 3px;
 }
 
-.aw-select > div {
+.aw-option {
   padding-inline: 7px;
   cursor: pointer;
   background: #161616;
@@ -151,7 +155,7 @@ div[class^=aw-]::-webkit-scrollbar {
   border-radius: 3px;
 }
 
-.aw-select > div:hover {
+.aw-option:hover, .aw-option:focus-visible {
   background: #6c6c6c;
 }
 
@@ -199,7 +203,6 @@ div[class^=aw-]::-webkit-scrollbar {
   height: 30px;
   width: 100%;
   max-width: 100%;
-  opacity: .9;
   border-radius: 0;
   border-bottom: 1px solid black;
 }
@@ -213,6 +216,7 @@ div[class^=aw-]::-webkit-scrollbar {
   max-width: 100%;
   padding-inline: 1px 5px;
   font-size: 1.2em;
+  padding-top: 2px;
 }
 
 .alternative-watch-action::after, .alternative-watch-schedule::after {
@@ -220,12 +224,6 @@ div[class^=aw-]::-webkit-scrollbar {
   font-size: 13px;
   font-weight: bold;
   padding-top: 2px;
-}
-
-.alternative-watch:hover {
-  color: white;
-  background-color: #9e3131!important;
-  text-decoration: none;
 }
 
 .aw-hidden {
@@ -998,6 +996,7 @@ function awButtons(playobject) {
 function awBlock(type, attributes, styles) {
   let block = document.createElement('button');
 
+  block.tabIndex = '0';
   block.classList.add('aw-button');
   block.classList.add('alternative-watch');
   block.classList.add('alternative-watch-'+type);
@@ -1007,7 +1006,18 @@ function awBlock(type, attributes, styles) {
   for (let attribute of attributes) {block.setAttribute(attribute.name, attribute.value)};
 
   block.onclick = (event) => {
-    event.preventDefault();
+    event.preventDefault();    
+
+    const closeModal = (modal) => {
+      modal.style.opacity = 0;
+      setTimeout(function() {
+        awModal.remove();
+        aw_data.title = "";
+        aw_data.image = "";
+        aw_data.abs_episode = "";
+      },500);
+      block.focus();
+    };
 
     let awModal = document.createElement('div');
     let awBlock = document.createElement('div');
@@ -1025,7 +1035,7 @@ function awBlock(type, attributes, styles) {
     awFooter.classList.add('aw-footer');
     awFooter.classList.add('aw-hidden');
 
-    awHeader.innerHTML = `<input type="text" class="aw-search-string"/>`;
+    awHeader.innerHTML = `<input type="text" class="aw-search-string" tabindex="0"/>`;
     awHeader.innerHTML += `<div class="aw-search-options">`;
     
     document.querySelector('body').append(awModal);
@@ -1045,28 +1055,30 @@ function awBlock(type, attributes, styles) {
 
     reqCall_Data();
 
-    awModal.addEventListener('click', (event) => {
-      if(!awBlock.contains(event.target)) {
-        awModal.style.opacity = 0;
-        setTimeout(function() {
-          awModal.remove();
-          aw_data.title = "";
-          aw_data.image = "";
-          aw_data.abs_episode = "";
-        },500);
-      };
-    });
+    awModal.addEventListener('click', (e) => {!awBlock.contains(e.target) && closeModal(awModal)});
+    awModal.addEventListener('keydown', (e) => {e.key == 'Escape' && closeModal(awModal)});
   };
 
   return block;
 };
 
 function createLB(type, items) {
+  const toggleList = (list, e) => {
+    if (!list.contains(e.target) || !list.querySelector('.aw-select').classList.contains('aw-hidden')) {
+      list.querySelector('.aw-select').classList.add('aw-hidden');
+      setTimeout(() => {list.querySelector('.aw-title').style.borderRadius = '3px'}, 100);
+    } else {
+      list.querySelector('.aw-select').classList.remove('aw-hidden');
+      setTimeout(() => {list.querySelector('.aw-title').style.borderRadius = '3px 3px 0 0'}, 100);
+    };
+  };
+
   let awSearchOption = document.createElement('div');
   let awLabel = document.createElement('div');
   let awTitle = document.createElement('div');
   let awSelect = document.createElement('div');
 
+  awSearchOption.tabIndex = '0';
   awSearchOption.id = 'aw-'+type;
   awSearchOption.classList.add('aw-search-option');
   awSearchOption.classList.add('aw-unselectable');
@@ -1085,35 +1097,33 @@ function createLB(type, items) {
 
   if (items) {
     for (let element of items) {
-      let option = document.createElement('div');
-
-      option.textContent = element;
-      option.classList.add('aw-option');
-      option.classList.add('aw-unselectable');
-      awSelect.append(option);
-
-      option.onclick = () => {
-        awTitle.querySelector('span').textContent = option.textContent;
+      const selectOption = (title) => {
+        title.querySelector('span').textContent = option.textContent;
+        title.parentElement.focus();
         updateTitle();
         updateInfo();
         updateOptions();
         addSites();
       };
 
+      let option = document.createElement('div');
+
+      option.tabIndex = '0';
+      option.textContent = element;
+      option.classList.add('aw-option');
+      option.classList.add('aw-unselectable');
+      awSelect.append(option);
+
+      option.onclick = () => {selectOption(awTitle)};
+      option.onkeydown = (e) => {e.key == 'Enter' && selectOption(awTitle)};
+
       awTitle.querySelector('span').textContent = items[0];
     };
   };
 
-  document.addEventListener('click', (e) => {
-    if (!awSearchOption.contains(e.target) || !awSearchOption.querySelector('.aw-select').classList.contains('aw-hidden')) {
-      awSearchOption.querySelector('.aw-select').classList.add('aw-hidden');
-      setTimeout(() => {awSearchOption.querySelector('.aw-title').style.borderRadius = '3px'}, 100);
-    } else {
-      awSearchOption.querySelector('.aw-select').classList.remove('aw-hidden');
-      setTimeout(() => {awSearchOption.querySelector('.aw-title').style.borderRadius = '3px 3px 0 0'}, 100);
-    };
-  });
-}
+  document.addEventListener('click', (e) => {toggleList(awSearchOption, e)});
+  document.addEventListener('keydown', (e) => {e.key == 'Enter' && toggleList(awSearchOption, e)});
+};
 
 function updateTitle() {
   const awSearchString = document.querySelector('.aw-search-string');
@@ -1266,6 +1276,7 @@ function reqCall_Data() {
       awBlock.classList.remove('aw-hidden');
       awHeader.classList.remove('aw-hidden');
       awFooter.classList.remove('aw-hidden');
+      setTimeout(() => {awSearchString.focus()}, 500);
     });
 };
 
