@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.1
+// @version     4.1.1
 // @author      Hist
 // @grant       GM_addStyle
 // @description Alternative version for trakt.tv watch now modal
@@ -17,12 +17,7 @@ div[class^="aw-"] {
   transition: .3s;
 }
 
-div[class^="aw-"]:focus-visible {
-  border: 0;
-  outline: 0;
-}
-
-.aw-search-string, .aw-button {
+.aw-search-string, .aw-button, div[class^="aw-"]:focus-visible {
   border: 0;
   outline: 0;
 }
@@ -134,6 +129,7 @@ div[class^="aw-"]:focus-visible {
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
+  height: 28px;
 }
 
 .aw-title > span:first-child {
@@ -1052,8 +1048,13 @@ function awBlock(type, attributes, styles) {
     createLB('language', sourcesLanguages);
     createLB('category', sourcesCategories);
     createLB('source', sourcesTypes);
+    createLB('aliases', []);
+    createLB('info', ['None']);
 
     reqCall_Data();
+
+    awBlock.classList.remove('aw-hidden');
+    awHeader.classList.remove('aw-hidden');
 
     awModal.addEventListener('click', (e) => {!awBlock.contains(e.target) && closeModal(awModal)});
     awModal.addEventListener('keydown', (e) => {e.key == 'Escape' && closeModal(awModal)});
@@ -1096,7 +1097,7 @@ function createLB(type, items) {
   document.querySelector('.aw-search-options').append(awSearchOption);
 
   if (items) {
-    for (let element of items) {
+    for (let item of items) {
       const selectOption = (title) => {
         title.querySelector('span').textContent = option.textContent;
         title.parentElement.focus();
@@ -1109,7 +1110,7 @@ function createLB(type, items) {
       let option = document.createElement('div');
 
       option.tabIndex = '0';
-      option.textContent = element;
+      option.textContent = item;
       option.classList.add('aw-option');
       option.classList.add('aw-unselectable');
       awSelect.append(option);
@@ -1123,6 +1124,34 @@ function createLB(type, items) {
 
   document.addEventListener('click', (e) => {toggleList(awSearchOption, e)});
   document.addEventListener('keydown', (e) => {e.key == 'Enter' && toggleList(awSearchOption, e)});
+};
+
+function updateLB(type, items) {
+  const listBox = document.querySelector(`#aw-${type}`);
+
+  for (let item of items) {
+    const selectOption = (title) => {
+      title.querySelector('span').textContent = option.textContent;
+      title.parentElement.focus();
+      updateTitle();
+      updateInfo();
+      updateOptions();
+      addSites();
+    };
+
+    let option = document.createElement('div');
+
+    option.tabIndex = '0';
+    option.textContent = item;
+    option.classList.add('aw-option');
+    option.classList.add('aw-unselectable');
+    listBox.querySelector('.aw-select').append(option);
+
+    option.onclick = () => {selectOption(listBox.querySelector('.aw-title'))};
+    option.onkeydown = (e) => {e.key == 'Enter' && selectOption(listBox.querySelector('.aw-title'))};
+  };
+
+  if (listBox.querySelector('span').textContent == '') {listBox.querySelector('span').textContent = items[0]}; 
 };
 
 function updateTitle() {
@@ -1254,50 +1283,38 @@ function reqCall_Data() {
     .then(response => response.json())
     .then(async data => {
       const awSearchString = document.querySelector('.aw-search-string');
-      const awBlock = document.querySelector('.aw-block');
-      const awHeader = document.querySelector('.aw-header');
       const awFooter = document.querySelector('.aw-footer');
 
       aw_data.title = data.title;
       aw_data.year = data.year;
       awSearchString.value = aw_data.title;
-
-      if (aw_data.episode) {
-        await reqCall_Episode();
-      } else {
-        if (aw_data.season) {
-          createLB('info',['None','Year','Season','Season+Year']);
-        } else {
-          createLB('info',['None','Year']);
-        };
-      };
-      await reqCall_Aliases();
+      updateLB('aliases', [data.title]);
+      updateLB('info', ['Year']);
+      aw_data.season && updateLB('info', ['Season','Season+Year']);
+      aw_data.episode && reqCall_Episode();
+      reqCall_Aliases();
       addSites();
-      awBlock.classList.remove('aw-hidden');
-      awHeader.classList.remove('aw-hidden');
       awFooter.classList.remove('aw-hidden');
-      setTimeout(() => {awSearchString.focus()}, 500);
+      awSearchString.focus();
     });
 };
 
-async function reqCall_Aliases() {
-  await fetch(`https://api.trakt.tv/${aw_data.type}/${aw_data.id}/aliases`, {method: 'GET', headers: traktApiHeaders})
+function reqCall_Aliases() {
+  fetch(`https://api.trakt.tv/${aw_data.type}/${aw_data.id}/aliases`, {method: 'GET', headers: traktApiHeaders})
     .then(response => response.json())
     .then(data => {
-      let elementTitles = [aw_data.title];
+      let elementTitles = [];
 
-      for (let element of data) {!elementTitles.includes(element.title) && elementTitles.push(element.title)};
-
-      createLB('aliases', elementTitles);
+      data.forEach((element) => !elementTitles.includes(element.title) && elementTitles.push(element.title));
+      updateLB('aliases', elementTitles);
     });
 };
 
-async function reqCall_Episode() {
-  await fetch(`https://api.trakt.tv/${aw_data.type}/${aw_data.id}/seasons/${aw_data.season}/episodes/${aw_data.episode}?extended=full`, {method: 'GET', headers: traktApiHeaders})
+function reqCall_Episode() {
+  fetch(`https://api.trakt.tv/${aw_data.type}/${aw_data.id}/seasons/${aw_data.season}/episodes/${aw_data.episode}?extended=full`, {method: 'GET', headers: traktApiHeaders})
     .then(response => response.json())
     .then(data => {
       data.number_abs ? aw_data.abs_episode = checkSepNum(data.number_abs) : aw_data.abs_episode = checkSepNum(data.number);
-
-      createLB('info', ['None','Year','Season','Episode','Absolute','Season+Year','Episode+Year','Absolute+Year']);
+      updateLB('info', ['Episode','Episode+Year','Absolute','Absolute+Year']);
     });
 };
