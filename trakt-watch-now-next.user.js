@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.1.1
+// @version     4.1.2
 // @author      Hist
 // @grant       GM_addStyle
 // @description Alternative version for trakt.tv watch now modal
@@ -1021,6 +1021,8 @@ function awBlock(type, attributes, styles) {
     let awHeader = document.createElement('div');
     let awFooter = document.createElement('div');
 
+    awContent.tabIndex = '-1';
+
     awModal.classList.add('aw-modal');
     awBlock.classList.add('aw-block');
     awBlock.classList.add('aw-hidden');
@@ -1282,6 +1284,7 @@ function reqCall_Data() {
   fetch(`https://api.trakt.tv/${aw_data.type}/${aw_data.id}`, {method: 'GET', headers: traktApiHeaders})
     .then(response => response.json())
     .then(async data => {
+      const awContent = document.querySelector('.aw-content');
       const awSearchString = document.querySelector('.aw-search-string');
       const awFooter = document.querySelector('.aw-footer');
 
@@ -1295,7 +1298,7 @@ function reqCall_Data() {
       reqCall_Aliases();
       addSites();
       awFooter.classList.remove('aw-hidden');
-      awSearchString.focus();
+      awContent.focus();
     });
 };
 
