@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.1.2
+// @version     4.1.3
 // @author      Hist
 // @grant       GM_addStyle
 // @description Alternative version for trakt.tv watch now modal
@@ -270,6 +270,14 @@ const sources = [
     "type": "Online",
     "category": "General",
     "language": "English",
+    "name": "Sflix.to",
+    "link": "https://sflix.to/search/%s",
+    "space": "-"
+  },
+  {
+    "type": "Online",
+    "category": "General",
+    "language": "English",
     "name": "Batflix",
     "link": "https://batflixmovies.club/?s=%s"
   },
@@ -300,6 +308,14 @@ const sources = [
     "language": "English",
     "name": "SockShare",
     "link": "https://sockshare.ac/search-movies/%s.html"
+  },
+  {
+    "type": "Online",
+    "category": "Anime",
+    "language": "English",
+    "name": "Anime8",
+    "link": "https://anime8.ru/Search/?s=%s",
+    "space": "+"
   },
   {
     "type": "Online",
@@ -439,7 +455,7 @@ const sources = [
     "category": "General",
     "language": "English",
     "name": "RARBG",
-    "link": "https://rarbgtor.org/torrents.php?search=%s"
+    "link": "https://rarbg.to/torrents.php?search=%s"
   },
   {
     "type": "Torrent",
@@ -729,26 +745,12 @@ const sources = [
     "link": "https://pahe.li/?s=%s"
   },
   {
-    "type": "DDL",
-    "category": "General",
-    "language": "English",
-    "name": "MyDuckisDead",
-    "link": "http://myduckisdead.org/?s=%s"
-  },
-  {
     "type": "Online",
     "category": "General",
     "language": "English",
     "name": "HDO",
     "link": "https://w10.hdonline.eu/searching/%s/",
     "space": "+"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "C1ne",
-    "link": "https://c1ne.co/?s=%s"
   },
   {
     "type": "DDL",
@@ -802,6 +804,13 @@ const sources = [
     "name": "J-Raws",
     "link": "https://jraws.com/?s=%s",
     "space": "+"
+  },
+  {
+    "type": "Online",
+    "category": "General",
+    "language": "English",
+    "name": "C1ne",
+    "link": "https://c1ne.co/?s=%s"
   }
 ];
 const playItems= [
