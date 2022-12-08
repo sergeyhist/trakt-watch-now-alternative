@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.1.3
+// @version     4.1.4
 // @author      Hist
 // @grant       GM_addStyle
 // @description Alternative version for trakt.tv watch now modal
@@ -294,6 +294,36 @@ const sources = [
     "language": "English",
     "name": "Openload Movies",
     "link": "https://openloadmov.net/?s=%s"
+  },
+  {
+    "type": "Online",
+    "category": "General",
+    "language": "English",
+    "name": "LookMovie-Movies",
+    "link": "https://lookmovie2.to/movies/search/?q=%s"
+  },
+  {
+    "type": "Online",
+    "category": "General",
+    "language": "English",
+    "name": "LookMovie-Shows",
+    "link": "https://lookmovie2.to/shows/search/?q=%s"
+  },
+  {
+    "type": "Online",
+    "category": "General",
+    "language": "English",
+    "name": "123MoviesFree",
+    "link": "https://ww1.123moviesfree.net/search-query2/%s",
+    "space": "+"
+  },
+  {
+    "type": "Online",
+    "category": "General",
+    "language": "English",
+    "name": "123MoviesGoto",
+    "link": "https://123moviesgoto.com/search/?q=%s",
+    "space": "+"
   },
   {
     "type": "Online",
@@ -811,6 +841,14 @@ const sources = [
     "language": "English",
     "name": "C1ne",
     "link": "https://c1ne.co/?s=%s"
+  },
+  {
+    "type": "Online",
+    "category": "General",
+    "language": "English",
+    "name": "M4uFree",
+    "link": "https://ww2.m4ufree.com/search/%s.html",
+    "space": "-"
   }
 ];
 const playItems= [

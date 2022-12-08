@@ -1,6 +1,7 @@
 ## Watch Now Alternative
 ### About
-This script does not interact with the sources API. It's just a bunch of search links with flexible options.
+This script does not interact with the sources API. It's just a bunch of search links with flexible options.   
+My other trakt.tv scripts can be found in [this repo](https://github.com/sergeyhist/trakt-scripts).
 ### Features
 + Various sources:
   - Online
