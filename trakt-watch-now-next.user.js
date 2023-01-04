@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.1.4
+// @version     4.1.5
 // @author      Hist
 // @grant       GM_addStyle
 // @description Alternative version for trakt.tv watch now modal
@@ -203,6 +203,15 @@ div[class^="aw-"] {
   border-bottom: 1px solid black;
 }
 
+.alternative-watch-action-mobile {
+  height: 100%;
+  max-height: 100%;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 0;
+  opacity: 0.7;
+}
+
 .alternative-watch-schedule {
   border-radius: 3px;
   position: initial;
@@ -341,21 +350,6 @@ const sources = [
   },
   {
     "type": "Online",
-    "category": "Anime",
-    "language": "English",
-    "name": "Anime8",
-    "link": "https://anime8.ru/Search/?s=%s",
-    "space": "+"
-  },
-  {
-    "type": "Online",
-    "category": "Anime",
-    "language": "English",
-    "name": "AniMixPlay",
-    "link": "https://animixplay.to/?q=%s"
-  },
-  {
-    "type": "Online",
     "category": "Asian Drama",
     "language": "English",
     "name": "Dramacool",
@@ -367,6 +361,14 @@ const sources = [
     "language": "English",
     "name":"KimCartoon",
     "link": "https://kimcartoon.to/AdvanceSearch?cartoonName=%s"
+  },
+  {
+    "type": "Online",
+    "category": "Anime",
+    "language": "English",
+    "name": "123Anime",
+    "link": "https://123anime.to/search?keyword=%s",
+    "space": "+"
   },
   {
     "type": "Online",
@@ -849,6 +851,21 @@ const sources = [
     "name": "M4uFree",
     "link": "https://ww2.m4ufree.com/search/%s.html",
     "space": "-"
+  },
+  {
+    "type": "Online",
+    "category": "Anime",
+    "language": "English",
+    "name": "AnimeFox",
+    "link": "https://animefox.to/search?keyword=%s",
+    "space": "+"
+  },
+  {
+    "type": "Online",
+    "category": "Anime",
+    "language": "English",
+    "name": "GoGoAnime",
+    "link": "https://www1.gogoanime.bid/search.html?keyword=%s"
   }
 ];
 const playItems= [
@@ -993,7 +1010,8 @@ function awButtons(playobject) {
               });
             };
             
-            document.querySelector('.btn-watch-now').parentNode.querySelector('.poster').append(awBlock('action', attributes))
+            document.querySelector('.btn-watch-now').parentNode.querySelector('.poster').append(awBlock('action', attributes));
+            document.querySelector('.mobile-poster').querySelector('.poster').append(awBlock('action-mobile', attributes));
           };
         };
 
