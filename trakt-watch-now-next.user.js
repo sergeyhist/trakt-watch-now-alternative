@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.1.5
+// @version     4.1.6
 // @author      Hist
 // @grant       GM_addStyle
 // @description Alternative version for trakt.tv watch now modal
@@ -374,8 +374,8 @@ const sources = [
     "type": "Online",
     "category": "Anime",
     "language": "English",
-    "name": "Tenshi",
-    "link": "https://tenshi.moe/anime?q=%s"
+    "name": "GoGoAnime",
+    "link": "https://www1.gogoanime.bid/search.html?keyword=%s"
   },
   {
     "type": "Online",
@@ -859,13 +859,6 @@ const sources = [
     "name": "AnimeFox",
     "link": "https://animefox.to/search?keyword=%s",
     "space": "+"
-  },
-  {
-    "type": "Online",
-    "category": "Anime",
-    "language": "English",
-    "name": "GoGoAnime",
-    "link": "https://www1.gogoanime.bid/search.html?keyword=%s"
   }
 ];
 const playItems= [
