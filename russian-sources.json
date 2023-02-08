@@ -1,0 +1,124 @@
+[
+  {
+    "name": "General",
+    "list": [
+      {
+        "name": "Online",
+        "list": [
+          {
+            "name": "Yandex",
+            "link": "https://yandex.ru/search/?text=%s%20%D1%81%D0%BC%D0%BE%D1%82%D1%80%D0%B5%D1%82%D1%8C%20%D0%BE%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD"
+          },
+          {
+            "name": "HDRezka",
+            "link": "https://rezka.ag/search/?do=search&subaction=search&q=%s"
+          }
+        ]
+      },
+      {
+        "name": "Torrent",
+        "list": [
+          {
+            "name": "Rutracker",
+            "link": "https://rutracker.org/forum/tracker.php?nm=%s"
+          },
+          {
+            "name": "Kinozal",
+            "link": "http://kinozal.tv/browse.php?s=%s"
+          },
+          {
+            "name": "NNMClub",
+            "link": "http://nnmclub.to/forum/tracker.php?nm=%s"
+          },
+          {
+            "name": "LostFilm",
+            "link": "https://www.lostfilm.tv/search/?q=%s"
+          },
+          {
+            "name": "Rutor",
+            "link": "http://rutor.info/search/%s"
+          }
+        ]
+      },
+      {
+        "name": "Database",
+        "list": [
+          {
+            "name": "Kinopoisk",
+            "link": "https://www.kinopoisk.ru/index.php?kp_query=%s"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Anime",
+    "list": [
+      {
+        "name": "Online",
+        "list": [
+          {
+            "name": "Jut.su",
+            "link": "https://jut.su/search/?searchid=1893616&text=%s"
+          },
+          {
+            "name": "AnimeGO",
+            "link": "https://animego.org/search/all?q=%s"
+          },
+          {
+            "name": "YokiAnime",
+            "link": "https://yokiani.me/anime_search?search=%s"
+          },
+          {
+            "name": "AniMedia",
+            "link": "https://m45.animedia.pro/catalog?q=%s"
+          },
+          {
+            "name": "AnimeStars",
+            "link": "https://animestars.org/index.php?do=search&subaction=search&story=%s"
+          }
+        ]
+      },
+      {
+        "name": "Torrent",
+        "list": [
+          {
+            "name": "AnimeLayer",
+            "link": "https://www.animelayer.ru/torrents/anime/?q=%s"
+          }
+        ]
+      },
+      {
+        "name": "Database",
+        "list": [
+          {
+            "name": "Shikimori",
+            "link": "https://shikimori.one/animes?search=%s"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Asian Drama",
+    "list": [
+      {
+        "name": "Online",
+        "list": [
+          {
+            "name": "Doramy.club",
+            "link": "https://doramy.club/?s=%s"
+          },
+          {
+            "name": "DoramaFox",
+            "link": "https://doramafox.ru/?s=%s"
+          },
+          {
+            "name": "VseDoramy",
+            "link": "https://vsedoramy.net/index.php?do=search&subaction=search&story=%s"
+          }
+        ]
+      }
+    ]
+  }
+]

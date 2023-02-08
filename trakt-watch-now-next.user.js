@@ -2,865 +2,44 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.1.6
+// @version     4.2
 // @author      Hist
 // @grant       GM_addStyle
+// @grant       GM_getResourceText
 // @description Alternative version for trakt.tv watch now modal
 // @run-at      document-start
 // @downloadURL https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/trakt-watch-now-next.user.js
 // @homepageURL https://github.com/sergeyhist/trakt-watch-now-alternative
+// @resource    styles file:///mnt/InternalHDD/Programming/trakt-watch-now-alternative/styles.css
+// @resource    englishSources file:///mnt/InternalHDD/Programming/trakt-watch-now-alternative/english-sources.json
+// @resource    russianSources file:///mnt/InternalHDD/Programming/trakt-watch-now-alternative/russian-sources.json
+// @resource    rawSources file:///mnt/InternalHDD/Programming/trakt-watch-now-alternative/raw-sources.json
 // ==/UserScript==
 
-GM_addStyle(`
-div[class^="aw-"] {
-  transform-origin: top;
-  transition: .3s;
-}
+GM_addStyle(GM_getResourceText('styles'));
 
-.aw-search-string, .aw-button, div[class^="aw-"]:focus-visible {
-  border: 0;
-  outline: 0;
-}
-
-.aw-modal {
-  position: fixed;
-  z-index: 100000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.9);
-}
-
-.aw-block {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  top: 10%;
-  left: 50%;
-  transform: translate(-50%);
-  width: 90%;
-  max-width: 400px;
-  max-height: 80%;
-  color: white;
-  background-color: #1D1D1D;
-  border: 1px solid black;
-  border-radius: 3px;
-  font-family: proxima nova;
-}
-
-.aw-type {
-  display: grid;
-  gap: 2px;
-  grid-template-columns: 1fr 1fr;
-  border-bottom: 1px solid black;
-}
-
-.aw-content {
-  max-height: 100%;
-}
-
-.aw-header {
-  display: grid;
-  gap: 20px;
-  padding: 20px;
-}
-
-.aw-footer {
-  display: grid;
-  background: #161616;
-}
-
-.aw-button {
-  background-color: #b110109e;
-  transition: .5s;
-}
-
-.aw-button:hover, .aw-button:focus, .aw-button:focus-visible, .aw-button-selected {
-  background-color: #9e3131!important;
-}
-
-.aw-content, .aw-select {
-  overflow: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
-.aw-search-string {
-  background-color: #333;
-  text-align: center;
-  font-size: 16px;
-  white-space: nowrap;
-  border-radius: 3px;
-  padding-inline: 7px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.aw-search-options {
-  display: grid;
-  align-items: center;
-  row-gap: 10px;
-  grid-template-columns: 80px 1fr;
-}
-
-.aw-search-option {
-  display: grid;
-  line-height: 28px;
-  font-size: 14px;
-}
-
-.aw-search-option:focus-visible > .aw-title {
-  background-color: #161616;
-}
-
-.aw-label {
-  align-self: baseline;
-  margin-top: 3px;
-}
-
-.aw-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #333;
-  border-radius: 3px;
-  padding-inline: 7px;
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  height: 28px;
-}
-
-.aw-title > span:first-child {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.aw-select {
-  max-height: 127px;
-  background: #333;
-  border-radius: 0 0 3px 3px;
-}
-
-.aw-option {
-  padding-inline: 7px;
-  cursor: pointer;
-  background: #161616;
-  margin: 3px;
-  border-radius: 3px;
-}
-
-.aw-option:hover, .aw-option:focus-visible {
-  background: #6c6c6c;
-}
-
-.aw-sources {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  gap: 10px;
-}
-
-.aw-link {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  font-size: 13px;
-  border: 1px solid black;
-  border-radius: 3px;
-}
-
-.alternative-watch {
-  display: flex;
-  gap: 10px;
-  position: absolute;
-  align-items: center;
-  justify-content: center;
-  transition: .5s;
-  color: white;
-  padding-inline: 10px;
-  box-shadow: 0 0 10px black;
-  border-radius: 3px 0 0 0;
-  bottom: 0;
-  right: 0;
-  height: 40px;
-  width: 40px;
-  max-height: 30%;
-  max-width: 40%;
-  font-size: 1.7em;
-  opacity: .8;
-}
-
-.alternative-watch-action {
-  top: 0;
-  height: 30px;
-  width: 100%;
-  max-width: 100%;
-  border-radius: 0;
-  border-bottom: 1px solid black;
-}
-
-.alternative-watch-action-mobile {
-  height: 100%;
-  max-height: 100%;
-  width: 100%;
-  max-width: 100%;
-  border-radius: 0;
-  opacity: 0.7;
-}
-
-.alternative-watch-schedule {
-  border-radius: 3px;
-  position: initial;
-  margin-bottom: 5px;
-  height: 18px;
-  width: fit-content;
-  max-width: 100%;
-  padding-inline: 1px 5px;
-  font-size: 1.2em;
-  padding-top: 2px;
-}
-
-.alternative-watch-action::after, .alternative-watch-schedule::after {
-  content: 'Watch Now';
-  font-size: 13px;
-  font-weight: bold;
-  padding-top: 2px;
-}
-
-.aw-hidden {
-  transform: scaleY(0)!important;
-  max-height: 0!important;
-  opacity: 0!important;
-  visibility: hidden!important;
-  border: 0!important;
-  outline: 0!important;
-  margin: 0!important;
-  padding: 0!important;
-}
-
-.aw-unselectable {
-  -webkit-user-select:none;
-  -khtml-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  -o-user-select:none;
-  user-select:none;
-}
-`);
-
-const sources = [
+const sourcesList = [
   {
-    "type": "Online",
-    "category": "General",
-    "language": "English,Russian",
-    "name": "Youtube",
-    "link": "https://www.youtube.com/results?search_query=%s"
+    name: 'English',
+    list: JSON.parse(GM_getResourceText('englishSources'))
   },
   {
-    "type": "Online",
-    "category": "General,Anime,Cartoon,Asian Drama",
-    "language": "Russian",
-    "name": "Yandex",
-    "link": "https://yandex.ru/search/?text=%s%20%D1%81%D0%BC%D0%BE%D1%82%D1%80%D0%B5%D1%82%D1%8C%20%D0%BE%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD"
+    name: 'Russian',
+    list: JSON.parse(GM_getResourceText('russianSources'))
   },
   {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "HiMovie",
-    "link": "https://www5.himovies.to/search/%s",
-    "space": "-"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "Sflix.to",
-    "link": "https://sflix.to/search/%s",
-    "space": "-"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "Batflix",
-    "link": "https://batflixmovies.club/?s=%s"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "Soap2day",
-    "link": "https://soap2day.ac/search/keyword/%s"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "Openload Movies",
-    "link": "https://openloadmov.net/?s=%s"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "LookMovie-Movies",
-    "link": "https://lookmovie2.to/movies/search/?q=%s"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "LookMovie-Shows",
-    "link": "https://lookmovie2.to/shows/search/?q=%s"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "123MoviesFree",
-    "link": "https://ww1.123moviesfree.net/search-query2/%s",
-    "space": "+"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "123MoviesGoto",
-    "link": "https://123moviesgoto.com/search/?q=%s",
-    "space": "+"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "TeaTV",
-    "link": "https://teatv.xyz/movies?q=%s"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "SockShare",
-    "link": "https://sockshare.ac/search-movies/%s.html"
-  },
-  {
-    "type": "Online",
-    "category": "Asian Drama",
-    "language": "English",
-    "name": "Dramacool",
-    "link": "https://dramacool.so/search?section=movies&keyword=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Cartoon",
-    "language": "English",
-    "name":"KimCartoon",
-    "link": "https://kimcartoon.to/AdvanceSearch?cartoonName=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Anime",
-    "language": "English",
-    "name": "123Anime",
-    "link": "https://123anime.to/search?keyword=%s",
-    "space": "+"
-  },
-  {
-    "type": "Online",
-    "category": "Anime",
-    "language": "English",
-    "name": "GoGoAnime",
-    "link": "https://www1.gogoanime.bid/search.html?keyword=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Anime",
-    "language": "English",
-    "name": "Zoro.to",
-    "link": "https://zoro.to/search?keyword=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Anime",
-    "language": "Russian",
-    "name": "Jut.su",
-    "link": "https://jut.su/search/?searchid=1893616&text=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Cartoon",
-    "language": "English",
-    "name": "WatchCartoonOnline",
-    "link": "https://watchcartoononline.bz/?s=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Asian Drama",
-    "language": "English",
-    "name": "KissAsian",
-    "link": "https://kissasian.la/?s=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Asian Drama",
-    "language": "English",
-    "name": "Dramanice",
-    "link": "https://dramanice.so//search.html?keyword=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Asian Drama",
-    "language": "English",
-    "name": "DramaHood",
-    "link": "https://kdramahood.com/?s=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Anime",
-    "language": "Russian",
-    "name": "AnimeGO",
-    "link": "https://animego.org/search/all?q=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Anime",
-    "language": "Russian",
-    "name": "YokiAnime",
-    "link": "https://yokiani.me/anime_search?search=%s"
-  },
-  {
-    "type": "Online, Torrent",
-    "category": "Anime",
-    "language": "Russian",
-    "name": "AniMedia",
-    "link": "https://m45.animedia.pro/catalog?q=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Anime",
-    "language": "Russian",
-    "name": "AnimeStars",
-    "link": "https://animestars.org/index.php?do=search&subaction=search&story=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Asian Drama",
-    "language": "Russian",
-    "name": "Doramy.club",
-    "link": "https://doramy.club/?s=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Asian Drama",
-    "language": "Russian",
-    "name": "DoramaFox",
-    "link": "https://doramafox.ru/?s=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Asian Drama",
-    "language": "Russian",
-    "name": "VseDoramy",
-    "link": "https://vsedoramy.net/index.php?do=search&subaction=search&story=%s"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "Russian",
-    "name": "HDRezka",
-    "link": "https://rezka.ag/search/?do=search&subaction=search&q=%s"
-  },
-  {
-    "type": "Online",
-    "category": "Anime",
-    "language": "English",
-    "name": "KickAssAnime",
-    "link": "https://www2.kickassanime.rs/search?q=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "General",
-    "language": "English",
-    "name": "RARBG",
-    "link": "https://rarbg.to/torrents.php?search=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "General",
-    "language": "English",
-    "name":"1337x",
-    "link": "https://1337x.to/search/%s/1/"
-  },
-  {
-    "type": "Torrent",
-    "category": "General",
-    "language": "English",
-    "name": "The Pirate Bay",
-    "link": "https://thepiratebay.org/search/%s/0/3/0"
-  },
-  {
-    "type": "Torrent",
-    "category": "Anime",
-    "language": "English,Russian,Raw",
-    "name":"Nyaa",
-    "link": "https://nyaa.si/?f=0&c=1_0&q=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "Asian Drama",
-    "language": "English,Russian,Raw",
-    "name":"Nyaa",
-    "link": "https://nyaa.si/?f=0&c=4_0&q=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "Anime",
-    "language": "English",
-    "name": "Anidex",
-    "link": "https://anidex.info/?q=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "Anime",
-    "language": "English",
-    "name": "ShanaProject",
-    "link": "https://www.shanaproject.com/search/?title=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "General,Anime",
-    "language": "Russian",
-    "name": "Rutracker",
-    "link": "https://rutracker.org/forum/tracker.php?nm=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "Asian Drama",
-    "language": "English",
-    "name": "AvistaZ",
-    "link": "https://avistaz.to/torrents?in=1&search=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "General",
-    "language": "English",
-    "name": "CinemaZ",
-    "link": "https://cinemaz.to/torrents?in=1&search=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "General,Anime",
-    "language": "Russian",
-    "name": "Kinozal",
-    "link": "http://kinozal.tv/browse.php?s=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "General,Anime",
-    "language": "Russian",
-    "name": "NNMClub",
-    "link": "http://nnmclub.to/forum/tracker.php?nm=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "General",
-    "language": "Russian",
-    "name": "LostFilm",
-    "link": "https://www.lostfilm.tv/search/?q=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "General,Anime",
-    "language": "Russian",
-    "name": "Rutor",
-    "link": "http://rutor.info/search/%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "General",
-    "language": "English",
-    "name": "Torrents.csv",
-    "link": "https://torrents-csv.ml/#/search/torrent/%s/1"
-  },
-  {
-    "type": "Torrent",
-    "category": "General",
-    "language": "English",
-    "name": "TorrentGalaxy",
-    "link": "https://torrentgalaxy.to/torrents.php?c9=1&c3=1&c46=1&c45=1&c42=1&c4=1&c1=1&c25=1&c41=1&c5=1&c6=1&c7=1&search=%s&lang=0&nox=2#results"
-  },
-  {
-    "type": "Torrent",
-    "category": "General",
-    "language": "English",
-    "name": "SolidTorrents",
-    "link": "https://solidtorrents.net/search?q=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "General",
-    "language": "English",
-    "name": "MVGroup",
-    "link": "https://forums.mvgroup.org/maintracker.php?forums=all&filter=%s&x=0&y=0&searchwhere=on"
-  },
-  {
-    "type": "DDL",
-    "category": "General",
-    "language": "English",
-    "name":"HDEncode",
-    "link": "https://hdencode.com/?s=%s"
-  },
-  {
-    "type": "DDL",
-    "category": "General",
-    "language": "English",
-    "name":"RLSBB",
-    "link": "http://search.rlsbb.ru/?s=%s"
-  },
-  {
-    "type": "DDL",
-    "category": "General",
-    "language": "English",
-    "name":"Scene-Rls",
-    "link": "http://scene-rls.com/?s=%s"
-  },
-  {
-    "type": "DDL",
-    "category": "Anime",
-    "language": "English",
-    "name":"AnimeKaizoku",
-    "link": "https://animekaizoku.com/?s=%s"
-  },
-  {
-    "type": "Torrent,DDL",
-    "category": "Anime",
-    "language": "English",
-    "name": "Hi10Anime",
-    "link": "https://hi10anime.com/?s=%s"
-  },
-  {
-    "type": "DDL",
-    "category": "General",
-    "language": "English",
-    "name": "2DDL",
-    "link": "https://2ddl.ms/?q=%s"
-  },
-  {
-    "type": "DDL",
-    "category": "General",
-    "language": "English",
-    "name": "RapidMoviez",
-    "link": "http://rmz.cr/search/%s"
-  },
-  {
-    "type": "DDL",
-    "category": "General",
-    "language": "English",
-    "name": "MegaDDL",
-    "link": "https://megaddl.co/?s=%s"
-  },
-  {
-    "type": "DDL",
-    "category": "General",
-    "language": "English",
-    "name": "MovieParadise",
-    "link": "https://movieparadise.org/?s=%s"
-  },
-  {
-    "type": "DDL",
-    "category": "General",
-    "language": "English",
-    "name": "DDLValley",
-    "link": "https://www.ddlvalley.me/search/%s"
-  },
-  {
-    "type": "DDL",
-    "category": "Anime",
-    "language": "English",
-    "name": "AniDL",
-    "link": "https://anidl.org/?s=%s"
-  },
-  {
-    "type": "DDL",
-    "category": "Anime",
-    "language": "English",
-    "name": "AnimeKayo",
-    "link": "https://animekayo.com/?s=%s"
-  },
-  {
-    "type": "DDL,Torrent",
-    "category": "General",
-    "language": "English",
-    "name": "Psarips",
-    "link": "https://psa.pm/?s=%s"
-  },
-  {
-    "type": "DDL,Online",
-    "category": "General",
-    "language": "English",
-    "name": "Rarefilmm",
-    "link": "https://rarefilmm.com/?s=%s"
-  },
-  {
-    "type": "Database",
-    "category": "General",
-    "language": "English",
-    "name": "IMDB",
-    "link": "https://www.imdb.com/find?s=tt&q=%s&ref_=nv_sr_sm"
-  },
-  {
-    "type": "Database",
-    "category": "General",
-    "language": "English",
-    "name": "TheMovieDB",
-    "link": "https://www.themoviedb.org/search?query=%s"
-  },
-  {
-    "type": "Database",
-    "category": "General",
-    "language": "English",
-    "name": "TheTVDB",
-    "link": "https://thetvdb.com/search?query=%s"
-  },
-  {
-    "type": "Database",
-    "category": "Anime",
-    "language": "English",
-    "name": "AniList",
-    "link": "https://anilist.co/search/anime?search=%s&sort=SEARCH_MATCH"
-  },
-  {
-    "type": "Database",
-    "category": "Anime",
-    "language": "English",
-    "name": "MyAnimeList",
-    "link": "https://myanimelist.net/anime.php?q=%s&cat=anime"
-  },
-  {
-    "type": "Database",
-    "category": "Anime",
-    "language": "English",
-    "name": "AniDB",
-    "link": "https://anidb.net/anime/?adb.search=%s&do.search=1"
-  },
-  {
-    "type": "Database",
-    "category": "Asian Drama",
-    "language": "English",
-    "name": "MyDramaList",
-    "link": "https://mydramalist.com/search?q=%s"
-  },
-  {
-    "type": "Database",
-    "category": "General",
-    "language": "Russian",
-    "name": "Kinopoisk",
-    "link": "https://www.kinopoisk.ru/index.php?kp_query=%s"
-  },
-  {
-    "type": "Database",
-    "category": "Anime",
-    "language": "Russian",
-    "name": "Shikimori",
-    "link": "https://shikimori.one/animes?search=%s"
-  },
-  {
-    "type": "DDL",
-    "category": "General,Anime,Asian Drama",
-    "language": "English",
-    "name": "Pahe.in",
-    "link": "https://pahe.li/?s=%s"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "HDO",
-    "link": "https://w10.hdonline.eu/searching/%s/",
-    "space": "+"
-  },
-  {
-    "type": "DDL",
-    "category": "Asian Drama",
-    "language": "English",
-    "name": "MkvDrama",
-    "link": "https://mkvdrama.com/?s=%s"
-  },
-  {
-    "type": "Online,DDL",
-    "category": "Asian Drama",
-    "language": "English",
-    "name": "TDrama",
-    "link": "http://tdrama.net/search/?id=%s"
-  },
-  {
-    "type": "Torrent",
-    "category": "Anime",
-    "language": "Russian",
-    "name": "AnimeLayer",
-    "link": "https://www.animelayer.ru/torrents/anime/?q=%s"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "SolarMovie",
-    "link": "https://www2.solarmovie.to/search.html?q=%s",
-    "space": "-"
-  },
-  {
-    "type": "Online,DDL",
-    "category": "Asian Drama",
-    "language": "English",
-    "name": "MyAsianTV",
-    "link": "https://www3.myasiantv.cc/search.html?key=%s",
-    "space": "+"
-  },
-  {
-    "type": "DDL",
-    "category": "Asian Drama",
-    "language": "English",
-    "name": "Sojuoppa",
-    "link": "https://sojuoppa.tv/?s=%s",
-    "space": "+"
-  },
-  {
-    "type": "DDL",
-    "category": "Asian Drama",
-    "language": "Raw",
-    "name": "J-Raws",
-    "link": "https://jraws.com/?s=%s",
-    "space": "+"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "C1ne",
-    "link": "https://c1ne.co/?s=%s"
-  },
-  {
-    "type": "Online",
-    "category": "General",
-    "language": "English",
-    "name": "M4uFree",
-    "link": "https://ww2.m4ufree.com/search/%s.html",
-    "space": "-"
-  },
-  {
-    "type": "Online",
-    "category": "Anime",
-    "language": "English",
-    "name": "AnimeFox",
-    "link": "https://animefox.to/search?keyword=%s",
-    "space": "+"
+    name: 'Raw',
+    list: JSON.parse(GM_getResourceText('rawSources'))
   }
 ];
+const sourcesLanguages = [];
+const sourcesCategories = [];
+const sourcesTypes = [];
+
+sourcesList.forEach(item => sourcesLanguages.push(item.name));
+sourcesList.forEach(item => item.list.forEach(item1 => !sourcesCategories.includes(item1.name) && sourcesCategories.push(item1.name)));
+sourcesList.forEach(item => item.list.forEach(item1 => item1.list.forEach(item2 => !sourcesTypes.includes(item2.name) && sourcesTypes.push(item2.name))));
+
 const playItems= [
   {
     "link": '[itemtype="http://schema.org/TVSeries"]',
@@ -898,26 +77,6 @@ const aw_data = {
   "abs_episode": ""
 };
 
-let sourcesList = {};
-let sourcesLanguages = [];
-let sourcesCategories = [];
-let sourcesTypes = [];
-
-for (let source of sources) {
-  source.language.replace(/, /g, ',').split(',').forEach((item) => {
-    !sourcesLanguages.includes(item) && sourcesLanguages.push(item);
-    if (!sourcesList[item]) {sourcesList[item] = {}};
-    source.category.replace(/, /g, ',').split(',').forEach((item2) => {
-      !sourcesCategories.includes(item2) && sourcesCategories.push(item2);
-      if (!sourcesList[item][item2]) {sourcesList[item][item2] = []};
-      source.type.replace(/, /g, ',').split(',').forEach((item3) => {
-        !sourcesTypes.includes(item3) && sourcesTypes.push(item3);
-        !sourcesList[item][item2].includes(item3) && sourcesList[item][item2].push(item3)
-      })
-    })
-  })
-};
-
 document.addEventListener("DOMContentLoaded", () => {
   for (let element of playItems) {
     awButtons(element)
@@ -925,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
 })
   
 //Functions
-
 function awButtons(playobject) {
   setInterval( function() {
     let playNodes = document.querySelectorAll(playobject.link);
@@ -1257,13 +415,13 @@ function updateOptions() {
   const awLanguage = document.querySelector('#aw-language');
   const awCategory = document.querySelector('#aw-category');
   const awSource = document.querySelector('#aw-source');
-  const optionsCheck = (options, checkArray) => {
-    for (let option of options.querySelectorAll('.aw-option')) {
-      if (!checkArray.includes(option.textContent)) {
+  const optionsCheck = (title, options, checkArray) => {
+    for (let option of options) {
+      if (!checkArray.find(element => element.name == option.textContent)) {
         option.classList.add('aw-hidden');
 
-        if (options.querySelector('span').textContent == option.textContent) {
-          options.querySelector('span').textContent = option.parentElement.querySelector('div:not(.aw-hidden)').textContent;
+        if (title.textContent == option.textContent) {
+          title.textContent = option.parentElement.querySelector('div:not(.aw-hidden)').textContent;
         };
       };
     };
@@ -1273,8 +431,18 @@ function updateOptions() {
     option.classList.contains('aw-hidden') && option.classList.remove('aw-hidden');
   };
 
-  optionsCheck(awCategory, Object.keys(sourcesList[awLanguage.querySelector('span').textContent]));
-  optionsCheck(awSource, sourcesList[awLanguage.querySelector('span').textContent][awCategory.querySelector('span').textContent]);
+  optionsCheck(
+    awCategory.querySelector('span'),
+    awCategory.querySelectorAll('.aw-option'),
+    sourcesList.find(element => element.name == awLanguage.querySelector('span').textContent).list
+  );
+  optionsCheck(
+    awSource.querySelector('span'),
+    awSource.querySelectorAll('.aw-option'),
+    sourcesList
+      .find(element => element.name == awLanguage.querySelector('span').textContent).list
+      .find(element => element.name == awCategory.querySelector('span').textContent).list
+  );
 };
 
 function addSites() {
@@ -1288,27 +456,25 @@ function addSites() {
   awFooter.innerHTML += `<div class="aw-sources"/>`;
 
   const awSources = document.querySelector('.aw-sources');
+  const sources = sourcesList
+    .find(element => element.name == awLanguage.querySelector('span').textContent).list
+    .find(element => element.name == awCategory.querySelector('span').textContent).list
+    .find(element => element.name == awSource.querySelector('span').textContent).list; 
 
   for(let source of sources) {
-    if (
-      source.type.includes(awSource.querySelector('span').textContent) &&
-      source.language.includes(awLanguage.querySelector('span').textContent) &&
-      source.category.includes(awCategory.querySelector('span').textContent)
-    ) {
-      let awLink = document.createElement('button');
-      let awSourceName = document.createElement('div');
+    let awLink = document.createElement('button');
+    let awSourceName = document.createElement('div');
 
-      awLink.classList.add('aw-link');
-      awLink.classList.add('aw-button');
-      awSourceName.classList.add('aw-source-name');
+    awLink.classList.add('aw-link');
+    awLink.classList.add('aw-button');
+    awSourceName.classList.add('aw-source-name');
 
-      awLink.dataset.awSpace = source.space || '%20';
-      awLink.dataset.awSource = source.link;
-      awSourceName.textContent = source.name;
-      
-      awLink.append(awSourceName);
-      awSources.append(awLink);
-    };
+    awLink.dataset.awSpace = source.space || '%20';
+    awLink.dataset.awSource = source.link;
+    awSourceName.textContent = source.name;
+    
+    awLink.append(awSourceName);
+    awSources.append(awLink);
   };
 
   const awLinks = document.querySelectorAll('.aw-link');
