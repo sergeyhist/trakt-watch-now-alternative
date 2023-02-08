@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.2
+// @version     4.2.1
 // @author      Hist
 // @grant       GM_addStyle
 // @grant       GM_getResourceText
@@ -10,10 +10,10 @@
 // @run-at      document-start
 // @downloadURL https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/trakt-watch-now-next.user.js
 // @homepageURL https://github.com/sergeyhist/trakt-watch-now-alternative
-// @resource    styles file:///mnt/InternalHDD/Programming/trakt-watch-now-alternative/styles.css
-// @resource    englishSources file:///mnt/InternalHDD/Programming/trakt-watch-now-alternative/english-sources.json
-// @resource    russianSources file:///mnt/InternalHDD/Programming/trakt-watch-now-alternative/russian-sources.json
-// @resource    rawSources file:///mnt/InternalHDD/Programming/trakt-watch-now-alternative/raw-sources.json
+// @resource    styles https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/styles.css
+// @resource    englishSources https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/english-sources.json
+// @resource    russianSources https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/russian-sources.json
+// @resource    rawSources https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/raw-sources.json
 // ==/UserScript==
 
 GM_addStyle(GM_getResourceText('styles'));
