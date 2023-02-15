@@ -10,18 +10,14 @@
             "link": "https://www.youtube.com/results?search_query=%s"
           },
           {
-            "name": "HiMovie",
-            "link": "https://www5.himovies.to/search/%s",
+            "name": "Himovies",
+            "link": "https://himovies.top/search/%s",
             "space": "-"
           },
           {
             "name": "Sflix.to",
             "link": "https://sflix.to/search/%s",
             "space": "-" 
-          },
-          {
-            "name": "Batflix",
-            "link": "https://batflixmovies.club/?s=%s"
           },
           {
             "name": "Openload Movies",
@@ -36,31 +32,17 @@
             "link": "https://lookmovie2.to/shows/search/?q=%s"
           },
           {
-            "name": "123MoviesGoto",
-            "link": "https://123moviesgoto.com/search/?q=%s",
-            "space": "+"
-          },
-          {
-            "name": "SockShare",
-            "link": "https://sockshare.ac/search-movies/%s.html"
+            "name": "C1ne",
+            "link": "https://c1ne.co/?s=%s"
           },
           {
             "name": "Rarefilmm",
             "link": "https://rarefilmm.com/?s=%s"
           },
           {
-            "name": "HDO",
-            "link": "https://w10.hdonline.eu/searching/%s/",
-            "space": "+"
-          },
-          {
             "name": "SolarMovie",
             "link": "https://www2.solarmovie.to/search.html?q=%s",
             "space": "-"
-          },
-          {
-            "name": "C1ne",
-            "link": "https://c1ne.co/?s=%s"
           },
           {
             "name": "M4uFree",
@@ -189,20 +171,17 @@
             "link": "https://www1.gogoanime.bid/search.html?keyword=%s"
           },
           {
-            "name": "123Anime",
-            "link": "https://123anime.to/search?keyword=%s"
-          },
-          {
             "name": "Zoro.to",
             "link": "https://zoro.to/search?keyword=%s"
           },
           {
-            "name": "KickAssAnime",
-            "link": "https://www2.kickassanime.rs/search?q=%s"
-          },
-          {
             "name": "AnimeFox",
             "link": "https://animefox.to/search?keyword=%s",
+            "space": "+"
+          },
+          {
+            "name": "PactedAnime",
+            "link": "https://pactedanime.com/?s=%s",
             "space": "+"
           }
         ]
