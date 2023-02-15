@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.2.2
+// @version     4.2.3
 // @author      Hist
 // @grant       GM_addStyle
 // @grant       GM_getResourceText
@@ -638,33 +638,38 @@ function reqCall_Data() {
 
 async function reqCall_Aliases() {
   let titles = [];
-  let tmdbData = await fetch(
-    `https://api.themoviedb.org/3/${aw_data.type == "shows" ? "tv" : "movie"}/${
-      aw_data.tmdb
-    }?api_key=${tmdbApiKey}&language=en-US`,
-    { method: "GET" }
-  );
-  let traktTitles = await fetch(
-    `https://api.trakt.tv/${aw_data.type}/${aw_data.id}/aliases`,
-    {
-      method: "GET",
-      headers: traktApiHeaders,
-    }
-  );
-  let tmdbTitles = await fetch(
-    `https://api.themoviedb.org/3/${aw_data.type == "shows" ? "tv" : "movie"}/${
-      aw_data.tmdb
-    }/alternative_titles?api_key=${tmdbApiKey}&language=en-US`,
-    { method: "GET" }
-  );
-  tmdbData = await tmdbData.json();
-  traktTitles = await traktTitles.json();
-  tmdbTitles = await tmdbTitles.json();
+  const [tmdbDataResponse, traktTitlesResponse, tmdbTitlesResponse] = await Promise.allSettled([
+    fetch(
+      `https://api.themoviedb.org/3/${aw_data.type == "shows" ? "tv" : "movie"}/${
+        aw_data.tmdb
+      }?api_key=${tmdbApiKey}&language=en-US`,
+      { method: "GET" }
+    ),
+    fetch(
+      `https://api.trakt.tv/${aw_data.type}/${aw_data.id}/aliases`,
+      {
+        method: "GET",
+        headers: traktApiHeaders,
+      }
+    ),
+    fetch(
+      `https://api.themoviedb.org/3/${aw_data.type == "shows" ? "tv" : "movie"}/${
+        aw_data.tmdb
+      }/alternative_titles?api_key=${tmdbApiKey}&language=en-US`,
+      { method: "GET" }
+    )
+  ]);
+
+  const tmdbData = tmdbDataResponse.status == 'fulfilled' && (await tmdbDataResponse.value.json());
+  const traktTitles = traktTitlesResponse.status == 'fulfilled' && (await traktTitlesResponse.value.json());
+  const tmdbTitles = tmdbTitlesResponse.status == 'fulfilled' && (await tmdbTitlesResponse.value.json());
+
   titles.push(aw_data.title);
-  titles.push(tmdbData.original_title);
-  traktTitles.forEach((item) => titles.push(item.title));
-  tmdbTitles.titles?.forEach((item) => titles.push(item.title));
-  tmdbTitles.results?.forEach((item) => titles.push(item.title));
+  tmdbData && titles.push(tmdbData.original_title);
+  traktTitles && traktTitles.forEach((item) => titles.push(item.title));
+  tmdbTitles && tmdbTitles.titles?.forEach((item) => titles.push(item.title));
+  tmdbTitles && tmdbTitles.results?.forEach((item) => titles.push(item.title));
+
   updateLB("aliases", [...new Set(titles)]);
 }
 
