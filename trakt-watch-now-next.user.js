@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.2.3
+// @version     4.2.4
 // @author      Hist
 // @grant       GM_addStyle
 // @grant       GM_getResourceText
@@ -113,7 +113,7 @@ function awButtons(playobject) {
                 value: node.getAttribute(playobject.id),
               });
 
-              if (node.querySelector("h5 > a").getAttribute("href")) {
+              if (node.querySelector("h5 > a")) {
                 let link = node.querySelector("h5 > a").href;
 
                 attributes.push({
