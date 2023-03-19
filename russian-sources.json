@@ -15,7 +15,7 @@
           },
           {
             "name": "VK Video",
-            "link": "https://vk.com/video/movies?q=%s"
+            "link": "https://vk.com/video?q=%s"
           }
         ]
       },
