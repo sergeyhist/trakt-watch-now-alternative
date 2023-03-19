@@ -12,6 +12,10 @@
           {
             "name": "HDRezka",
             "link": "https://rezka.ag/search/?do=search&subaction=search&q=%s"
+          },
+          {
+            "name": "VK Video",
+            "link": "https://vk.com/video/movies?q=%s"
           }
         ]
       },
