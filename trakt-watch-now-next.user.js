@@ -2,22 +2,222 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.5
+// @version     4.6
 // @author      Hist
 // @grant       GM_addStyle
-// @grant       GM_getResourceText
 // @description Alternative version for trakt.tv watch now modal
 // @run-at      document-start
 // @downloadURL https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/trakt-watch-now-next.user.js
+// @updateURL   https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/trakt-watch-now-next.user.js
 // @homepageURL https://github.com/sergeyhist/trakt-watch-now-alternative
-// @resource    styles https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/styles.css
-// @resource    englishSources https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/english-sources.json
-// @resource    russianSources https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/russian-sources.json
-// @resource    rawSources https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/raw-sources.json
 // ==/UserScript==
-"use strict";
 
-GM_addStyle(GM_getResourceText("styles"));
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ 447:
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(81);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(645);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "div[class^=aw-]{transform-origin:top;transition:.3s}.aw-search-string,.aw-button,div[class^=aw-]:focus-visible{border:0;outline:0}.aw-modal{position:fixed;z-index:100000;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.9)}.aw-block{position:fixed;display:flex;flex-direction:column;top:10%;left:50%;transform:translate(-50%);width:90%;max-width:400px;max-height:80%;color:#fff;background-color:#1d1d1d;border:1px solid #000;border-radius:3px;font-family:proxima nova}.aw-type{display:grid;gap:2px;grid-template-columns:1fr 1fr;border-bottom:1px solid #000}.aw-content{max-height:100%}.aw-header{display:grid;gap:20px;padding:20px}.aw-footer{display:grid;background:#161616}.aw-button{background-color:rgba(177,16,16,.6196078431);transition:.5s}.aw-button:hover,.aw-button:focus,.aw-button:focus-visible,.aw-button-selected{background-color:#9e3131 !important}.aw-content,.aw-select{overflow:hidden;overflow-y:auto;overscroll-behavior:contain}.aw-search-string{background-color:#333;text-align:center;font-size:16px;white-space:nowrap;border-radius:3px;padding-inline:7px;overflow:hidden;text-overflow:ellipsis}.aw-search-options{display:grid;align-items:center;row-gap:10px;grid-template-columns:80px 1fr}.aw-search-option{display:grid;line-height:28px;font-size:14px}.aw-search-option:focus-visible>.aw-title{background-color:#161616}.aw-label{align-self:baseline;margin-top:3px}.aw-title{display:flex;align-items:center;justify-content:space-between;background:#333;border-radius:3px;padding-inline:7px;cursor:pointer;white-space:nowrap;overflow:hidden;height:28px}.aw-title>span:first-child{overflow:hidden;text-overflow:ellipsis}.aw-select{display:grid;padding:5px;max-height:190px;background:#333;border-radius:0 0 3px 3px}.aw-option{margin-top:2px;padding-inline:7px;cursor:pointer;background:#161616;border-radius:3px}.aw-option:hover,.aw-option:focus-visible{background:#6c6c6c}.aw-sources{display:flex;flex-direction:column;padding:20px;gap:10px}.aw-link{flex-shrink:0;display:flex;align-items:center;justify-content:center;height:50px;font-size:13px;border:1px solid #000;border-radius:3px}.alternative-watch{display:flex;gap:10px;position:absolute;align-items:center;justify-content:center;transition:.5s;color:#fff;padding-inline:10px;box-shadow:0 0 10px #000;border-radius:3px 0 0 0;bottom:0;right:0;height:40px;width:40px;max-height:30%;max-width:40%;font-size:1.7em;opacity:.8}.alternative-watch-action{top:0;height:30px;width:100%;max-width:100%;border-radius:0;border-bottom:1px solid #000}.alternative-watch-action-mobile{height:100%;max-height:100%;width:100%;max-width:100%;border-radius:0;opacity:.7}.alternative-watch-schedule{border-radius:3px;position:initial;margin-bottom:5px;height:18px;width:fit-content;max-width:100%;padding-inline:1px 5px;font-size:1.2em;padding-top:2px}.alternative-watch-action::after,.alternative-watch-schedule::after{content:\"Watch Now\";font-size:13px;font-weight:bold;padding-top:2px}.aw-search-cbs{display:flex;justify-content:space-between;gap:20px}.aw-search-cb{display:flex;padding:5px 10px;align-items:center;justify-content:center;border-radius:3px;width:100%}.aw-search-cb:focus-visible{filter:contrast(1.4)}.aw-hidden{transform:scaleY(0) !important;max-height:0 !important;opacity:0 !important;visibility:hidden !important;border:0 !important;outline:0 !important;margin:0 !important;padding:0 !important}.aw-unselectable{-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ 645:
+/***/ ((module) => {
+
+
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+*/
+module.exports = function (cssWithMappingToString) {
+  var list = [];
+
+  // return the list of modules as css string
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = "";
+      var needLayer = typeof item[5] !== "undefined";
+      if (item[4]) {
+        content += "@supports (".concat(item[4], ") {");
+      }
+      if (item[2]) {
+        content += "@media ".concat(item[2], " {");
+      }
+      if (needLayer) {
+        content += "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {");
+      }
+      content += cssWithMappingToString(item);
+      if (needLayer) {
+        content += "}";
+      }
+      if (item[2]) {
+        content += "}";
+      }
+      if (item[4]) {
+        content += "}";
+      }
+      return content;
+    }).join("");
+  };
+
+  // import a list of modules into the list
+  list.i = function i(modules, media, dedupe, supports, layer) {
+    if (typeof modules === "string") {
+      modules = [[null, modules, undefined]];
+    }
+    var alreadyImportedModules = {};
+    if (dedupe) {
+      for (var k = 0; k < this.length; k++) {
+        var id = this[k][0];
+        if (id != null) {
+          alreadyImportedModules[id] = true;
+        }
+      }
+    }
+    for (var _k = 0; _k < modules.length; _k++) {
+      var item = [].concat(modules[_k]);
+      if (dedupe && alreadyImportedModules[item[0]]) {
+        continue;
+      }
+      if (typeof layer !== "undefined") {
+        if (typeof item[5] === "undefined") {
+          item[5] = layer;
+        } else {
+          item[1] = "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {").concat(item[1], "}");
+          item[5] = layer;
+        }
+      }
+      if (media) {
+        if (!item[2]) {
+          item[2] = media;
+        } else {
+          item[1] = "@media ".concat(item[2], " {").concat(item[1], "}");
+          item[2] = media;
+        }
+      }
+      if (supports) {
+        if (!item[4]) {
+          item[4] = "".concat(supports);
+        } else {
+          item[1] = "@supports (".concat(item[4], ") {").concat(item[1], "}");
+          item[4] = supports;
+        }
+      }
+      list.push(item);
+    }
+  };
+  return list;
+};
+
+/***/ }),
+
+/***/ 81:
+/***/ ((module) => {
+
+
+
+module.exports = function (i) {
+  return i[1];
+};
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+
+;// CONCATENATED MODULE: ./src/english-sources.json
+const english_sources_namespaceObject = JSON.parse('[{"name":"General","list":[{"name":"Online","list":[{"name":"Youtube","link":"https://www.youtube.com/results?search_query=%s"},{"name":"Himovies","link":"https://himovies.top/search/%s","space":"-"},{"name":"Sflix.to","link":"https://sflix.to/search/%s","space":"-"},{"name":"Openload Movies","link":"https://openloadmov.net/?s=%s"},{"name":"LookMovie-Movies","link":"https://lookmovie2.to/movies/search/?q=%s"},{"name":"LookMovie-Shows","link":"https://lookmovie2.to/shows/search/?q=%s"},{"name":"C1ne","link":"https://c1ne.co/?s=%s"},{"name":"Rarefilmm","link":"https://rarefilmm.com/?s=%s"},{"name":"SolarMovie","link":"https://www2.solarmovie.to/search.html?q=%s","space":"-"},{"name":"M4uFree","link":"https://ww2.m4ufree.com/search/%s.html","space":"-"}]},{"name":"Torrent","list":[{"name":"RARBG","link":"https://rarbg.to/torrents.php?search=%s"},{"name":"1337x","link":"https://1337x.to/search/%s/1/"},{"name":"SolidTorrents","link":"https://solidtorrents.net/search?q=%s"},{"name":"TorrentGalaxy","link":"https://torrentgalaxy.to/torrents.php?c9=1&c3=1&c46=1&c45=1&c42=1&c4=1&c1=1&c25=1&c41=1&c5=1&c6=1&c7=1&search=%s&lang=0&nox=2#results"},{"name":"Torrents.csv","link":"https://torrents-csv.ml/#/search/torrent/%s/1"},{"name":"CinemaZ","link":"https://cinemaz.to/torrents?in=1&search=%s"},{"name":"The Pirate Bay","link":"https://thepiratebay.org/search/%s/0/3/0"},{"name":"MVGroup","link":"https://forums.mvgroup.org/maintracker.php?forums=all&filter=%s&x=0&y=0&searchwhere=on"},{"name":"Psarips","link":"https://psa.pm/?s=%s"}]},{"name":"DDL","list":[{"name":"HDEncode","link":"https://hdencode.com/?s=%s"},{"name":"RLSBB","link":"http://search.rlsbb.ru/?s=%s"},{"name":"Scene-Rls","link":"http://scene-rls.com/?s=%s"},{"name":"2DDL","link":"https://2ddl.ms/?q=%s"},{"name":"RapidMoviez","link":"http://rmz.cr/search/%s"},{"name":"MegaDDL","link":"https://megaddl.co/?s=%s"},{"name":"MovieParadise","link":"https://movieparadise.org/?s=%s"},{"name":"DDLValley","link":"https://www.ddlvalley.me/search/%s"},{"name":"Psarips","link":"https://psa.pm/?s=%s"},{"name":"Rarefilmm","link":"https://rarefilmm.com/?s=%s"},{"name":"Pahe.in","link":"https://pahe.li/?s=%s"}]},{"name":"Database","list":[{"name":"IMDB","link":"https://www.imdb.com/find?s=tt&q=%s&ref_=nv_sr_sm"},{"name":"TheMovieDB","link":"https://www.themoviedb.org/search?query=%s"},{"name":"TheTVDB","link":"https://thetvdb.com/search?query=%s"}]}]},{"name":"Anime","list":[{"name":"Online","list":[{"name":"GoGoAnime","link":"https://www1.gogoanime.bid/search.html?keyword=%s"},{"name":"Zoro.to","link":"https://zoro.to/search?keyword=%s"},{"name":"AnimeFox","link":"https://animefox.to/search?keyword=%s","space":"+"},{"name":"PactedAnime","link":"https://pactedanime.com/?s=%s","space":"+"}]},{"name":"Torrent","list":[{"name":"Nyaa","link":"https://nyaa.si/?f=0&c=1_2&q=%s","space":"+"},{"name":"Anidex","link":"https://anidex.info/?q=%s"},{"name":"ShanaProject","link":"https://www.shanaproject.com/search/?title=%s"}]},{"name":"DDL","list":[{"name":"AnimeKaizoku","link":"https://animekaizoku.com/?s=%s"},{"name":"Hi10Anime","link":"https://hi10anime.com/?s=%s"},{"name":"AniDL","link":"https://anidl.org/?s=%s"},{"name":"AnimeKayo","link":"https://animekayo.com/?s=%s"},{"name":"Pahe.in","link":"https://pahe.li/?s=%s"}]},{"name":"Database","list":[{"name":"AniList","link":"https://anilist.co/search/anime?search=%s&sort=SEARCH_MATCH"},{"name":"MyAnimeList","link":"https://myanimelist.net/anime.php?q=%s&cat=anime"},{"name":"AniDB","link":"https://anidb.net/anime/?adb.search=%s&do.search=1"}]}]},{"name":"Asian Drama","list":[{"name":"Online","list":[{"name":"Dramacool","link":"https://dramacool.so/search?section=movies&keyword=%s"},{"name":"KissAsian","link":"https://kissasian.la/?s=%s"},{"name":"Dramanice","link":"https://dramanice.so//search.html?keyword=%s"},{"name":"DramaHood","link":"https://kdramahood.com/?s=%s"},{"name":"TDrama","link":"http://tdrama.net/search/?id=%s"},{"name":"MyAsianTV","link":"https://www3.myasiantv.cc/search.html?key=%s","space":"+"}]},{"name":"Torrent","list":[{"name":"Nyaa","link":"https://nyaa.si/?f=0&c=4_1&q=%s","space":"+"},{"name":"AvistaZ","link":"https://avistaz.to/torrents?in=1&search=%s"}]},{"name":"DDL","list":[{"name":"Pahe.in","link":"https://pahe.li/?s=%s"},{"name":"MkvDrama","link":"https://mkvdrama.com/?s=%s"},{"name":"TDrama","link":"http://tdrama.net/search/?id=%s"},{"name":"MyAsianTV","link":"https://www3.myasiantv.cc/search.html?key=%s","space":"+"},{"name":"Sojuoppa","link":"https://sojuoppa.tv/?s=%s","space":"+"}]},{"name":"Database","list":[{"name":"MyDramaList","link":"https://mydramalist.com/search?q=%s"}]}]},{"name":"Cartoon","list":[{"name":"Online","list":[{"name":"KimCartoon","link":"https://kimcartoon.to/AdvanceSearch?cartoonName=%s"},{"name":"WatchCartoonOnline","link":"https://watchcartoononline.bz/?s=%s"}]}]}]');
+;// CONCATENATED MODULE: ./src/russian-sources.json
+const russian_sources_namespaceObject = JSON.parse('[{"name":"General","list":[{"name":"Online","list":[{"name":"Yandex","link":"https://yandex.ru/search/?text=%s%20%D1%81%D0%BC%D0%BE%D1%82%D1%80%D0%B5%D1%82%D1%8C%20%D0%BE%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD"},{"name":"HDRezka","link":"https://rezka.ag/search/?do=search&subaction=search&q=%s"},{"name":"VK Video","link":"https://vk.com/video?q=%s"}]},{"name":"Torrent","list":[{"name":"Rutracker","link":"https://rutracker.org/forum/tracker.php?nm=%s"},{"name":"Kinozal","link":"http://kinozal.tv/browse.php?s=%s"},{"name":"NNMClub","link":"http://nnmclub.to/forum/tracker.php?nm=%s"},{"name":"LostFilm","link":"https://www.lostfilm.tv/search/?q=%s"},{"name":"Rutor","link":"http://rutor.info/search/%s"}]},{"name":"Database","list":[{"name":"Kinopoisk","link":"https://www.kinopoisk.ru/index.php?kp_query=%s"}]}]},{"name":"Anime","list":[{"name":"Online","list":[{"name":"Jut.su","link":"https://jut.su/search/?searchid=1893616&text=%s"},{"name":"AnimeGO","link":"https://animego.org/search/all?q=%s"},{"name":"YokiAnime","link":"https://yokiani.me/anime_search?search=%s"},{"name":"AniMedia","link":"https://m45.animedia.pro/catalog?q=%s"},{"name":"AnimeStars","link":"https://animestars.org/index.php?do=search&subaction=search&story=%s"}]},{"name":"Torrent","list":[{"name":"AnimeLayer","link":"https://www.animelayer.ru/torrents/anime/?q=%s"}]},{"name":"Database","list":[{"name":"Shikimori","link":"https://shikimori.one/animes?search=%s"}]}]},{"name":"Asian Drama","list":[{"name":"Online","list":[{"name":"Doramy.club","link":"https://doramy.club/?s=%s"},{"name":"DoramaFox","link":"https://doramafox.ru/?s=%s"},{"name":"VseDoramy","link":"https://vsedoramy.net/index.php?do=search&subaction=search&story=%s"}]}]}]');
+;// CONCATENATED MODULE: ./src/raw-sources.json
+const raw_sources_namespaceObject = JSON.parse('[{"name":"Anime","list":[{"name":"Torrent","list":[{"name":"Nyaa","link":"https://nyaa.si/?f=0&c=1_4&q=%s","space":"+"}]}]},{"name":"Asian Drama","list":[{"name":"Torrent","list":[{"name":"Nyaa","link":"https://nyaa.si/?f=0&c=4_4&q=%s","space":"+"}]},{"name":"DDL","list":[{"name":"J-Raws","link":"https://jraws.com/?s=%s","space":"+"}]}]}]');
+// EXTERNAL MODULE: ./src/styles.css
+var styles = __webpack_require__(447);
+;// CONCATENATED MODULE: ./src/index.js
+
+
+
+
+
+
+
+GM_addStyle(styles/* default.toString */.Z.toString());
 
 const traktApiKey =
   "d87cd4dc7419e7be1f670003b112ccbd66c4a67e8f360c71abd7a9aef8f46e8d";
@@ -253,15 +453,15 @@ class LB {
 const sourcesList = [
   {
     name: "English",
-    list: JSON.parse(GM_getResourceText("englishSources")),
+    list: english_sources_namespaceObject,
   },
   {
     name: "Russian",
-    list: JSON.parse(GM_getResourceText("russianSources")),
+    list: russian_sources_namespaceObject,
   },
   {
     name: "Raw",
-    list: JSON.parse(GM_getResourceText("rawSources")),
+    list: raw_sources_namespaceObject,
   },
 ];
 const sourcesLanguages = [];
@@ -862,3 +1062,8 @@ async function reqCall_Aliases(title) {
     [...new Set(titles)].filter((element) => element && element != title)
   );
 }
+
+})();
+
+/******/ })()
+;
