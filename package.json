@@ -3,14 +3,10 @@
     "build": "webpack --mode production -o './'"
   },
   "devDependencies": {
-    "webpack-cli": "^5.0.1"
-  },
-  "dependencies": {
-    "@serguun42/webpack-userscript-plugin": "^1.0.1",
     "css-loader": "^6.7.3",
     "sass": "^1.60.0",
     "sass-loader": "^13.2.2",
-    "tslib": "^2.5.0",
-    "webpack": "^5.77.0"
+    "webpack": "^5.78.0",
+    "webpack-cli": "^5.0.1"
   }
 }
