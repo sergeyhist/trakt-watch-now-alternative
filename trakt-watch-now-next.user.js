@@ -2,9 +2,8 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.6
+// @version     4.6.1
 // @author      Hist
-// @grant       GM_addStyle
 // @description Alternative version for trakt.tv watch now modal
 // @run-at      document-start
 // @downloadURL https://github.com/sergeyhist/trakt-watch-now-alternative/raw/main/trakt-watch-now-next.user.js
@@ -217,7 +216,9 @@ var styles = __webpack_require__(447);
 
 
 
-GM_addStyle(styles/* default.toString */.Z.toString());
+const style = document.createElement('style');
+style.innerHTML = styles/* default */.Z;
+document.head.appendChild(style);
 
 const traktApiKey =
   "d87cd4dc7419e7be1f670003b112ccbd66c4a67e8f360c71abd7a9aef8f46e8d";

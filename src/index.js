@@ -3,9 +3,11 @@
 import englishSources from './english-sources.json';
 import russianSources from './russian-sources.json';
 import rawSources from './raw-sources.json';
-import styles from './styles.css';
+import css from './styles.css';
 
-GM_addStyle(styles.toString());
+const style = document.createElement('style');
+style.innerHTML = css;
+document.head.appendChild(style);
 
 const traktApiKey =
   "d87cd4dc7419e7be1f670003b112ccbd66c4a67e8f360c71abd7a9aef8f46e8d";
