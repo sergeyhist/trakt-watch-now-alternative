@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.6.1
+// @version     4.6.2
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal
 // @run-at      document-start
@@ -215,10 +215,6 @@ var styles = __webpack_require__(447);
 
 
 
-
-const style = document.createElement('style');
-style.innerHTML = styles/* default */.Z;
-document.head.appendChild(style);
 
 const traktApiKey =
   "d87cd4dc7419e7be1f670003b112ccbd66c4a67e8f360c71abd7a9aef8f46e8d";
@@ -532,6 +528,11 @@ const seasonLB = new LB("season");
 const episodeLB = new LB("episode");
 
 document.addEventListener("DOMContentLoaded", () => {
+  const style = document.createElement('style');
+
+  style.textContent = styles/* default */.Z;
+  document.head.appendChild(style);
+  
   for (let element of playItems) {
     awButtons(element);
   }

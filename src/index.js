@@ -5,10 +5,6 @@ import russianSources from './russian-sources.json';
 import rawSources from './raw-sources.json';
 import css from './styles.css';
 
-const style = document.createElement('style');
-style.innerHTML = css;
-document.head.appendChild(style);
-
 const traktApiKey =
   "d87cd4dc7419e7be1f670003b112ccbd66c4a67e8f360c71abd7a9aef8f46e8d";
 const tmdbApiKey = "a6dc8b1bcbeeaf4c970242298ccf059f";
@@ -321,6 +317,11 @@ const seasonLB = new LB("season");
 const episodeLB = new LB("episode");
 
 document.addEventListener("DOMContentLoaded", () => {
+  const style = document.createElement('style');
+
+  style.textContent = css;
+  document.head.appendChild(style);
+  
   for (let element of playItems) {
     awButtons(element);
   }
