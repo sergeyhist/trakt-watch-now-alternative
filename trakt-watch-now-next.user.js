@@ -2,7 +2,7 @@
 // @name        Trakt.tv Watch Now Alternative
 // @namespace   https://github.com/sergeyhist/trakt-watch-now-alternative/blob/main/trakt-watch-now-next.user.js
 // @match       *://trakt.tv/*
-// @version     4.6.2
+// @version     4.6.3
 // @author      Hist
 // @description Alternative version for trakt.tv watch now modal
 // @run-at      document-start
