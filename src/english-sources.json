@@ -11,7 +11,7 @@
           },
           {
             "name": "Himovies",
-            "link": "https://himovies.top/search/%s",
+            "link": "https://www5.himovies.to/search/%s",
             "space": "-"
           },
           {
@@ -55,10 +55,6 @@
         "name": "Torrent",
         "list": [
           {
-            "name": "RARBG",
-            "link": "https://rarbg.to/torrents.php?search=%s"
-          },
-          {
             "name": "1337x",
             "link": "https://1337x.to/search/%s/1/"
           },
@@ -72,7 +68,7 @@
           },
           {
             "name": "Torrents.csv",
-            "link": "https://torrents-csv.ml/#/search/torrent/%s/1"
+            "link": "https://torrents-csv.ml/search/%s?"
           },
           {
             "name": "CinemaZ",
