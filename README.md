@@ -1,7 +1,6 @@
 ## Watch Now Alternative
 ### About
 It's just a bunch of search links with flexible options.   
-My other trakt.tv scripts can be found in [this repo](https://github.com/sergeyhist/trakt-scripts).
 ### Features
 + Various sources:
   - Online
